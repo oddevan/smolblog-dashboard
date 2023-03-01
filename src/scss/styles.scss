@@ -1,0 +1,14 @@
+// Remember, no step on snek: there's not enough contrast.
+
+$boop: #191b20;
+$snek: #9cd398;
+$step: #e9e3db;
+
+$enable-rounded: false;
+$enable-shadows: true;
+// $enable-gradients: true;
+
+$font-family-sans-serif: 'Poppins-Variable', sans-serif;
+
+// Import all of Bootstrap's CSS
+@import "~bootstrap/scss/bootstrap";
