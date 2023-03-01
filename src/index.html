@@ -1,16 +1,117 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Bootstrap w/ Vite</title>
+	<title>Smolblog Dashboard</title>
 </head>
 
 <body>
-	<div class="container py-4 px-3 mx-auto">
-		<h1>Hello, Bootstrap and Vite!</h1>
-		<button class="btn btn-primary">Primary button</button>
+	<nav class="navbar navbar-expand-md bg-body-tertiary" id="main-nav" data-bs-theme="dark">
+		<div class="container">
+			<span class="navbar-brand">
+				<img src="/smolblog.wordmark.ondark.svg" className="d-inline-block align-top" alt="Smolblog"
+					style="width: auto; height: 30px">
+			</span>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+				aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNavDropdown">
+				<ul class="navbar-nav me-auto">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
+							aria-expanded="false">
+							<span class="visually-hidden">Current site:</span>
+							Post Popular Mosts
+						</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#">oddEvan.com</a></li>
+							<li><a class="dropdown-item" href="#">madcrasher.com</a></li>
+							<li><a class="dropdown-item" href="#">The Nowhereverse</a></li>
+							<li><a class="dropdown-item" href="#">PillTimer</a></li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link" href="#">Reader</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Content</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Syndication</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Settings</a>
+					</li>
+				</ul>
+				<button class="btn btn-secondary">LD</button>
+			</div>
+		</div>
+	</nav>
+	<div class="container mx-auto">
+		<nav aria-label="breadcrumb" id="breadcrumb-nav">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="#">
+						<svg class="bi" fill="currentColor" aria-label="Home">
+							<use xlink:href="/bootstrap-icons.svg#houses-fill" />
+						</svg>
+					</a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+			</ol>
+		</nav>
+	
+		<h1 class="visually-hidden">Dashboard</h1>
+	
+		<div class="row">
+			<div class="col-md-8">
+				<h2 class="h4">My Sites</h2>
+	
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col">Name</th>
+							<th scope="col">URL</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">Post Popular Mosts</th>
+							<td>paperairplanemob.smol.blog <svg class="bi" fill="currentColor">
+									<use xlink:href="/bootstrap-icons.svg#box-arrow-up-right" />
+								</svg></td>
+							<td><a href="#" class="btn btn-outline-primary btn-sm">Admin</td>
+						</tr>
+						<tr>
+							<th scope="row">oddEvan.com</th>
+							<td>oddevan.com <i class="bi bi-box-arrow-up-right"></i></td>
+							<td><a href="#" class="btn btn-outline-primary btn-sm">Admin</td>
+						</tr>
+						<tr>
+							<th scope="row">madcrasher.com</th>
+							<td>madcrasher.com <i class="bi bi-box-arrow-up-right"></i></td>
+							<td><a href="#" class="btn btn-outline-primary btn-sm">Admin</td>
+						</tr>
+						<tr>
+							<th scope="row">The Nowhereverse</th>
+							<td>nowhereverse.com <i class="bi bi-box-arrow-up-right"></i></td>
+							<td><a href="#" class="btn btn-outline-primary btn-sm">Admin</td>
+						</tr>
+						<tr>
+							<th scope="row">PillTimer</th>
+							<td>pilltimer.app <i class="bi bi-box-arrow-up-right"></i></td>
+							<td><a href="#" class="btn btn-outline-primary btn-sm">Admin</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 	<script type="module" src="./js/main.js"></script>
 </body>

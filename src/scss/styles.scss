@@ -6,9 +6,29 @@ $step: #e9e3db;
 
 $enable-rounded: false;
 $enable-shadows: true;
-// $enable-gradients: true;
+$enable-gradients: true;
 
-$font-family-sans-serif: 'Poppins-Variable', sans-serif;
+$navbar-dark-color: rgba($step, .75);
+$navbar-dark-hover-color: $step;
+$navbar-dark-active-color: white;
+$navbar-dark-disabled-color: rgba($step, .55);
+$navbar-dark-toggler-border-color: rgba($step, .25);
+
+:root {
+	--sb-boop: #191b20;
+	--sb-snek: #9cd398;
+	--sb-step: #e9e3db;
+}
 
 // Import all of Bootstrap's CSS
 @import "~bootstrap/scss/bootstrap";
+#main-nav {
+	background: $boop;
+	margin-bottom: $grid-gutter-width;
+}
+
+svg.bi {
+	width: 1em;
+	height: 1em;
+	vertical-align: middle;
+}
