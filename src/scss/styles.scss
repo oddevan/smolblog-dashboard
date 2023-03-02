@@ -23,8 +23,19 @@ $navbar-dark-toggler-border-color: rgba($step, .25);
 // Import all of Bootstrap's CSS
 @import "~bootstrap/scss/bootstrap";
 #main-nav {
-	background: $boop;
+	// background: $boop;
 	margin-bottom: $grid-gutter-width;
+>.container {
+		position: relative;
+	}
+}
+
+@include media-breakpoint-up(md) {
+	#subnav {
+		position: absolute;
+		top: 40px;
+		left: 10px;
+	}
 }
 
 svg.bi {

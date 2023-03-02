@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="dark">
 
 <head>
 	<meta charset="utf-8">
@@ -8,7 +8,7 @@
 </head>
 
 <body>
-	<nav class="navbar navbar-expand-md bg-body-tertiary" id="main-nav" data-bs-theme="dark">
+	<nav class="navbar navbar-expand-md bg-body-tertiary" id="main-nav">
 		<div class="container">
 			<span class="navbar-brand">
 				<img src="/smolblog.wordmark.ondark.svg" className="d-inline-block align-top" alt="Smolblog"
@@ -38,17 +38,42 @@
 					<li class="nav-item">
 						<a class="nav-link" href="#">Reader</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Content</a>
+					<li class="nav-item dropdown">
+						<a class="nav-link active" href="#">Content</a>
+						<ul id="subnav">
+							<li><a href="#">Status</a></li>
+							<li><a href="#">Reblog</a></li>
+							<li><a href="#">Photo</a></li>
+							<li><a href="#">Post</a></li>
+							<li><a href="#">Media</a></li>
+						</ul>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Syndication</a>
+						<a class="nav-link" href="#">
+							Notifications
+							<span class="badge rounded-pill text-bg-primary">5</span>
+						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#">Settings</a>
 					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<img src="https://picsum.photos/50" width="24" height="24" style="margin:0;padding:0">
+						</a>
+						<ul class="dropdown-menu dropdown-menu-end">
+							<li><span class="dropdown-item-text text-muted">Logged in as oddevan</span></li>
+							<li><a class="dropdown-item" href="#">Profile</a></li>
+							<li><a class="dropdown-item" href="#">Security</a></li>
+							<li><a class="dropdown-item" href="#">Connections</a></li>
+							<li>
+								<hr class="dropdown-divider">
+							</li>
+							<li><a class="dropdown-item" href="#">Log Out</a></li>
+					</ul>
+				</li>
+				</li>
 				</ul>
-				<button class="btn btn-secondary">LD</button>
 			</div>
 		</div>
 	</nav>
