@@ -25,21 +25,33 @@ $navbar-dark-toggler-border-color: rgba($step, .25);
 #main-nav {
 	// background: $boop;
 	margin-bottom: $grid-gutter-width;
->.container {
+	>.container {
 		position: relative;
 	}
+svg.bi {
+	width: 1.5em;
+	height: 1.5em;
+}
 }
 
-@include media-breakpoint-up(md) {
-	#subnav {
-		position: absolute;
-		top: 40px;
-		left: 10px;
-	}
+#breadcrumb-nav,
+h1 {
+	margin-bottom: $grid-gutter-width;
 }
 
 svg.bi {
 	width: 1em;
 	height: 1em;
 	vertical-align: middle;
+}
+#secondary-nav {
+	background: var(--bs-secondary-bg);
+
+	.nav-item>.nav {
+		background: var(--bs-tertiary-bg);
+
+		.nav-link {
+			padding-left: $grid-gutter-width;
+		}
+	}
 }
