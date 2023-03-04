@@ -1,0 +1,64 @@
+---
+---
+
+// Remember, no step on snek: there's not enough contrast.
+
+$boop: #191b20;
+$snek: #9cd398;
+$step: #e9e3db;
+
+$enable-rounded: false;
+$enable-shadows: true;
+$enable-gradients: true;
+
+$navbar-dark-color: rgba($step, .75);
+$navbar-dark-hover-color: $step;
+$navbar-dark-active-color: white;
+$navbar-dark-disabled-color: rgba($step, .55);
+$navbar-dark-toggler-border-color: rgba($step, .25);
+
+:root {
+	--sb-boop: #191b20;
+	--sb-snek: #9cd398;
+	--sb-step: #e9e3db;
+}
+
+// Import all of Bootstrap's CSS
+@import "bootstrap";
+
+#main-nav {
+	// background: $boop;
+	margin-bottom: $grid-gutter-width;
+
+	>.container {
+		position: relative;
+	}
+
+	svg.bi {
+		width: 1.5em;
+		height: 1.5em;
+	}
+}
+
+#breadcrumb-nav,
+h1 {
+	margin-bottom: $grid-gutter-width;
+}
+
+svg.bi {
+	width: 1em;
+	height: 1em;
+	vertical-align: middle;
+}
+
+#secondary-nav {
+	background: var(--bs-secondary-bg);
+
+	.nav-item>.nav {
+		background: var(--bs-tertiary-bg);
+
+		.nav-link {
+			padding-left: $grid-gutter-width;
+		}
+	}
+}
