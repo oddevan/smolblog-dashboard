@@ -26,6 +26,10 @@ $navbar-dark-toggler-border-color: rgba($step, .25);
 // Import all of Bootstrap's CSS
 @import "bootstrap";
 
+html, body {
+	height: 100%;
+}
+
 #main-nav {
 	// background: $boop;
 	margin-bottom: $grid-gutter-width;
@@ -60,5 +64,16 @@ svg.bi {
 		.nav-link {
 			padding-left: $grid-gutter-width;
 		}
+	}
+}
+
+#index-site-select {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+
+	> .card {
+		max-width: map-get($map: $container-max-widths, $key: "sm")
 	}
 }
