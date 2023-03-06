@@ -70,5 +70,26 @@ layout: default
 	</div>
 </nav>
 <div class="container mx-auto" style="min-height: 100%">
-	{{ content }}
+	<div class="row">
+		<div class="col-xl-9 col-lg-8 col-md-7">
+			{{ content }}
+		</div>
+		<div class="col-md">
+				<ul class="nav nav-pills flex-column" id="secondary-nav">
+					<li class="nav-item">
+						<a class="nav-link" href="#">All Types</a>
+						<ul class="nav nav-pills flex-column">
+							<li class="nav-item"><a class="nav-link" href="#">Post</a></li>
+							<li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Status</a></li>
+							<li class="nav-item"><a class="nav-link" href="#">Reblog</a></li>
+							<li class="nav-item"><a class="nav-link" href="#">Photo</a></li>
+							<li class="nav-item"><a class="nav-link" href="#">Video</a></li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Media Library</a>
+					</li>
+				</ul>
+		</div>
+	</div>
 </div>
