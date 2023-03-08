@@ -6,13 +6,133 @@
 
 <head>
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="{{site.baseurl}}/styles.css">
+	<link rel="stylesheet" type="text/css" href="{{ "/styles.css" | relative_url }}">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Smolblog Dashboard</title>
+	<title>{{ page.title }} - Smolblog Dashboard</title>
 </head>
 
 <body>
-	{{ content }}
+	<nav class="navbar navbar-expand bg-body-tertiary" id="main-nav">
+		<div class="container-fluid">
+			<button class="btn btn-secondary d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+				{% include icon.html icon="three-dots-vertical" %}
+				Menu
+			</button>
+			<a class="navbar-brand d-none d-lg-block me-auto" href="{{site.baseurl}}/">
+				<img src="{{ "/smolblog.wordmark.ondark.svg" | relative_url }}" className="d-inline-block align-top" alt="Smolblog"
+					style="width: auto; height: 30px">
+			</a>
+			<button class="btn btn-primary">
+				{% include icon.html icon="journal-plus" %}
+				New
+			</button>
+			<ul class="navbar-nav">
+				<li class="nav-item dropdown">
+					<a title="My account" class="nav-link dropdown-toggle active" href="#" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						<img src="https://picsum.photos/50" width="24" height="24" style="margin:0;padding:0">
+					</a>
+					<ul class="dropdown-menu dropdown-menu-end">
+						<li><span class="dropdown-item-text text-muted">Logged in as oddevan</span></li>
+						<li><a class="dropdown-item" href="{{ "/account" | relative_url }}">Profile</a></li>
+						<li><a class="dropdown-item" href="{{ "/account/security" | relative_url }}">Security</a></li>
+						<li><a class="dropdown-item" href="{{ "/account/connections" | relative_url }}">Connections</a></li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
+						<li><a class="dropdown-item" href="{{site.baseurl}}">Log Out</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<div class="container-fluid mx-auto" style="min-height: 100%">
+		<div class="row">
+			<div class="col-lg offcanvas-lg offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidelineLabel">
+				<div class="offcanvas-header">
+					<h5 class="offcanvas-title" id="sidelineLabel">
+						<img src="{{ "/smolblog.wordmark.ondark.svg" | relative_url }}" className="d-inline-block align-top" alt="Smolblog"
+					style="width: auto; height: 30px">
+					</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebar"  aria-label="Close"></button>
+				</div>
+	
+				<button id="site-select-btn" type="button" class="btn btn-primary btn-block mb-3" data-bs-toggle="modal" data-bs-target="#siteSelectModal">
+					{% include icon.html icon="window-stack" %}
+					Post Popular Mosts
+				</button>
+	
+				<nav>
+					<ul class="nav nav-pills flex-column" id="sidebar-nav">
+						<li class="nav-item">
+							{% if page.section == "reader" %}
+							<a href="{{ "/reader" | relative_url }}" class="nav-link active">{% include icon.html icon="newspaper" %} Reader</a>
+							{% include reader-nav.html %}
+							{% else %}
+							<a href="{{ "/reader" | relative_url }}" class="nav-link">{% include icon.html icon="newspaper" %} Reader</a>
+							{% endif %}
+						</li>
+						<li class="nav-item">
+							{% if page.section == "content" %}
+							<a class="nav-link active" href="{{ "/content" | relative_url }}">{% include icon.html icon="journal-richtext" %} Content</a>
+							{% include content-nav.html %}
+							{% else %}
+							<a class="nav-link" href="{{ "/content" | relative_url }}">{% include icon.html icon="journal-richtext" %} Content</a>
+							{% endif %}
+						</li>
+						<li class="nav-item">
+							{% if page.section == "notifications" %}
+							<a class="nav-link active" href="{{ "/notifications" | relative_url }}">{% include icon.html icon="bell" %} Notifications</a>
+							{% else %}
+							<a class="nav-link" href="{{ "/notifications" | relative_url }}">{% include icon.html icon="bell" %} Notifications</a>
+							{% endif %}
+						</li>
+						<li class="nav-item">
+							{% if page.section == "settings" %}
+							<a class="nav-link active" href="{{ "/settings" | relative_url }}">{% include icon.html icon="gear" %} Settings</a>
+							{% include settings-nav.html %}
+							{% else %}
+							<a class="nav-link" href="{{ "/settings" | relative_url }}">{% include icon.html icon="gear" %} Settings</a>
+							{% endif %}
+						</li>
+						<li class="nav-item">
+							{% if page.section == "account" %}
+							<a class="nav-link active" href="{{ "/account" | relative_url }}">{% include icon.html icon="person" %} My Account</a>
+							{% include account-nav.html %}
+							{% else %}
+							<a class="nav-link" href="{{ "/account" | relative_url }}">{% include icon.html icon="person" %} My Account</a>
+							{% endif %}
+						</li>
+					</ul>
+				</nav>
+	
+			</div>
+			<div class="col-lg">
+				{{ content }}
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="siteSelectModal" tabindex="-1" aria-labelledby="siteSelectModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="siteSelectModalLabel">Select Site</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="list-group list-group-flush">
+						<button class="list-group-item list-group-item-action" data-bs-dismiss="modal">Post Popular Mosts</button>
+						<button class="list-group-item list-group-item-action" data-bs-dismiss="modal">oddEvan.com</button>
+						<button class="list-group-item list-group-item-action" data-bs-dismiss="modal">madcrasher.com</button>
+						<button class="list-group-item list-group-item-action" data-bs-dismiss="modal">The Nowhereverse</button>
+						<button class="list-group-item list-group-item-action" data-bs-dismiss="modal">PillTimer</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script type="module" src="{{site.baseurl}}/bootstrap.bundle.js"></script>
 </body>
 
