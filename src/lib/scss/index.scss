@@ -1,0 +1,116 @@
+// Remember, no step on snek: there's not enough contrast.
+
+$boop: #191b20;
+$snek: #9cd398;
+$step: #e9e3db;
+
+$enable-rounded: false;
+$enable-gradients: true;
+
+$snek-darker: #4F7C55;
+
+$primary: $snek-darker;
+$link-color-dark: $snek;
+
+:root {
+	--sb-boop: #191b20;
+	--sb-snek: #9cd398;
+	--sb-step: #e9e3db;
+}
+
+// Import all of Bootstrap's CSS
+@import "/node_modules/bootstrap/scss/bootstrap.scss";
+
+html, body {
+	height: 100%;
+}
+
+#main-nav {
+	// background: $boop;
+	margin-bottom: $grid-gutter-width;
+
+	>.container {
+		position: relative;
+	}
+
+	svg.bi {
+		width: 1.5em;
+		height: 1.5em;
+	}
+}
+
+#breadcrumb-nav,
+h1 {
+	margin-bottom: $grid-gutter-width;
+}
+
+svg.bi {
+	width: 1em;
+	height: 1em;
+	vertical-align: middle;
+	margin-top: -3px;
+}
+
+#index-site-select {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+
+	> .card {
+		max-width: map-get($map: $container-max-widths, $key: "sm")
+	}
+}
+
+#sidebar {
+	max-width: 280px;
+
+	.nav-item>.nav {
+		// background: var(--bs-tertiary-bg);
+
+		.nav-link {
+			padding-left: 2rem;
+		}
+	}
+}
+
+#site-select-btn {
+	width: 100%;
+
+	@include media-breakpoint-up(lg) {
+		width: 250px;
+		position: absolute;
+		top: 10px;
+		left: 200px;
+	}
+}
+
+#sidebar-nav {
+	> .nav-item {
+		border-bottom: 1px solid var(--bs-secondary-color);
+		
+		> .nav-link {
+			padding-top: 0.8rem;
+			padding-bottom: 0.8rem;
+		}
+
+		> .nav {
+			background: var(--bs-tertiary-bg);
+	
+			.nav-link {
+				padding-left: 2rem;
+			}
+		}
+	}
+
+	&:first-child {
+		border-top: 1px solid var(--bs-secondary-color);
+	}
+
+	svg.bi {
+		width: 30px;
+		height: 30px;
+		padding: 5px;
+		margin-right: 0.2rem;
+	}
+}
