@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Icon from "../lib/components/Icon.svelte";
+	import SmolblogLogo from "../lib/components/SmolblogLogo.svelte";
 </script>
 
 <div class="container-fluid mx-auto" style="min-height: 100%">
@@ -7,7 +8,7 @@
 		<div class="col-lg offcanvas-lg offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidelineLabel">
 			<div class="offcanvas-header">
 				<h5 class="offcanvas-title" id="sidelineLabel">
-					<img src="/smolblog.wordmark.onwhite.svg" class="d-inline-block align-top" alt="Smolblog" style="width: auto; height: 30px">
+					<SmolblogLogo height={30} />
 				</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebar"  aria-label="Close"></button>
 			</div>

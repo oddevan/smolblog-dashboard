@@ -1,5 +1,6 @@
 <script lang="ts">
-	import Icon from "../lib/components/Icon.svelte";
+	import Icon from "$lib/components/Icon.svelte";
+	import SmolblogLogo from "$lib/components/SmolblogLogo.svelte";
 </script>
 
 <nav class="navbar navbar-expand bg-body-tertiary" id="main-nav">
@@ -9,8 +10,7 @@
 			Menu
 		</button>
 		<a class="navbar-brand d-none d-lg-block me-auto" href="/">
-			<img src="/smolblog.wordmark.onwhite.svg" class="d-inline-block align-top" alt="Smolblog"
-				style="width: auto; height: 30px">
+			<SmolblogLogo />
 		</a>
 		<button class="btn btn-primary">
 			<Icon icon="journal-plus"/>

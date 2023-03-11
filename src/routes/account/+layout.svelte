@@ -6,7 +6,8 @@
 <ul class="nav nav-pills flex-column" slot="account-nav">
 	<li class="nav-item"><a class="nav-link" href="/account">Profile</a></li>
 	<li class="nav-item"><a class="nav-link" href="/account/security">Security</a></li>
-	<li class="nav-item"><a class="nav-link" href="/account/connections">Connecitons</a></li>
+	<li class="nav-item"><a class="nav-link" href="/account/connections">Connections</a></li>
+	<li class="nav-item"><a class="nav-link" href="/account/preferences">Preferences</a></li>
 </ul>
 
 <slot/>

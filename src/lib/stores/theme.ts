@@ -4,6 +4,20 @@ export const getCurrentTheme = () => {
 	return document.documentElement.dataset.bsTheme;
 };
 
-const theme = writable('auto');
+const { subscribe, update } = writable({
+	userPref: 'auto',
+	browserPref: 'light',
+	currentTheme() {
+		return this.userPref === 'auto' ? ( this.browserPref === 'dark' ? 'dark' : 'light' ) : this.userPref;
+	}
+});
 
-export default theme;
+export default {
+	subscribe,
+	setUserPref(pref: string) {
+		update(current => { return { ...current, userPref: pref }; });
+	},
+	setBrowserPref(pref: string) {
+		update(current => { return { ...current, browserPref: pref }; });
+	},
+};

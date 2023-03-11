@@ -45,4 +45,5 @@
 			<span class="form-text" id="inputPronounsHelp">(Optional) How you would like to be identified.</span>
     </div>
   </div>
+	<button class="btn btn-primary">Save</button>
 </form>

@@ -14,40 +14,18 @@
 	let prefersDarkMode = false;
 
 	onMount(() => {
-		let active = false;
-		const updateThemeAttribute = () => {
-			if (active) {
-				const themeVal = currentTheme === 'auto' ? ( prefersDarkMode ? 'dark' : 'light' ) : currentTheme;
-				document.documentElement.dataset.bsTheme = themeVal;
-			}
-		};
-
 		const matcher = window.matchMedia("(prefers-color-scheme: dark)");
+		theme.setBrowserPref(matcher.matches ? 'dark' : 'light');
 		matcher.addEventListener('change', e => {
-			prefersDarkMode = e.matches
-			updateThemeAttribute();
-		});
-		prefersDarkMode = matcher.matches;
-
-		const unsub = theme.subscribe(storeVal => {
-			currentTheme = storeVal;
-			updateThemeAttribute();
+			theme.setBrowserPref(e.matches ? 'dark' : 'light');
 		});
 
-		active = true;
-		updateThemeAttribute();
-		return unsub;
+		return theme.subscribe(storeVal => {
+			document.documentElement.dataset.bsTheme = storeVal.currentTheme();
+		});
 	});
 </script>
 
 <Navbar/>
 
 <slot/>
-
-<p>Theme: {currentTheme} | Prefers dark? {prefersDarkMode ? 'yes' : 'no'}</p>
-
-<div class="btn-group" role="group" aria-label="Theme">
-  <button on:click={() => theme.set('light')} type="button" class="btn btn-light">Light</button>
-  <button on:click={() => theme.set('dark')} type="button" class="btn btn-dark">Dark</button>
-  <button on:click={() => theme.set('auto')} type="button" class="btn btn-secondary">Auto</button>
-</div>
