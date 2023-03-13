@@ -3,7 +3,6 @@
 
 	const steps = [
 		{path: '/', title: 'Dashboard'},
-		{path: '/notifications', title: 'Notifications'},
 	];
 
 </script>
@@ -14,9 +13,9 @@
 	}
 </style>
 
-<Breadcrumbs steps={steps} current="Inbox" />
+<Breadcrumbs steps={steps} current="Notifications" />
 
-<h1>Inbox</h1>
+<h1>Notifications</h1>
 
 <div class="row">
 	<div class="col-sm order-sm-2">
