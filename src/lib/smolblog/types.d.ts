@@ -12,3 +12,8 @@ export interface ConnectorChannel {
 	channelKey: string,
 	displayName: string,
 };
+
+export interface Site {
+	id: string,
+	displayName: string,
+};

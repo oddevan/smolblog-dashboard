@@ -1,6 +1,8 @@
 <script lang="ts">
+	import Breadcrumbs from "$lib/components/Breadcrumbs.svelte";
 	import Icon from "../lib/components/Icon.svelte";
 	import SmolblogLogo from "../lib/components/SmolblogLogo.svelte";
+  import { page } from '$app/stores';
 </script>
 
 <div class="container-fluid mx-auto" style="min-height: 100%">
@@ -21,17 +23,20 @@
 			<nav>
 				<ul class="nav nav-pills flex-column" id="sidebar-nav">
 					<li class="nav-item">
+						<a class="nav-link" href="/"><Icon icon="speedometer2"/> Dashboard</a>
+					</li>
+					<!-- <li class="nav-item">
 						<a class="nav-link" href="/reader"><Icon icon="newspaper"/> Reader</a>
 						<slot name="reader-nav"/>
-					</li>
+					</li> -->
 					<li class="nav-item">
 						<a class="nav-link" href="/content"><Icon icon="journal-richtext"/> Content</a>
 						<slot name="content-nav"/>
 					</li>
-					<li class="nav-item">
+					<!-- <li class="nav-item">
 						<a class="nav-link" href="/notifications"><Icon icon="bell"/> Notifications</a>
 						<slot name="notifications-nav"/>
-					</li>
+					</li> -->
 					<li class="nav-item">
 						<a class="nav-link" href="/settings"><Icon icon="gear"/> Settings</a>
 						<slot name="settings-nav"/>
@@ -45,6 +50,10 @@
 
 		</div>
 		<div class="col-lg">
+			{#if $page.data.breadcrumbs.length > 0}
+			<Breadcrumbs steps={$page.data.breadcrumbs} current={$page.data.title} />
+			{/if}
+			<h1>{$page.data.title}</h1>
 			<slot />
 		</div>
 	</div>
