@@ -1,6 +1,6 @@
-import type { ConnectorConnection } from "../types";
+import type { ConnectorConnection, SmolblogFetch } from "../types";
 
-export function getUserConnections(): ConnectorConnection[] {
+export async function getUserConnections(smolFetch: SmolblogFetch): Promise<ConnectorConnection[]> {
 	const dummies = [
 		{provider: 'twitter', displayName: '@oddevan', channels: ['@oddevan']},
 		{provider: 'twitter', displayName: '@_smolblog', channels: ['@_smolblog']},

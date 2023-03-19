@@ -17,3 +17,9 @@ export interface Site {
 	id: string,
 	displayName: string,
 };
+
+export type SmolblogFetch = (args: {
+	endpoint: string,
+	verb?: string,
+	payload?: BodyInit,
+}) => Promise<unknown>;
