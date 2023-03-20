@@ -3,6 +3,8 @@
 	import Icon from "../lib/components/Icon.svelte";
 	import SmolblogLogo from "../lib/components/SmolblogLogo.svelte";
   import { page } from '$app/stores';
+	import context from '../lib/stores/context';
+	import SiteSelectModal from "./SiteSelectModal.svelte";
 </script>
 
 <div class="container-fluid mx-auto" style="min-height: 100%">
@@ -15,16 +17,14 @@
 				<button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebar"  aria-label="Close"></button>
 			</div>
 
-			<button id="site-select-btn" type="button" class="btn btn-primary btn-block mb-3" data-bs-toggle="modal" data-bs-target="#siteSelectModal">
-				<Icon icon="window-stack"/>
-				Post Popular Mosts
-			</button>
+			<SiteSelectModal/>
 
 			<nav>
 				<ul class="nav nav-pills flex-column" id="sidebar-nav">
 					<li class="nav-item">
 						<a class="nav-link" href="/"><Icon icon="speedometer2"/> Dashboard</a>
 					</li>
+					{#if $context.site}
 					<!-- <li class="nav-item">
 						<a class="nav-link" href="/reader"><Icon icon="newspaper"/> Reader</a>
 						<slot name="reader-nav"/>
@@ -41,6 +41,7 @@
 						<a class="nav-link" href="/settings"><Icon icon="gear"/> Settings</a>
 						<slot name="settings-nav"/>
 					</li>
+					{/if}
 					<li class="nav-item">
 						<a class="nav-link" href="/account"><Icon icon="person"/> My Account</a>
 						<slot name="account-nav"/>
@@ -55,26 +56,6 @@
 			{/if}
 			<h1>{$page.data.title}</h1>
 			<slot />
-		</div>
-	</div>
-</div>
-
-<div class="modal fade" id="siteSelectModal" tabindex="-1" aria-labelledby="siteSelectModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="siteSelectModalLabel">Select Site</h1>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<div class="list-group list-group-flush">
-					<button class="list-group-item list-group-item-action" data-bs-dismiss="modal">Post Popular Mosts</button>
-					<button class="list-group-item list-group-item-action" data-bs-dismiss="modal">oddEvan.com</button>
-					<button class="list-group-item list-group-item-action" data-bs-dismiss="modal">madcrasher.com</button>
-					<button class="list-group-item list-group-item-action" data-bs-dismiss="modal">The Nowhereverse</button>
-					<button class="list-group-item list-group-item-action" data-bs-dismiss="modal">PillTimer</button>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>

@@ -1,5 +1,5 @@
 <script>
-	import SidebarFrame from "../SidebarFrame.svelte";
+	import SidebarFrame from "../../SidebarFrame.svelte";
 </script>
 
 <SidebarFrame>

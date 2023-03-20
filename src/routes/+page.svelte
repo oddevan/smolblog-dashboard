@@ -1,10 +1,15 @@
 <script>
+	import Icon from "$lib/components/Icon.svelte";
+	import context from "$lib/stores/context";
 	import SidebarFrame from "./SidebarFrame.svelte";
 </script>
 
 <SidebarFrame>
-	<h1>Welcome to SvelteKit</h1>
-	<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-
-	
+	{#if !$context.site}
+	<p>Welcome! Select a site to get started.</p>
+	<button type="button" class="btn btn-primary p-2" data-bs-toggle="modal" data-bs-target="#siteSelectModal">
+		<Icon icon="window-stack"/>
+		Select Site
+	</button>
+	{/if}
 </SidebarFrame>

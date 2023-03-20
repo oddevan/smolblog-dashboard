@@ -1,10 +1,4 @@
 <script>
-	import Breadcrumbs from "../../lib/components/Breadcrumbs.svelte";
-
-	const steps = [
-		{path: '/', title: 'Dashboard'},
-	];
-
 </script>
 
 <style>
@@ -12,10 +6,6 @@
 		max-width: 200px;
 	}
 </style>
-
-<Breadcrumbs steps={steps} current="Notifications" />
-
-<h1>Notifications</h1>
 
 <div class="row">
 	<div class="col-sm order-sm-2">

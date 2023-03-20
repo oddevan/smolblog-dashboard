@@ -1,17 +1,3 @@
-<script>
-	import Breadcrumbs from "../../lib/components/Breadcrumbs.svelte";
-
-	const steps = [
-		{path: '/', title: 'Dashboard'},
-		{path: '/settings', title: 'Settings'},
-	];
-
-</script>
-
-<Breadcrumbs steps={steps} current="General" />
-
-<h1>General Settings</h1>
-
 <form>
   <div class="row mb-4">
     <label for="inputId" class="col-lg-2 col-form-label">Site ID</label>

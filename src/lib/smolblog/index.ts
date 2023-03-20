@@ -1,23 +1,23 @@
-import type { SmolblogFetch } from "./types";
-import { getUserConnections } from "./user";
+import type { Site, SmolblogFetch } from "./types";
+import { getUserConnections, getUserSites } from "./user";
 
 export default class Smolblog {
 	readonly apiBase: string;
 	readonly authHeader?: string;
-	readonly siteId?: string;
+	readonly currentSite?: Site;
 
 	readonly server: SmolblogServer;
 	readonly user?: SmolblogUser;
 	readonly site?: SmolblogSite;
 
-	constructor(apiBase: string, authHeader?: string, siteId?: string) {
+	constructor(apiBase: string, authHeader?: string, currentSite?: Site) {
 		this.apiBase = apiBase;
 		this.authHeader = authHeader;
-		this.siteId = siteId;
+		this.currentSite = currentSite;
 
 		this.server = new SmolblogServer(this.fetch);
 		if (this.authHeader) { this.user = new SmolblogUser(this.fetch); }
-		if (this.siteId) { this.site = new SmolblogSite(this.fetch, this.siteId); }
+		if (this.currentSite) { this.site = new SmolblogSite(this.fetch, this.currentSite.id); }
 	}
 
 	async fetch(props: { endpoint: string, verb?: string, payload?: BodyInit }) {
@@ -68,6 +68,9 @@ class SmolblogUser {
 	profile = {
 		get: () => console.error('Smolblog.user.profile.get not implemented.'),
 		set: () => console.error('Smolblog.user.profile.set not implemented.'),
+	}
+	sites = {
+		get: () => getUserSites(this.fetcher),
 	}
 	preferences = {
 		get: () => console.error('Smolblog.user.preferences.get not implemented.'),
