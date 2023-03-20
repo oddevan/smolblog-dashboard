@@ -1,4 +1,4 @@
-import type { ConnectorConnection, Site, SmolblogFetch } from "../types";
+import type { ConnectorConnection, Site, SmolblogFetch, UserProfile } from "../types";
 
 export async function getUserConnections(smolFetch: SmolblogFetch): Promise<ConnectorConnection[]> {
 	const dummies = [
@@ -40,4 +40,13 @@ export async function getUserSites(smolFetch: SmolblogFetch): Promise<Site[]> {
 		{id: 'd8988568-9a57-42d5-ad52-b13471c56092', displayName: 'The Nowhereverse'},
 		{id: '19006999-3fbc-45bc-a7f9-b3a1ade834c0', displayName: 'PillTimer'},
 	];
+}
+
+export async function getUserProfile(smolFetch: SmolblogFetch): Promise<UserProfile> {
+	return {
+		id: '5ec48adb-62f1-40bc-9128-aa1209313add',
+		email: 'snek@smol.blog',
+		handle: 'snek',
+		displayName: 'Smol Snek',
+	};
 }

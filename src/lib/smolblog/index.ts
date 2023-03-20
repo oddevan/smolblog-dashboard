@@ -1,5 +1,5 @@
 import type { Site, SmolblogFetch } from "./types";
-import { getUserConnections, getUserSites } from "./user";
+import { getUserConnections, getUserProfile, getUserSites } from "./user";
 
 export default class Smolblog {
 	readonly apiBase: string;
@@ -66,7 +66,7 @@ class SmolblogUser {
 	}
 
 	profile = {
-		get: () => console.error('Smolblog.user.profile.get not implemented.'),
+		get: () => getUserProfile(this.fetcher),
 		set: () => console.error('Smolblog.user.profile.set not implemented.'),
 	}
 	sites = {

@@ -18,6 +18,14 @@ export interface Site {
 	displayName: string,
 };
 
+export interface UserProfile {
+	id: string,
+	email: string,
+	handle: string,
+	displayName?: string,
+	pronouns?: string,
+};
+
 export type SmolblogFetch = (args: {
 	endpoint: string,
 	verb?: string,
