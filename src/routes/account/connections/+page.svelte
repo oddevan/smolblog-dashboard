@@ -1,19 +1,16 @@
-<script>
-	import Breadcrumbs from "$lib/components/Breadcrumbs.svelte";
-	import { getUserConnections } from "../../../lib/smolblog/user";
+<script lang="ts">
 	import Connection from "./Connection.svelte";
-
-	const steps = [
-		{path: '/', title: 'Dashboard'},
-		{path: '/account', title: 'Account'},
-	];
-  
-  const connections = getUserConnections();
+	import context from "$lib/stores/context";
+	import Loading from "$lib/components/Loading.svelte";
+	import Error from "$lib/components/Error.svelte";
 </script>
-<Breadcrumbs steps={steps} current="Connections" />
 
-<h1>Connections</h1>
-
-{#each connections as connection (connection.id) }
-  <Connection connection={connection} />
-{/each}
+{#await $context.user?.connections.get() ?? []}
+	<Loading />
+{:then connections}
+	{#each connections as connection (connection.id) }
+		<Connection connection={connection} />
+	{/each}
+{:catch error}
+	<Error {error} />
+{/await}

@@ -1,16 +1,3 @@
-<script>
-	import Breadcrumbs from "$lib/components/Breadcrumbs.svelte";
-
-	const steps = [
-		{path: '/', title: 'Dashboard'},
-		{path: '/account', title: 'Account'},
-	];
-
-</script>
-<Breadcrumbs steps={steps} current="Security" />
-
-<h1>Security</h1>
-
 <form>
   <div class="row mb-4">
     <label for="inputCurrentPassword" class="col-lg-2 col-form-label">Current Password</label>

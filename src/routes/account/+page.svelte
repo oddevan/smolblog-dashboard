@@ -1,16 +1,3 @@
-<script>
-	import Breadcrumbs from "../../lib/components/Breadcrumbs.svelte";
-
-	const steps = [
-		{path: '/', title: 'Dashboard'},
-		{path: '/account', title: 'Account'},
-	];
-
-</script>
-<Breadcrumbs steps={steps} current="Profile" />
-
-<h1>Profile</h1>
-
 <form>
   <div class="row mb-4">
     <label for="inputEmail" class="col-lg-2 col-form-label">ID</label>

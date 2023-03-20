@@ -1,17 +1,7 @@
 <script>
-	import Breadcrumbs from "$lib/components/Breadcrumbs.svelte";
 	import Theme from "./Theme.svelte";
 	import activeTheme from "$lib/stores/theme";
-
-	const steps = [
-		{path: '/', title: 'Dashboard'},
-		{path: '/account', title: 'Account'},
-	];
-
 </script>
-<Breadcrumbs steps={steps} current="Preferences" />
-
-<h1>Preferences</h1>
 
 <div class="row">
 	<div class="col-sm">
