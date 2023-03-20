@@ -104,7 +104,7 @@ class SmolblogSite {
 		reblog: {
 			get: () => console.error('Smolblog.site.content.reblog.get not implemented.'),
 			create: () => console.error('Smolblog.site.content.reblog.create not implemented.'),
-			edit: () => console.error('Smolblog.site.content.reblog.edit not implemented.'),
+			edit: () => console.error('Smolblog.site.content.status.edit not implemented.'),
 			delete: () => console.error('Smolblog.site.content.reblog.delete not implemented.'),
 		}
 	}
@@ -121,5 +121,9 @@ class SmolblogSite {
 			get: () => console.error('Smolblog.site.settings.channels.get not implemented.'),
 			link: () => console.error('Smolblog.site.settings.channels.link not implemented.'),
 		}
+	}
+	preview = {
+		embed: () => console.error('Smolblog.site.preview.embed not implemented.'),
+		markdown: () => console.error('Smolblog.site.preview.markdown not implemented.'),
 	}
 }
