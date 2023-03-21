@@ -1,6 +1,12 @@
 import type { Site, SmolblogFetch } from "./types";
 import { getUserConnections, getUserProfile, getUserSites } from "./user";
 
+export interface SmolblogContext {
+	apiBase: string,
+	authHeader?: string,
+	currentSite?: Site
+}
+
 export default class Smolblog {
 	readonly apiBase: string;
 	readonly authHeader?: string;
@@ -10,7 +16,9 @@ export default class Smolblog {
 	readonly user?: SmolblogUser;
 	readonly site?: SmolblogSite;
 
-	constructor(apiBase: string, authHeader?: string, currentSite?: Site) {
+	constructor(props: SmolblogContext) {
+		const { apiBase, authHeader, currentSite } = props;
+
 		this.apiBase = apiBase;
 		this.authHeader = authHeader;
 		this.currentSite = currentSite;
@@ -18,6 +26,14 @@ export default class Smolblog {
 		this.server = new SmolblogServer(this.fetch);
 		if (this.authHeader) { this.user = new SmolblogUser(this.fetch); }
 		if (this.currentSite) { this.site = new SmolblogSite(this.fetch, this.currentSite.id); }
+	}
+
+	get context(): SmolblogContext {
+		return {
+			apiBase: this.apiBase,
+			authHeader: this.authHeader,
+			currentSite: this.currentSite,
+		};
 	}
 
 	async fetch(props: { endpoint: string, verb?: string, payload?: BodyInit }) {
