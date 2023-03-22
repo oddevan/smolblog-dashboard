@@ -25,6 +25,11 @@ html, body {
 	height: 100%;
 }
 
+// Re-add the curves to toggle switches
+.form-switch .form-check-input {
+	border-radius: 1em;
+}
+
 #main-nav {
 	// background: $boop;
 	margin-bottom: $grid-gutter-width;
