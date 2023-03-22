@@ -114,3 +114,13 @@ svg.bi {
 		margin-right: 0.2rem;
 	}
 }
+
+@include media-breakpoint-up(sm) {
+	.content-main {
+		min-width: 320px;
+	}
+
+	.content-extensions {
+		max-width: 350px;
+	}
+}
