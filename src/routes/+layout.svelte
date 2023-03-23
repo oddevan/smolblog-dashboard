@@ -3,7 +3,6 @@
 	import theme from '../lib/stores/theme';
 	import { onMount } from 'svelte';
 	import context from '$lib/stores/context';
-	import { Vault } from '@ultimate/vault';
 	import type { SmolblogContext } from '$lib/smolblog';
 
 
@@ -14,7 +13,8 @@
 	// @ts-ignore
 	import * as bootstrap from "bootstrap";
 
-	onMount(() => {
+	onMount(async () => {
+		const { Vault } = await import('@ultimate/vault');
 		const localStorage = new Vault({});
 		const localContext = localStorage.get<SmolblogContext>('context');
 		if (localContext) {
