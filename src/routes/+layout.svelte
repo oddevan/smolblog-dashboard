@@ -11,10 +11,12 @@
 
 	// Import all of Bootstrap's JS
 	// @ts-ignore
-	import * as bootstrap from "bootstrap";
+	// import * as bootstrap from "bootstrap";
 
 	onMount(async () => {
 		const { Vault } = await import('@ultimate/vault');
+		const bootstrap = await import('bootstrap');
+
 		const localStorage = new Vault({});
 		const localContext = localStorage.get<SmolblogContext>('context');
 		if (localContext) {
