@@ -1,6 +1,23 @@
 <script lang="ts">
-	import Icon from "$lib/components/Icon.svelte";
+	import Syndication from "$lib/components/ContentExtensions/Syndication.svelte";
+import Tags from "$lib/components/ContentExtensions/Tags.svelte";
+import Icon from "$lib/components/Icon.svelte";
+	import MarkdownField from "$lib/components/MarkdownField.svelte";
+	import type { ComponentType } from "svelte";
 	import SveltyPicker from 'svelty-picker';
+
+	const availableExtensions: Array<{type: string, displayName: string, component: ComponentType}> = [
+		{
+			type: '\\Smolblog\\Core\\Content\\Extensions\\Tags',
+			displayName: 'Tags',
+			component: Tags,
+		},
+		{
+			type: '\\Smolblog\\Core\\Content\\Extensions\\Syndication',
+			displayName: 'Syndication',
+			component: Syndication,
+		},
+	];
 
 	let setTime = false;
 	let pubDate: string|undefined;
@@ -21,13 +38,15 @@
 	};
 	export let extensions: any = {};
 
+	export let onCancel: (() => void)|undefined = undefined;
+	export let onSave: (() => void)|undefined = undefined;
+	export let onPublish: (() => void)|undefined = undefined;
+
 	$: meta = {
 		publishDate: setTime ? pubDate : undefined,
 		author: author,
 		slug: useSlug.length > 0 ? slug : undefined,
 	};
-
-	$: console.log({useSlug, slug});
 </script>
 
 <div class="card">
@@ -86,58 +105,34 @@
 						</div>
 					</div>
 				</div>
+				{#each availableExtensions as extTemplate (extTemplate.type) }
 				<div class="accordion-item">
-					<h2 class="accordion-header" id="flush-headingTwo">
-						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-							Tags
+					<h2 class="accordion-header" id={`${extTemplate.displayName}Heading`}>
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={`#${extTemplate.displayName}Body`} aria-expanded="false" aria-controls={`${extTemplate.displayName}Body`}>
+							{extTemplate.displayName}
 						</button>
 					</h2>
-					<div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+					<div id={`${extTemplate.displayName}Body`} class="accordion-collapse collapse" aria-labelledby={`${extTemplate.displayName}Heading`} data-bs-parent="#accordionFlushExample">
 						<div class="accordion-body">
-							<label for="tagEntry" class="form-label visually-hidden">Add tag</label>
-							<input class="form-control form-control-sm" type="text" placeholder="Add tag" on:change={() => {}}>
-							<span class="badge text-bg-primary">omg kitties</span>
-							<span class="badge text-bg-primary">no but for real tho</span>
+							<svelte:component this={extTemplate.component} bind:value={extensions[extTemplate.type]}/>
 						</div>
 					</div>
 				</div>
-				<div class="accordion-item">
-					<h2 class="accordion-header" id="flush-headingThree">
-						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-							Syndication
-						</button>
-					</h2>
-					<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-						<div class="accordion-body">
-							<div class="form-check form-switch syndication">
-								<input class="form-check-input" type="checkbox" role="switch" id="syndicateTwitter">
-								<label class="form-check-label" for="syndicateTwitter">
-									<Icon icon="twitter"/> @oddevan
-								</label>
-							</div>
-							<div class="form-check form-switch syndication">
-								<input class="form-check-input" type="checkbox" role="switch" id="syndicateYouTube">
-								<label class="form-check-label" for="syndicateYouTube">
-									<Icon icon="youtube"/> Evan Hildreth
-								</label>
-							</div>
-							<div class="form-check form-switch syndication">
-								<input class="form-check-input" type="checkbox" role="switch" id="syndicateMastodon">
-								<label class="form-check-label" for="syndicateMastodon">
-									<Icon icon="mastodon"/> @oddevan@mastodon.social
-								</label>
-							</div>
-						</div>
-					</div>
-				</div>
+				{/each}
 			</div>
 		</div>
 		</div>
 		</div>
-		<div class="card-footer">
-			<button class="btn btn-danger">Cancel</button>
-			<button class="btn btn-secondary">Save Draft</button>
-			<button class="btn btn-primary">Publish</button>
+		<div class="card-footer d-flex">
+			{#if onCancel}
+			<button class="btn btn-outline-danger me-auto" on:click={onCancel}>Cancel</button>
+			{/if}
+			{#if onSave}
+			<button class="btn btn-outline-secondary me-2" on:click={onSave}>Save Draft</button>
+			{/if}
+			{#if onPublish}
+			<button class="btn btn-primary" on:click={onPublish}>Publish</button>
+			{/if}
 		</div>
 	</form>
 	</div>
