@@ -1,6 +1,8 @@
 <script lang="ts">
+	import Error from "$lib/components/Error.svelte";
 	import Loading from "$lib/components/Loading.svelte";
-import MarkdownField from "$lib/components/MarkdownField.svelte";
+	import MarkdownField from "$lib/components/MarkdownField.svelte";
+	import context from "$lib/stores/context";
 	import ContentForm from '../../ContentForm.svelte';
 
 	let meta: any = {};
@@ -28,8 +30,14 @@ import MarkdownField from "$lib/components/MarkdownField.svelte";
 		<input type="url" class="form-control" id="urlInput" placeholder="Link to something cool..." bind:value={url}>
 	</div>
 	<div id="reblogPreview" class="mb-3">
-		{#if url}
-			<Loading/>
+		{#if url && $context?.site}
+			{#await $context.site.preview.embed(url)}
+				<Loading/>
+			{:then embedCode} 
+				<iframe srcdoc={embedCode} title="Embed Preview" sandbox="" width="100%"></iframe>
+			{:catch e}
+				<Error error={e}/>
+			{/await}
 		{:else}
 			<span>Enter a URL to preview it here.</span>
 		{/if}

@@ -9,11 +9,6 @@ export async function getUserConnections(smolFetch: SmolblogFetch): Promise<Conn
 		{provider: 'facebook', displayName: 'Evan Hildreth', channels: ['PillTimer','madcrasher']},
 	];
 
-	function timeout(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-	}
-	await timeout(5000);
-
 	return dummies.map(mock => {
 		return {
 			id: crypto.randomUUID(),
