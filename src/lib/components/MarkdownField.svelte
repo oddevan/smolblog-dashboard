@@ -1,12 +1,32 @@
 <script lang="ts">
+	import context from '$lib/stores/context';
 	import { createTextareaAutosize } from '@grail-ui/svelte';
 	import Icon from "./Icon.svelte";
+	import Loading from './Loading.svelte';
 
 	const { useTextareaAutosize } = createTextareaAutosize();
 
 	let showPreview = false;
-	let mdTextarea: HTMLElement|null = null;
+	let previewHtml = '';
 	let previewHeight = '1px';
+	let previewLoading = false;
+
+  let timer: NodeJS.Timeout | undefined;
+
+  $: value && debouncedPreview()
+
+  function debouncedPreview() {
+    clearTimeout(timer)
+    timer = setTimeout(updatePreview, 500)
+  }
+
+  async function updatePreview() {
+		previewLoading = true;
+		previewHtml = await $context.site?.preview.markdown(value) ?? '';
+		previewLoading = false;
+  }
+	
+	let mdTextarea: HTMLElement|null = null;
 
 	export let placeholder = 'Write something...';
 	export let value = '';
@@ -18,8 +38,6 @@
 		}
 		showPreview = !showPreview;
 	};
-
-	// $: rows = (value.match(/\n/g) || []).length + 1 || 1;
 </script>
 
 <style lang="scss">
@@ -46,9 +64,11 @@
 		{#if showPreview}
 		<div class="md-preview card" style:height={previewHeight} id={`${identifier}Preview`}>
 			<div class="card-body">
-				<p>Sometimes things take a <em>while.</em></p>
-				<p>Sometimes <strong>no one</strong> gets it.</p>
-				<p>Then there's me. <a href="https://www.dropout.tv/game-changer">I've been here the whole time.</a></p>
+				{#if previewLoading}
+					<Loading/>
+				{:else}
+					{@html previewHtml}
+				{/if}
 			</div>
 		</div>
 		{:else}

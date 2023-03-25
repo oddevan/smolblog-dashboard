@@ -1,4 +1,4 @@
-import { getUrlEmbed } from "./server";
+import { getMarkdown, getUrlEmbed } from "./server";
 import type { Site, SmolblogFetch } from "./types";
 import { getUserConnections, getUserProfile, getUserSites } from "./user";
 
@@ -141,6 +141,6 @@ class SmolblogSite {
 	}
 	preview = {
 		embed: (url: string) => getUrlEmbed(this.fetcher, url),
-		markdown: () => console.error('Smolblog.site.preview.markdown not implemented.'),
+		markdown: (markdown: string) => getMarkdown(this.fetcher, markdown),
 	}
 }
