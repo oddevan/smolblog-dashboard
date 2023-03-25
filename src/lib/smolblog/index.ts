@@ -72,7 +72,15 @@ class SmolblogServer {
 		this.fetcher = fetcher;
 	}
 
-	info = () => console.error('Smolblog.server.info not implemented.');
+	info = async () => {
+		return {
+			version: '0.2.0',
+			contact: {
+				admin: 'admin@smol.blog',
+				dmca: 'copyright@smol.blog',
+			}
+		}
+	};
 }
 
 class SmolblogUser {

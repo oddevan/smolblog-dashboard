@@ -5,6 +5,9 @@
   import { page } from '$app/stores';
 	import context from '../lib/stores/context';
 	import SiteSelectModal from "./SiteSelectModal.svelte";
+
+	let serverVersion = '';
+	$context.server.info().then(({ version }) => serverVersion = version);
 </script>
 
 <div class="container-fluid mx-auto" style="min-height: 100%">
@@ -48,6 +51,8 @@
 					</li>
 				</ul>
 			</nav>
+
+			<p class="mt-5 text-body-tertiary">Server version: {serverVersion}</p>
 
 		</div>
 		<div class="col-lg">
