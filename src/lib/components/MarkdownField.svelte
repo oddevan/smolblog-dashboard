@@ -1,8 +1,10 @@
 <script lang="ts">
+	import { createTextareaAutosize } from '@grail-ui/svelte';
 	import Icon from "./Icon.svelte";
 
+	const { useTextareaAutosize } = createTextareaAutosize();
+
 	let showPreview = false;
-	let rows = 1;
 	let mdTextarea: HTMLElement|null = null;
 	let previewHeight = '1px';
 
@@ -17,7 +19,7 @@
 		showPreview = !showPreview;
 	};
 
-	$: rows = (value.match(/\n/g) || []).length + 1 || 1;
+	// $: rows = (value.match(/\n/g) || []).length + 1 || 1;
 </script>
 
 <style lang="scss">
@@ -52,9 +54,10 @@
 		{:else}
 		<label for={`${identifier}Body`} class="form-label visually-hidden">What's going on?</label>
 		<textarea
+			use:useTextareaAutosize
 			class="form-control md-textarea"
+			rows={3}
 			id={`${identifier}Body`}
-			{rows}
 			{placeholder}
 			bind:value
 			bind:this={mdTextarea}
