@@ -1,10 +1,9 @@
 <script lang="ts">
 	import Syndication from "$lib/components/ContentExtensions/Syndication.svelte";
 import Tags from "$lib/components/ContentExtensions/Tags.svelte";
-import Icon from "$lib/components/Icon.svelte";
-	import MarkdownField from "$lib/components/MarkdownField.svelte";
 	import type { ComponentType } from "svelte";
-	import SveltyPicker from 'svelty-picker';
+	import Flatpickr from 'svelte-flatpickr';
+	import 'flatpickr/dist/flatpickr.css';
 
 	const availableExtensions: Array<{type: string, displayName: string, component: ComponentType}> = [
 		{
@@ -76,7 +75,7 @@ import Icon from "$lib/components/Icon.svelte";
 							{#if setTime}
 								<div class="mt-2">
 									<label for="publishTimePicker" class="form-label">Publish time</label>
-									<SveltyPicker inputClasses="form-control" format="yyyy-mm-dd hh:ii" bind:value={pubDate}></SveltyPicker>
+									<Flatpickr options={{ enableTime: true }} bind:value={pubDate}/>
 								</div>
 							{/if}
 	
