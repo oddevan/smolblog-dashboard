@@ -3,6 +3,7 @@
 	import theme from '../lib/stores/theme';
 	import { onMount } from 'svelte';
 	import context from '$lib/stores/context';
+	import user from "$lib/stores/user";
 	import type { SmolblogContext } from '$lib/smolblog';
 
 
@@ -25,6 +26,7 @@
 
 		const contextUnsubscribe = context.subscribe(api => {
 			localStorage.set<SmolblogContext>('context', api.context);
+			api.user?.profile.get().then(info => user.set(info));
 		})
 
 		const matcher = window.matchMedia("(prefers-color-scheme: dark)");

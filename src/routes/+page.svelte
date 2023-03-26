@@ -1,6 +1,6 @@
 <script>
 	import Icon from "$lib/components/Icon.svelte";
-	import context from "$lib/stores/context";
+	import context, { demoContext } from "$lib/stores/context";
 	import SidebarFrame from "./SidebarFrame.svelte";
 </script>
 
@@ -12,4 +12,10 @@
 		Select Site
 	</button>
 	{/if}
+
+	<button class="btn btn-secondary-outline" on:click={() => {
+		context.initWithContext(demoContext);
+	}}>
+		Restore Demo Context
+	</button>
 </SidebarFrame>

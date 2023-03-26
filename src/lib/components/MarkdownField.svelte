@@ -72,8 +72,8 @@
 			</div>
 		</div>
 		{:else}
-		<label for={`${identifier}Body`} class="form-label visually-hidden">What's going on?</label>
 		<textarea
+			aria-label={placeholder}
 			use:useTextareaAutosize
 			class="form-control md-textarea"
 			rows={3}

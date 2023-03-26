@@ -19,7 +19,10 @@ export default {
 	},
 	logout: () => {
 		update(lib => new Smolblog({ apiBase: lib.apiBase }));
-		localStorage.remove('authHeader');
-		localStorage.remove('currentSite');
 	}
 }
+
+export const demoContext: SmolblogContext = {
+	apiBase: '//smolblog.test/wp-json/smolblog/v2',
+	authHeader: 'Basic 12334567890asdfghjkl',
+};

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Icon from "$lib/components/Icon.svelte";
 	import SmolblogLogo from "$lib/components/SmolblogLogo.svelte";
+	import user from "$lib/stores/user";
+	import context from "$lib/stores/context";
 </script>
 
 <nav class="navbar navbar-expand bg-body-tertiary" id="main-nav">
@@ -12,25 +14,33 @@
 		<a class="navbar-brand d-none d-lg-block me-auto" href="/">
 			<SmolblogLogo />
 		</a>
-		<button class="btn btn-primary">
-			<Icon icon="journal-plus"/>
-			New
-		</button>
 		<ul class="navbar-nav">
+			{#if $context.site}
 			<li class="nav-item dropdown">
-				<a title="My account" class="nav-link dropdown-toggle active" href="#" role="button"
+				<button class="btn btn-link nav-link dropdown-toggle active"
+					data-bs-toggle="dropdown" aria-expanded="false">
+					<Icon icon="journal-plus"/>
+					New
+				</button>
+				<ul class="dropdown-menu dropdown-menu-end">
+					<li><a class="dropdown-item" href="/content/new/status">Status</a></li>
+					<li><a class="dropdown-item" href="/content/new/reblog">Reblog</a></li>
+				</ul>
+			</li>
+			{/if}
+			<li class="nav-item dropdown">
+				<button title="My account" class="btn btn-link nav-link dropdown-toggle active"
 					data-bs-toggle="dropdown" aria-expanded="false">
 					<img src="https://picsum.photos/50" width="24" height="24" alt="My Account" style="margin:0;padding:0">
-				</a>
+			</button>
 				<ul class="dropdown-menu dropdown-menu-end">
-					<li><span class="dropdown-item-text text-muted">Logged in as oddevan</span></li>
+					<li><span class="dropdown-item-text text-muted">Logged in as {$user?.displayName}</span></li>
 					<li><a class="dropdown-item" href="/account">Profile</a></li>
 					<li><a class="dropdown-item" href="/account/security">Security</a></li>
-					<li><a class="dropdown-item" href="/account/connections">Connections</a></li>
 					<li>
 						<hr class="dropdown-divider">
 					</li>
-					<li><a class="dropdown-item" href="#">Log Out</a></li>
+					<li><button class="dropdown-item" on:click={context.logout}>Log Out</button></li>
 				</ul>
 			</li>
 		</ul>
