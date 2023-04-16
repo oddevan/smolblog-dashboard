@@ -1,4 +1,4 @@
-import type { ConnectorConnection, Site, SmolblogFetch, UserProfile } from "../types";
+import type { ConnectorConnection, SetUserProfilePayload, Site, SmolblogFetch, UserProfile } from "../types";
 
 export async function getUserConnections(smolFetch: SmolblogFetch): Promise<ConnectorConnection[]> {
 	const dummies = [
@@ -38,10 +38,23 @@ export async function getUserSites(smolFetch: SmolblogFetch): Promise<Site[]> {
 }
 
 export async function getUserProfile(smolFetch: SmolblogFetch): Promise<UserProfile> {
-	return {
-		id: '5ec48adb-62f1-40bc-9128-aa1209313add',
-		email: 'snek@smol.blog',
-		handle: 'snek',
-		displayName: 'Smol Snek',
-	};
+	const response = await smolFetch({
+		endpoint: '/my/profile',
+	});
+
+	return response as UserProfile;
+}
+
+export async function setUserProfile(smolFetch: SmolblogFetch, profile: SetUserProfilePayload): Promise<boolean> {
+	if (!(profile.displayName || profile.handle || profile.pronouns)) {
+		throw new Error(`No updated attribute provided.`);
+	}
+
+	await smolFetch({
+		endpoint: '/my/profile/update',
+		verb: 'POST',
+		payload: JSON.stringify(profile),
+	});
+
+	return true;
 }

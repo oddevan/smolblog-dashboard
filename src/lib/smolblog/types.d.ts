@@ -26,6 +26,12 @@ export interface UserProfile {
 	pronouns?: string,
 };
 
+export interface SetUserProfilePayload {
+	handle?: string,
+	displayName?: string,
+	pronouns?: string,
+};
+
 export type SmolblogFetch = (args: {
 	endpoint: string,
 	verb?: string,

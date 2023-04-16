@@ -1,6 +1,6 @@
 import { getMarkdown, getUrlEmbed } from "./server";
-import type { Site, SmolblogFetch } from "./types";
-import { getUserConnections, getUserProfile, getUserSites } from "./user";
+import type { SetUserProfilePayload, Site, SmolblogFetch } from "./types";
+import { getUserConnections, getUserProfile, getUserSites, setUserProfile } from "./user";
 
 export interface SmolblogContext {
 	apiBase: string,
@@ -17,12 +17,42 @@ export default class Smolblog {
 	readonly user?: SmolblogUser;
 	readonly site?: SmolblogSite;
 
+	readonly fetch: SmolblogFetch;
+
 	constructor(props: SmolblogContext) {
 		const { apiBase, authHeader, currentSite } = props;
 
 		this.apiBase = apiBase;
 		this.authHeader = authHeader;
 		this.currentSite = currentSite;
+
+		this.fetch = async (props: { endpoint: string, verb?: string, payload?: BodyInit }) => {
+			const { endpoint, verb, payload } = props;
+			const options: RequestInit = {};
+			const headers: HeadersInit = {};
+	
+			if (this.authHeader) {
+				headers.Authorization = this.authHeader;
+			}
+	
+			if (payload) {
+				options.body = JSON.stringify(payload);
+				headers['Content-type'] = 'application/json';
+			}
+	
+			options.method = verb ?? payload ? 'POST' : 'GET';
+			options.headers = headers;
+	
+			const response = await fetch(`${this.apiBase}${endpoint}`, options);
+			// Some valid responses are not valid JSON (a "No Content" response, for example).
+			const responseData = await response.json().catch(() => { return {}; });
+	
+			if (!response.ok) {
+				throw new Error(`Error from Smolblog: ${responseData.error ?? response.status}`, responseData);
+			};
+			
+			return responseData;
+		};
 
 		this.server = new SmolblogServer(this.fetch);
 		if (this.authHeader) { this.user = new SmolblogUser(this.fetch); }
@@ -32,36 +62,9 @@ export default class Smolblog {
 	get context(): SmolblogContext {
 		return {
 			apiBase: this.apiBase,
-			authHeader: this.authHeader,
-			currentSite: this.currentSite,
+			authHeader: this.authHeader ?? undefined,
+			currentSite: this.currentSite ?? undefined,
 		};
-	}
-
-	async fetch(props: { endpoint: string, verb?: string, payload?: BodyInit }) {
-		const { endpoint, verb, payload } = props;
-		const options: RequestInit = {};
-		const headers: HeadersInit = {};
-
-		if (this.authHeader) {
-			headers.Authorization = this.authHeader;
-		}
-
-		if (payload) {
-			options.body = JSON.stringify(payload);
-			headers['Content-type'] = 'application/json';
-		}
-
-		options.method = verb ?? payload ? 'POST' : 'GET';
-		options.headers = headers;
-
-		const response = await fetch(`${this.apiBase}${endpoint}`, options);
-		const responseData = await response.json();
-
-		if (!response.ok) {
-			throw new Error(`Error from Smolblog: ${responseData.error ?? response.status}`, responseData);
-		};
-		
-		return responseData;
 	}
 }
 
@@ -92,7 +95,7 @@ class SmolblogUser {
 
 	profile = {
 		get: () => getUserProfile(this.fetcher),
-		set: () => console.error('Smolblog.user.profile.set not implemented.'),
+		set: (payload: SetUserProfilePayload) => setUserProfile(this.fetcher, payload),
 	}
 	sites = {
 		get: () => getUserSites(this.fetcher),
@@ -105,7 +108,6 @@ class SmolblogUser {
 		get: () => getUserConnections(this.fetcher),
 		init: () => console.error('Smolblog.user.connections.init not implemented.'),
 		refresh: () => console.error('Smolblog.user.connections.refresh not implemented.'),
-		delete: () => console.error('Smolblog.user.connections.delete not implemented.'),
 	}
 }
 
