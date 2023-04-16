@@ -5,7 +5,7 @@
 </script>
 
 <SidebarFrame>
-	{#if !$context.site}
+	{#if !$context?.site}
 	<p>Welcome! Select a site to get started.</p>
 	<button type="button" class="btn btn-primary p-2" data-bs-toggle="modal" data-bs-target="#siteSelectModal">
 		<Icon icon="window-stack"/>

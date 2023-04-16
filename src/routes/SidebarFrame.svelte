@@ -7,7 +7,7 @@
 	import SiteSelectModal from "./SiteSelectModal.svelte";
 
 	let serverVersion = '';
-	$context.server.info().then(({ version }) => serverVersion = version);
+	$context?.server.info().then(({ version }) => serverVersion = version);
 </script>
 
 <div class="container-fluid mx-auto" style="min-height: 100%">
@@ -27,7 +27,7 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/"><Icon icon="speedometer2"/> Dashboard</a>
 					</li>
-					{#if $context.site}
+					{#if $context?.site}
 					<!-- <li class="nav-item">
 						<a class="nav-link" href="/reader"><Icon icon="newspaper"/> Reader</a>
 						<slot name="reader-nav"/>

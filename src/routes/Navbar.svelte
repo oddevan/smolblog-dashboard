@@ -15,7 +15,7 @@
 			<SmolblogLogo />
 		</a>
 		<ul class="navbar-nav">
-			{#if $context.site}
+			{#if $context?.site}
 			<li class="nav-item dropdown">
 				<button class="btn btn-link nav-link dropdown-toggle active"
 					data-bs-toggle="dropdown" aria-expanded="false">
