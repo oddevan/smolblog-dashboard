@@ -13,22 +13,25 @@
   let initialPayload: SetUserProfilePayload|undefined;
 
   onMount(() => {
-    if ($context.user) {
-      $context.user.profile.get()
-        .then(res => {
-          profile = res;
-          loading = false;
-          payload = {
-            handle: profile.handle,
-            displayName: profile.displayName,
-            pronouns: profile.pronouns,
-          };
-          initialPayload = {...payload};
-        }).catch(e => error = e);
-    } else {
-      loading = false;
-      error = new Error('You must be logged in to access this page.');
-    }
+    context.subscribe(api => {
+      if (api?.user) {
+        api.user.profile.get()
+          .then(res => {
+            profile = res;
+            loading = false;
+            error = undefined;
+            payload = {
+              handle: profile.handle,
+              displayName: profile.displayName,
+              pronouns: profile.pronouns,
+            };
+            initialPayload = {...payload};
+          }).catch(e => error = e);
+      } else {
+        loading = false;
+        error = new Error('You must be logged in to access this page.');
+      }
+    });
   });
 
   const isValid: () => boolean = () => {
@@ -42,7 +45,7 @@
   const submit = async () => {
     if (payload) {
       console.log({payload});
-      return await $context.user?.profile.set(payload);
+      return await $context?.user?.profile.set(payload);
     }
     return false;
   }
@@ -86,7 +89,7 @@
         <span class="form-text" id="inputPronounsHelp">Optionaly indicate how you would like to be identified.</span>
       </div>
     </div>
-    <button class="btn btn-primary" on:click={submit}>Save</button>
+    <button class="btn btn-primary" disabled={!isValid()} on:click={submit}>Save</button>
   </form>
 {:else if loading}
   <Loading/>

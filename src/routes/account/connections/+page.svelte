@@ -5,7 +5,7 @@
 	import Error from "$lib/components/Error.svelte";
 </script>
 
-{#await $context.user?.connections.get() ?? []}
+{#await $context?.user?.connections.get() ?? []}
 	<Loading />
 {:then connections}
 	{#each connections as connection (connection.id) }

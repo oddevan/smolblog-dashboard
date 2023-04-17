@@ -3,13 +3,14 @@
 	import context from "$lib/stores/context";
 	import type { Site } from "$lib/smolblog/types";
 	import { onMount } from "svelte";
+	import Loading from "$lib/components/Loading.svelte";
+	import Error from "$lib/components/Error.svelte";
 
 	let sites: Site[] = [];
 	let siteName: string = 'Select Site';
 	
 	onMount(() => {
 		return context.subscribe(async api => {
-			sites = await api?.user?.sites.get() ?? [];
 			siteName = api?.currentSite?.displayName ?? 'Select Site';
 		});
 	});
@@ -29,15 +30,22 @@
 			</div>
 			<div class="modal-body">
 				<div class="list-group list-group-flush">
-					{#each sites as site (site.id)}
-					<button
-						class="list-group-item list-group-item-action"
-						data-bs-dismiss="modal"
-						on:click={() => context.setCurrentSite(site)}
-					>
-						{site.displayName}
-					</button>
-					{/each}
+					{#await $context?.user?.sites.get() ?? []}
+						<Loading />
+					{:then sites}
+						{console.log({sites})}
+						{#each sites as site (site.id)}
+						<button
+							class="list-group-item list-group-item-action"
+							data-bs-dismiss="modal"
+							on:click={() => context.setCurrentSite(site)}
+						>
+							{site.displayName}
+						</button>
+						{/each}
+					{:catch error}
+						<Error {error}/>
+					{/await}
 				</div>
 			</div>
 		</div>

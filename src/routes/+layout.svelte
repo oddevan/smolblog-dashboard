@@ -25,6 +25,8 @@
 		}
 
 		const contextUnsubscribe = context.subscribe(api => {
+			window['smolContext'] = api;
+
 			localStorage.set<SmolblogContext>('context', api.context);
 			api.user?.profile.get().then(info => user.set(info));
 		})
