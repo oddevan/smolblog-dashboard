@@ -2,7 +2,17 @@
 	import Connection from "./Connection.svelte";
 	import context from "$lib/stores/context";
 	import Loading from "$lib/components/Loading.svelte";
-	import Error from "$lib/components/Error.svelte";
+	import ErrorBox from "$lib/components/Error.svelte";
+
+	let err: Error|undefined;
+
+	const getKickoffFunction = (provider: string) => {
+		return () => {
+			$context?.user?.connections.init('microblog').
+				then(url => window.location.href = url).
+				catch(exc => err = exc);
+		};
+	};
 </script>
 
 {#await $context?.user?.connections.get() ?? []}
@@ -12,5 +22,13 @@
 		<Connection connection={connection} />
 	{/each}
 {:catch error}
-	<Error {error} />
+	<ErrorBox {error} />
 {/await}
+
+{#if err}
+	<ErrorBox error={err} />
+{/if}
+
+<h3>Connect</h3>
+
+<button on:click={getKickoffFunction('microblog')} class="btn btn-primary">Connect to Micro.blog</button>

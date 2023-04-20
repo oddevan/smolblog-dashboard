@@ -1,6 +1,7 @@
 import { getMarkdown, getUrlEmbed } from "./server";
 import type { SetUserProfilePayload, Site, SmolblogFetch } from "./types";
-import { getUserConnections, getUserProfile, getUserSites, setUserProfile } from "./user";
+import { getUserProfile, getUserSites, setUserProfile } from "./user";
+import { startConnectionSession, getUserConnections } from "./user/connections";
 
 export interface SmolblogContext {
 	apiBase: string,
@@ -106,7 +107,7 @@ class SmolblogUser {
 	}
 	connections = {
 		get: () => getUserConnections(this.fetcher),
-		init: () => console.error('Smolblog.user.connections.init not implemented.'),
+		init: (provider: string) => startConnectionSession(this.fetcher, provider),
 		refresh: () => console.error('Smolblog.user.connections.refresh not implemented.'),
 	}
 }

@@ -33,7 +33,6 @@
 					{#await $context?.user?.sites.get() ?? []}
 						<Loading />
 					{:then sites}
-						{console.log({sites})}
 						{#each sites as site (site.id)}
 						<button
 							class="list-group-item list-group-item-action"

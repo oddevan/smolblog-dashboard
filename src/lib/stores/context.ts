@@ -23,6 +23,6 @@ export default {
 }
 
 export const demoContext: SmolblogContext = {
-	apiBase: '//smolblog.test/wp-json/smolblog/v2',
-	authHeader: 'Basic 12334567890asdfghjkl',
+	apiBase: 'https://smolblog.localhost/wp-json/smolblog/v2',
+	authHeader: 'Basic YWRtaW46c0FuRSBxaHhDIEVJejYgMjZWUyA5ZFdRIHMzQ20=',
 };
