@@ -13,3 +13,19 @@ export async function getUserConnections(smolFetch: SmolblogFetch): Promise<Conn
 
 	return response.connections;
 }
+
+export async function linkChannelAndSite(
+	smolFetch: SmolblogFetch,
+	siteId: string,
+	channelId: string,
+	push: boolean,
+	pull: boolean
+): Promise<boolean> {
+	await smolFetch({
+		endpoint: `/connect/link`,
+		verb: 'PUT',
+		payload: JSON.stringify({ siteId, channelId, push, pull }),
+	});
+
+	return true;
+}

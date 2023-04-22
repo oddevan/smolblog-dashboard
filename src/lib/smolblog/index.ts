@@ -1,7 +1,7 @@
 import { getMarkdown, getUrlEmbed } from "./server";
 import type { SetUserProfilePayload, Site, SmolblogFetch } from "./types";
 import { getUserProfile, getUserSites, setUserProfile } from "./user";
-import { startConnectionSession, getUserConnections } from "./user/connections";
+import { startConnectionSession, getUserConnections, linkChannelAndSite } from "./user/connections";
 
 export interface SmolblogContext {
 	apiBase: string,
@@ -147,7 +147,8 @@ class SmolblogSite {
 		},
 		channels: {
 			get: () => console.error('Smolblog.site.settings.channels.get not implemented.'),
-			link: () => console.error('Smolblog.site.settings.channels.link not implemented.'),
+			link: (channelId: string, push: boolean, pull: boolean) =>
+				linkChannelAndSite(this.fetcher, this.siteId, channelId, push, pull),
 		}
 	}
 	preview = {
