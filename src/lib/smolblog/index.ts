@@ -1,7 +1,8 @@
 import { getMarkdown, getUrlEmbed } from "./server";
-import type { SetUserProfilePayload, Site, SmolblogFetch } from "./types";
+import type { SetUserProfilePayload, Site, SiteSettingsPayload, SmolblogFetch } from "./types";
 import { getUserProfile, getUserSites, setUserProfile } from "./user";
 import { startConnectionSession, getUserConnections, linkChannelAndSite, getSiteChannelsForAdmin } from "./connections";
+import { getSiteSettings, setSiteSettings } from "./site";
 
 export interface SmolblogContext {
 	apiBase: string,
@@ -27,7 +28,7 @@ export default class Smolblog {
 		this.authHeader = authHeader;
 		this.currentSite = currentSite;
 
-		this.fetch = async (props: { endpoint: string, verb?: string, payload?: never }) => {
+		this.fetch = async (props: { endpoint: string, verb?: string, payload?: unknown }) => {
 			const { endpoint, verb, payload } = props;
 			const options: RequestInit = {};
 			const headers: HeadersInit = {};
@@ -140,8 +141,8 @@ class SmolblogSite {
 	}
 	settings = {
 		general: {
-			get: () => console.error('Smolblog.site.settings.general.get not implemented.'),
-			set: () => console.error('Smolblog.site.settings.general.set not implemented.'),
+			get: () => getSiteSettings(this.fetcher, this.siteId),
+			set: (payload: SiteSettingsPayload) => setSiteSettings(this.fetcher, this.siteId, payload),
 		},
 		users: {
 			get: () => console.error('Smolblog.site.settings.users.get not implemented.'),

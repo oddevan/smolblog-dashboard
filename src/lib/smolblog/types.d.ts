@@ -25,6 +25,12 @@ export interface Site {
 	displayName: string,
 };
 
+export interface SiteSettingsPayload {
+	id?: string,
+	title: string,
+	tagline: string,
+}
+
 export interface UserProfile {
 	id: string,
 	email: string,
@@ -42,5 +48,5 @@ export interface SetUserProfilePayload {
 export type SmolblogFetch = (args: {
 	endpoint: string,
 	verb?: string,
-	payload?: never,
+	payload?: unknown,
 }) => Promise<unknown>;

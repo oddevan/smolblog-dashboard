@@ -1,3 +1,35 @@
+<script lang="ts">
+	import Form, { type FormField } from "$lib/components/Forms/Form.svelte";
+
+  const definition: FormField[] = [
+    {
+      name: 'siteId',
+      label: 'Site ID',
+      type: 'display',
+    },
+    {
+      name: 'title',
+      label: 'Title',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'tagline',
+      label: 'Tagline',
+      type: 'text',
+      description: 'Short (quippy?) description of the site.',
+      required: true,
+    },
+  ];
+
+  const initialData = { siteId: 'b000b1e5-293c-4b6d-b41e-b2ae152e1483' }
+
+</script>
+
+<Form {definition} {initialData} />
+
+<hr>
+
 <form>
   <div class="row mb-4">
     <label for="inputId" class="col-lg-2 col-form-label">Site ID</label>
