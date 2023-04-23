@@ -11,6 +11,13 @@ export interface ConnectorChannel {
 	id: string,
 	channelKey: string,
 	displayName: string,
+	connectionProvider?: string,
+	connectionName?: string,
+};
+
+export interface ConnectorChannelPlusLink extends ConnectorChannel {
+	canPull: boolean,
+	canPush: boolean,
 };
 
 export interface Site {
@@ -35,5 +42,5 @@ export interface SetUserProfilePayload {
 export type SmolblogFetch = (args: {
 	endpoint: string,
 	verb?: string,
-	payload?: BodyInit,
+	payload?: never,
 }) => Promise<unknown>;

@@ -1,20 +1,20 @@
 <script lang="ts">
 	import Icon from "$lib/components/Icon.svelte";
-import type { ConnectorChannel } from "$lib/smolblog/types";
+	import type { ConnectorChannelPlusLink } from "$lib/smolblog/types";
 	import context from "$lib/stores/context";
 	import { onMount } from "svelte";
 
-	export let channel: ConnectorChannel;
-	export let provider: string;
-	export let connection: string;
-	export let push: boolean = false;
-	export let pull: boolean = false;
+	export let channel: ConnectorChannelPlusLink;
+	let push: boolean = channel.canPush;
+	let pull: boolean = channel.canPull;
 
-	let original: { push: boolean, pull: boolean };
+	let original = { push: false, pull: false };
+	let enabled: boolean;
+	$: enabled = original.push != push || original.pull != pull;
 
 	const reset = () => original = { push, pull };
-	const enabled = () => original.push != push || original.pull != pull;
 	const save = () => {
+		enabled = false;
 		$context.site?.settings.channels.link(channel.id, push, pull);
 		reset();
 	};
@@ -24,8 +24,9 @@ import type { ConnectorChannel } from "$lib/smolblog/types";
 
 <div class="row">
 	<div class="col-sm-6">
-		<Icon icon={provider}/>
-		{connection}
+		<Icon icon={channel.connectionProvider}/>
+		{channel.connectionName}:
+		{channel.displayName}
 	</div>
 	<div class="col-xs-4 col-sm-2">
 		<div class="form-check form-switch">
@@ -44,6 +45,6 @@ import type { ConnectorChannel } from "$lib/smolblog/types";
 		</div>
 	</div>
 	<div class="col-xs-4 col-sm-2">
-		<button class="btn btn-sm btn-outline-primary" disabled={!enabled()} on:click={save}>Save</button>
+		<button class="btn btn-sm btn-outline-primary" disabled={!enabled} on:click={save}>Save</button>
 	</div>
 </div>

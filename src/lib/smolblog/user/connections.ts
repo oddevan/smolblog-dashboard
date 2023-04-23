@@ -1,4 +1,4 @@
-import type { ConnectorConnection, SmolblogFetch } from "../types";
+import type { ConnectorChannelPlusLink, ConnectorConnection, SmolblogFetch } from "../types";
 
 export async function startConnectionSession(smolFetch: SmolblogFetch, provider: string): Promise<string> {
 	const response = await smolFetch({
@@ -24,8 +24,16 @@ export async function linkChannelAndSite(
 	await smolFetch({
 		endpoint: `/connect/link`,
 		verb: 'PUT',
-		payload: JSON.stringify({ siteId, channelId, push, pull }),
+		payload: { siteId, channelId, push, pull },
 	});
 
 	return true;
+}
+
+export async function getSiteChannelsForAdmin(
+	smolFetch: SmolblogFetch,
+	siteId: string
+): Promise<ConnectorChannelPlusLink[]> {
+	const res = await smolFetch({ endpoint: `/site/${siteId}/channels` }) as { channels: ConnectorChannelPlusLink[] };
+	return res.channels;
 }

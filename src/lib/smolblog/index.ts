@@ -1,7 +1,7 @@
 import { getMarkdown, getUrlEmbed } from "./server";
 import type { SetUserProfilePayload, Site, SmolblogFetch } from "./types";
 import { getUserProfile, getUserSites, setUserProfile } from "./user";
-import { startConnectionSession, getUserConnections, linkChannelAndSite } from "./user/connections";
+import { startConnectionSession, getUserConnections, linkChannelAndSite, getSiteChannelsForAdmin } from "./user/connections";
 
 export interface SmolblogContext {
 	apiBase: string,
@@ -27,7 +27,7 @@ export default class Smolblog {
 		this.authHeader = authHeader;
 		this.currentSite = currentSite;
 
-		this.fetch = async (props: { endpoint: string, verb?: string, payload?: BodyInit }) => {
+		this.fetch = async (props: { endpoint: string, verb?: string, payload?: never }) => {
 			const { endpoint, verb, payload } = props;
 			const options: RequestInit = {};
 			const headers: HeadersInit = {};
@@ -41,8 +41,10 @@ export default class Smolblog {
 				headers['Content-type'] = 'application/json';
 			}
 	
-			options.method = verb ?? payload ? 'POST' : 'GET';
+			options.method = verb ?? (payload ? 'POST' : 'GET');
 			options.headers = headers;
+
+			console.log({options, endpoint, verb, payload});
 	
 			const response = await fetch(`${this.apiBase}${endpoint}`, options);
 			// Some valid responses are not valid JSON (a "No Content" response, for example).
@@ -146,7 +148,7 @@ class SmolblogSite {
 			set: () => console.error('Smolblog.site.settings.users.set not implemented.'),
 		},
 		channels: {
-			get: () => console.error('Smolblog.site.settings.channels.get not implemented.'),
+			get: () => getSiteChannelsForAdmin(this.fetcher, this.siteId),
 			link: (channelId: string, push: boolean, pull: boolean) =>
 				linkChannelAndSite(this.fetcher, this.siteId, channelId, push, pull),
 		}
