@@ -1,4 +1,4 @@
-import type { SmolblogFetch } from "../types";
+import type { SmolblogFetch } from "./types";
 
 export async function getUrlEmbed(fetcher: SmolblogFetch, url: string) {
 	function timeout(ms: number) {

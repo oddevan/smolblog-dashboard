@@ -1,7 +1,7 @@
 import { getMarkdown, getUrlEmbed } from "./server";
 import type { SetUserProfilePayload, Site, SmolblogFetch } from "./types";
 import { getUserProfile, getUserSites, setUserProfile } from "./user";
-import { startConnectionSession, getUserConnections, linkChannelAndSite, getSiteChannelsForAdmin } from "./user/connections";
+import { startConnectionSession, getUserConnections, linkChannelAndSite, getSiteChannelsForAdmin } from "./connections";
 
 export interface SmolblogContext {
 	apiBase: string,

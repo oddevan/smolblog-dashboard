@@ -1,4 +1,4 @@
-import type { SetUserProfilePayload, Site, SmolblogFetch, UserProfile } from "../types";
+import type { SetUserProfilePayload, Site, SmolblogFetch, UserProfile } from "./types";
 
 export async function getUserSites(smolFetch: SmolblogFetch): Promise<Site[]> {
 	const response = await smolFetch({ endpoint: '/my/sites' }) as {sites: Site[]};

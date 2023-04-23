@@ -1,4 +1,4 @@
-import type { ConnectorChannelPlusLink, ConnectorConnection, SmolblogFetch } from "../types";
+import type { ConnectorChannelPlusLink, ConnectorConnection, SmolblogFetch } from "./types";
 
 export async function startConnectionSession(smolFetch: SmolblogFetch, provider: string): Promise<string> {
 	const response = await smolFetch({
