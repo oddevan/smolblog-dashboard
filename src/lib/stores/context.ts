@@ -1,3 +1,4 @@
+import { PUBLIC_API_BASE } from "$env/static/public";
 import Smolblog, { type SmolblogContext } from "$lib/smolblog";
 import type { Site } from "$lib/smolblog/types";
 import { writable } from "svelte/store";
@@ -23,6 +24,6 @@ export default {
 }
 
 export const demoContext: SmolblogContext = {
-	apiBase: 'https://smolblog.localhost/wp-json/smolblog/v2',
+	apiBase: PUBLIC_API_BASE,
 	authHeader: 'Basic YWRtaW46c0FuRSBxaHhDIEVJejYgMjZWUyA5ZFdRIHMzQ20=',
 };
