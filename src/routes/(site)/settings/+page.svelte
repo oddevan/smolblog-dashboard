@@ -26,7 +26,7 @@
 
 </script>
 
-<Form {definition} {initialData} />
+<Form {definition} {initialData} setter={async () => {}} />
 
 <hr>
 

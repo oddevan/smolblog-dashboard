@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import type { ComponentType } from "svelte";
+	import { onMount, type ComponentType } from "svelte";
 
 	export interface FormField {
 		name: string,
@@ -12,28 +12,45 @@
 </script>
 
 <script lang="ts">
-  import { form, field, type Validator } from 'svelte-forms';
-  import { required } from 'svelte-forms/validators';
+  import { form as makeForm, field as makeField, type Validator } from 'svelte-forms';
+  import { required as requiredValidator } from 'svelte-forms/validators';
 	import TextField from './TextField.svelte';
 
 	export let definition: FormField[];
 	export let initialData: any = {};
 
 	const fields = definition.filter(fieldDef => fieldDef.type != 'display').map(fieldDef => {
-		const { name, required: isRequired } = fieldDef;
+		const { name, required } = fieldDef;
 
 		const value = initialData[fieldDef.name] ?? '';
 		const validators: Validator[] = [];
 
-		if (isRequired) { validators.push(required()); }
+		if (required) { validators.push(requiredValidator()); }
 
-		return field(name, value, validators);
+		return makeField(name, value, validators);
 	});
-	const formController = form(...fields)
+	const formController = makeForm(...fields)
+
+	export let getter: (() => Promise<any>) | undefined = undefined;
+	let loading = false;
+	let getError: Error|undefined;
+
+	export let setter: ((arg0: any) => Promise<void>);
+	let saving = false;
+	let setError: Error|undefined;
+
+	onMount(() => formController.subscribe(frm => console.log(frm)));
+
+	const handleSubmit = () => {
+		formController.validate();
+		if ($formController.valid) {
+			
+		}
+	}
 
 </script>
 
-<form>
+<form on:submit|preventDefault={handleSubmit}>
 	{#each definition as field (field.name)}
 		{#if field.type == 'text'}
 			<TextField definition={field} controller={formController.getField(field.name)} />
