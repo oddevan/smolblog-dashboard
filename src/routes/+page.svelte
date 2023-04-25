@@ -3,6 +3,7 @@
 	import { getContext } from "svelte";
 	import SidebarFrame from "./SidebarFrame.svelte";
 	import { demoContext, type SmolblogStore } from "$lib/stores/context";
+	import LoginModal from "./LoginModal.svelte";
 
 	const context = getContext<SmolblogStore>('smolblog');
 </script>
@@ -21,4 +22,6 @@
 	}}>
 		Restore Demo Context
 	</button>
+
+	<LoginModal/>
 </SidebarFrame>

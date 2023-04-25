@@ -1,4 +1,4 @@
-import { getMarkdown, getUrlEmbed } from "./server";
+import { getMarkdown, getServerInfo, getUrlEmbed } from "./server";
 import type { SetUserProfilePayload, Site, SiteSettingsPayload, SmolblogFetch } from "./types";
 import { getUserProfile, getUserSites, setUserProfile } from "./user";
 import { startConnectionSession, getUserConnections, linkChannelAndSite, getSiteChannelsForAdmin } from "./connections";
@@ -79,15 +79,7 @@ class SmolblogServer {
 		this.fetcher = fetcher;
 	}
 
-	info = async () => {
-		return {
-			version: '0.2.0',
-			contact: {
-				admin: 'admin@smol.blog',
-				dmca: 'copyright@smol.blog',
-			}
-		}
-	};
+	info = () => getServerInfo(this.fetcher);
 }
 
 class SmolblogUser {

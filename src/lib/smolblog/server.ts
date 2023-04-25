@@ -17,3 +17,7 @@ export async function getMarkdown(fetcher: SmolblogFetch, markdown: string) {
 
 	return '<p>Sometimes things take a <em>while.</em></p><p>Sometimes <strong>no one</strong> gets it.</p><p>Then there\'s me. <a href="https://www.dropout.tv/game-changer">I\'ve been here the whole time.</a></p>';
 }
+
+export function getServerInfo(fetcher: SmolblogFetch) {
+	return fetcher({ endpoint: '/hello' });
+}
