@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Navbar from './Navbar.svelte';
-	import theme from '../lib/stores/theme';
 	import { onMount, setContext } from 'svelte';
+	import Navbar from './Navbar.svelte';
+	import theme from '$lib/stores/theme';
 	import context from '$lib/stores/context';
 	import user from "$lib/stores/user";
 	import type { SmolblogContext } from '$lib/smolblog';
