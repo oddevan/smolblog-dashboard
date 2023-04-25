@@ -1,7 +1,10 @@
-<script>
+<script lang="ts">
 	import Icon from "$lib/components/Icon.svelte";
-	import context, { demoContext } from "$lib/stores/context";
+	import { getContext } from "svelte";
 	import SidebarFrame from "./SidebarFrame.svelte";
+	import { demoContext, type SmolblogStore } from "$lib/stores/context";
+
+	const context = getContext<SmolblogStore>('smolblog');
 </script>
 
 <SidebarFrame>

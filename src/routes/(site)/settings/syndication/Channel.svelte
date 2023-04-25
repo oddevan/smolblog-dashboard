@@ -1,8 +1,10 @@
 <script lang="ts">
 	import Icon from "$lib/components/Icon.svelte";
 	import type { ConnectorChannelPlusLink } from "$lib/smolblog/types";
-	import context from "$lib/stores/context";
-	import { onMount } from "svelte";
+	import type { SmolblogStore } from "$lib/stores/context";
+	import { getContext, onMount } from "svelte";
+
+	const context = getContext<SmolblogStore>('smolblog');
 
 	export let channel: ConnectorChannelPlusLink;
 	let push: boolean = channel.canPush;

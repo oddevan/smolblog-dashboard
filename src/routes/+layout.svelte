@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Navbar from './Navbar.svelte';
 	import theme from '../lib/stores/theme';
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
 	import context from '$lib/stores/context';
 	import user from "$lib/stores/user";
 	import type { SmolblogContext } from '$lib/smolblog';
@@ -14,6 +14,10 @@
 	// @ts-ignore
 	// import * as bootstrap from "bootstrap";
 
+	setContext('smolblog', context);
+	setContext('user', user);
+	setContext('theme', theme);
+
 	onMount(async () => {
 		const { Vault } = await import('@ultimate/vault');
 		const bootstrap = await import('bootstrap');
@@ -25,8 +29,6 @@
 		}
 
 		const contextUnsubscribe = context.subscribe(api => {
-			window['smolContext'] = api;
-
 			localStorage.set<SmolblogContext>('context', api.context);
 			api.user?.profile.get().then(info => user.set(info));
 		})

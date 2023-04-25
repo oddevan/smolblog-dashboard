@@ -1,10 +1,18 @@
 import { PUBLIC_API_BASE } from "$env/static/public";
 import Smolblog, { type SmolblogContext } from "$lib/smolblog";
 import type { Site } from "$lib/smolblog/types";
-import { writable } from "svelte/store";
+import { writable, type Readable } from "svelte/store";
+
+export interface SmolblogStore extends Readable<Smolblog> {
+	init: (base: string) => void,
+	initWithContext: (props: SmolblogContext) => void,
+	setAuthHeader: (header: string) => void,
+	setCurrentSite: (site: Site) => void,
+	logout: () => void,
+};
 
 const { subscribe, set, update } = writable<Smolblog>();
-export default {
+const store: SmolblogStore = {
 	subscribe,
 	init(base: string) {
 		set(new Smolblog({ apiBase: base }));
@@ -22,6 +30,8 @@ export default {
 		update(lib => new Smolblog({ apiBase: lib.apiBase }));
 	}
 }
+
+export default store;
 
 export const demoContext: SmolblogContext = {
 	apiBase: PUBLIC_API_BASE,

@@ -1,10 +1,12 @@
 <script lang="ts">
 	import Icon from "$lib/components/Icon.svelte";
-	import context from "$lib/stores/context";
 	import type { Site } from "$lib/smolblog/types";
-	import { onMount } from "svelte";
+	import { getContext, onMount } from "svelte";
 	import Loading from "$lib/components/Loading.svelte";
 	import Error from "$lib/components/Error.svelte";
+	import type { SmolblogStore } from "$lib/stores/context";
+
+	const context = getContext<SmolblogStore>('smolblog');
 
 	let sites: Site[] = [];
 	let siteName: string = 'Select Site';

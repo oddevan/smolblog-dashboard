@@ -1,10 +1,11 @@
 <script lang="ts">
 	import Loading from "$lib/components/Loading.svelte";
 	import type { ConnectorChannelPlusLink } from "$lib/smolblog/types";
-	import context from "$lib/stores/context";
-	import { onMount } from "svelte";
+	import { getContext, onMount } from "svelte";
 	import Channel from "./Channel.svelte";
+	import type { SmolblogStore } from "$lib/stores/context";
 
+	const context = getContext<SmolblogStore>('smolblog');
 
 	let loading = true;
 	let availabeChannels: ConnectorChannelPlusLink[] = [];

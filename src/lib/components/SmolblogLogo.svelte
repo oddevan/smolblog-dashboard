@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-	import theme from "../stores/theme";
+	import type { DashboardThemeStore } from "$lib/stores/theme";
+	import { getContext, onMount } from "svelte";
+
+	const theme = getContext<DashboardThemeStore>('theme');
 
 	export let height = 30;
 	let logoVariant = 'onwhite';

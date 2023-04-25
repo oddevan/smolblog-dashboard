@@ -3,8 +3,11 @@
 	import Icon from "../lib/components/Icon.svelte";
 	import SmolblogLogo from "../lib/components/SmolblogLogo.svelte";
   import { page } from '$app/stores';
-	import context from '../lib/stores/context';
 	import SiteSelectModal from "./SiteSelectModal.svelte";
+	import type { SmolblogStore } from "$lib/stores/context";
+	import { getContext } from "svelte";
+
+	const context = getContext<SmolblogStore>('smolblog');
 
 	let serverVersion = '';
 	$context?.server.info().then(({ version }) => serverVersion = version);

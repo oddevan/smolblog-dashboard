@@ -1,6 +1,9 @@
-<script>
+<script lang="ts">
+	import { getContext } from "svelte";
 	import Theme from "./Theme.svelte";
-	import activeTheme from "$lib/stores/theme";
+	import type { DashboardThemeStore } from "$lib/stores/theme";
+
+	const activeTheme = getContext<DashboardThemeStore>('theme');
 </script>
 
 <div class="row">

@@ -1,4 +1,14 @@
-import { writable } from 'svelte/store';
+import { writable, type Readable } from 'svelte/store';
+
+export interface DashboardTheme {
+	userPref: string,
+	browserPref: string,
+	currentTheme: () => string,
+}
+export interface DashboardThemeStore extends Readable<DashboardTheme> {
+	setUserPref: (pref: string) => void,
+	setBrowserPref: (pref: string) => void,
+};
 
 export const getCurrentTheme = () => {
 	return document.documentElement.dataset.bsTheme;
@@ -12,7 +22,7 @@ const { subscribe, update } = writable({
 	}
 });
 
-export default {
+const store: DashboardThemeStore = {
 	subscribe,
 	setUserPref(pref: string) {
 		update(current => { return { ...current, userPref: pref }; });
@@ -21,3 +31,4 @@ export default {
 		update(current => { return { ...current, browserPref: pref }; });
 	},
 };
+export default store;

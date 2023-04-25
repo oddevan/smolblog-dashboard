@@ -1,9 +1,11 @@
 <script lang="ts">
-	import context from '$lib/stores/context';
 	import { createTextareaAutosize } from '@grail-ui/svelte';
 	import Icon from "./Icon.svelte";
 	import Loading from './Loading.svelte';
+	import { getContext } from 'svelte';
+	import type { SmolblogStore } from '$lib/stores/context';
 
+	const context = getContext<SmolblogStore>('smolblog');
 	const { useTextareaAutosize } = createTextareaAutosize();
 
 	let showPreview = false;

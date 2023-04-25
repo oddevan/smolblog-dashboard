@@ -1,8 +1,13 @@
 <script lang="ts">
 	import Icon from "$lib/components/Icon.svelte";
 	import SmolblogLogo from "$lib/components/SmolblogLogo.svelte";
-	import user from "$lib/stores/user";
-	import context from "$lib/stores/context";
+	import type { UserProfile } from "$lib/smolblog/types";
+	import type { SmolblogStore } from "$lib/stores/context";
+	import { getContext } from "svelte";
+	import type { Writable } from "svelte/store";
+
+	const user = getContext<Writable<UserProfile>>('user');
+	const context = getContext<SmolblogStore>('smolblog');
 </script>
 
 <nav class="navbar navbar-expand bg-body-tertiary" id="main-nav">

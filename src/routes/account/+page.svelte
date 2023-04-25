@@ -2,9 +2,10 @@
 	import ErrorBox from "$lib/components/Error.svelte";
   import Loading from "$lib/components/Loading.svelte";
 	import type { SetUserProfilePayload, UserProfile } from "$lib/smolblog/types";
-  import context from "$lib/stores/context";
-	import { onMount } from "svelte";
-	import { load } from "../+page";
+	import type { SmolblogStore } from "$lib/stores/context";
+	import { getContext, onMount } from "svelte";
+
+	const context = getContext<SmolblogStore>('smolblog');
 
   let loading = true;
   let error: Error|undefined;
