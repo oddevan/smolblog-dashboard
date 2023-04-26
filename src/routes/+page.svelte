@@ -22,6 +22,4 @@
 	}}>
 		Restore Demo Context
 	</button>
-
-	<LoginModal/>
 </SidebarFrame>

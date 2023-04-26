@@ -5,12 +5,32 @@
 	import Smolblog from "$lib/smolblog";
 	import type { SmolblogStore } from "$lib/stores/context";
 	import { getContext, onMount } from "svelte";
+	import type { Modal } from "bootstrap";
 
 	const context = getContext<SmolblogStore>('smolblog');
-	export let modalElement: HTMLElement|undefined = undefined;
+	export let showModal: boolean;
 
+	let modalElement: HTMLElement;
 	let newBase: string;
-	onMount(() => newBase = $context?.apiBase ?? PUBLIC_API_BASE);
+
+	let modalController: Modal;
+
+	onMount(async () => {
+		newBase = $context?.apiBase ?? PUBLIC_API_BASE;
+
+		if (showModal) {
+			const bootstrap = await import('bootstrap');
+			modalController = bootstrap.Modal.getOrCreateInstance(modalElement);
+
+			modalController.show();
+		}
+	});
+
+	$: if (showModal) {
+		modalController?.show();
+	} else {
+		modalController?.hide();
+	}
 
 	let connected = false;
 	let errored = false;
@@ -48,12 +68,10 @@
 		try {
 			if (!modalElement || !connected || !uname || !pass) { return; }
 
-			const bootstrap = await import('bootstrap');
-
 			const authHeader = `Basic ${btoa(`${uname}:${pass}`)}`;
 			context.initWithContext({ apiBase: newBase, authHeader });
 
-			bootstrap.Modal.getOrCreateInstance(modalElement).hide();
+			modalController.hide();
 		} catch (error) {
 			loginError = error as Error;
 		}

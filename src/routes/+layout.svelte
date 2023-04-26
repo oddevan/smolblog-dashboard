@@ -32,6 +32,8 @@
 		const contextUnsubscribe = context.subscribe(api => {
 			localStorage.set<SmolblogContext>('context', api.context);
 			api.user?.profile.get().then(info => user.set(info));
+
+			showModal = !(api?.user)
 		})
 
 		const matcher = window.matchMedia("(prefers-color-scheme: dark)");
@@ -50,21 +52,11 @@
 		};
 	});
 
-	let modalElement: HTMLElement;
-
-	// $: if (modalElement) {
-	// 	if (!$context?.user) {
-	// 		bootstrap.Modal.getOrCreateInstance(modalElement).show();
-	// 	} else {
-	// 		bootstrap.Modal.getOrCreateInstance(modalElement).hide();
-	// 	}
-	// }
+	let showModal = false;
 </script>
 
 <Navbar/>
 
 <slot/>
 
-{#if !$context?.user}
-	<LoginModal bind:modalElement={modalElement} />
-{/if}
+<LoginModal bind:showModal />

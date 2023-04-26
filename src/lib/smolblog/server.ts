@@ -19,5 +19,5 @@ export async function getMarkdown(fetcher: SmolblogFetch, markdown: string) {
 }
 
 export function getServerInfo(fetcher: SmolblogFetch) {
-	return fetcher({ endpoint: '/hello' });
+	return fetcher({ endpoint: '/hello' }) as Promise<{ serverVersion: string, specHref: string }>;
 }

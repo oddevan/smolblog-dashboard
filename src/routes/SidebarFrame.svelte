@@ -5,12 +5,12 @@
   import { page } from '$app/stores';
 	import SiteSelectModal from "./SiteSelectModal.svelte";
 	import type { SmolblogStore } from "$lib/stores/context";
-	import { getContext } from "svelte";
+	import { getContext, onMount } from "svelte";
 
 	const context = getContext<SmolblogStore>('smolblog');
 
-	let serverVersion = '';
-	$context?.server.info().then(({ version }) => serverVersion = version);
+	let version = '';
+	onMount(() => $context?.server.info().then(({ serverVersion }) => version = serverVersion));
 </script>
 
 <div class="container-fluid mx-auto" style="min-height: 100%">
@@ -55,7 +55,7 @@
 				</ul>
 			</nav>
 
-			<p class="mt-5 text-body-tertiary">Server version: {serverVersion}</p>
+			<p class="mt-5 text-body-tertiary">Server version: {version}</p>
 
 		</div>
 		<div class="col-lg">
