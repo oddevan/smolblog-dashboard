@@ -9,6 +9,7 @@
 
 	// Import our custom CSS
 	import '$lib/scss/index.scss';
+	import LoginModal from './LoginModal.svelte';
 
 	// Import all of Bootstrap's JS
 	// @ts-ignore
@@ -48,8 +49,22 @@
 			themeUnsubscribe();
 		};
 	});
+
+	let modalElement: HTMLElement;
+
+	// $: if (modalElement) {
+	// 	if (!$context?.user) {
+	// 		bootstrap.Modal.getOrCreateInstance(modalElement).show();
+	// 	} else {
+	// 		bootstrap.Modal.getOrCreateInstance(modalElement).hide();
+	// 	}
+	// }
 </script>
 
 <Navbar/>
 
 <slot/>
+
+{#if !$context?.user}
+	<LoginModal bind:modalElement={modalElement} />
+{/if}
