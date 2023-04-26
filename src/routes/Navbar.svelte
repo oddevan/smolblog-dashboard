@@ -9,7 +9,7 @@
 
 	let displayName: string;
 	onMount(() => context.subscribe(async api => {
-		if (!api.user) { return; }
+		if (!api?.user) { return; }
 		const profile = await api.user.profile.get();
 
 		displayName = profile.displayName ?? profile.handle;

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PUBLIC_API_BASE } from "$env/static/public";
-	import ErrorBox from "$lib/components/Error.svelte";
+	import ErrorBox from "$lib/components/ErrorBox.svelte";
 	import SmolblogLogo from "$lib/components/SmolblogLogo.svelte";
 	import Smolblog from "$lib/smolblog";
 	import type { SmolblogStore } from "$lib/stores/context";
@@ -21,7 +21,7 @@
 		modalController = bootstrap.Modal.getOrCreateInstance(modalElement);
 
 		return context.subscribe(api => {
-			if (!api.authHeader) {
+			if (api && !api.authHeader) {
 				modalController.show();
 			} else {
 				modalController.hide();
@@ -134,6 +134,9 @@
 					</span>
 				</div>
 
+				<!-- TODO: Check the server for supported auth schemes. -->
+				<!-- BIGGER TODO: Implement an OAuth flow here -->
+				<!-- REALLY BIG TODO: Get OAuth working on the server ^_^;; -->
 				<div class="mb-3">
 					<label for="inputHandle" class="form-label">Username</label>
 					<input type="text" disabled={!connected} class="form-control" id="inputHandle" placeholder="admin" bind:value={uname}>

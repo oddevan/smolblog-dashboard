@@ -2,7 +2,7 @@
 	import Connection from "./Connection.svelte";
 	import context from "$lib/stores/context";
 	import Loading from "$lib/components/Loading.svelte";
-	import ErrorBox from "$lib/components/Error.svelte";
+	import ErrorBox from "$lib/components/ErrorBox.svelte";
 
 	let err: Error|undefined;
 

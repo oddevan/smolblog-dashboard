@@ -3,7 +3,7 @@
 	import type { Site } from "$lib/smolblog/types";
 	import { getContext, onMount } from "svelte";
 	import Loading from "$lib/components/Loading.svelte";
-	import Error from "$lib/components/Error.svelte";
+	import Error from "$lib/components/ErrorBox.svelte";
 	import type { SmolblogStore } from "$lib/stores/context";
 
 	const context = getContext<SmolblogStore>('smolblog');

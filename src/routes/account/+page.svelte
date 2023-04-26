@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ErrorBox from "$lib/components/Error.svelte";
+	import ErrorBox from "$lib/components/ErrorBox.svelte";
   import Loading from "$lib/components/Loading.svelte";
 	import type { SetUserProfilePayload, UserProfile } from "$lib/smolblog/types";
 	import type { SmolblogStore } from "$lib/stores/context";
