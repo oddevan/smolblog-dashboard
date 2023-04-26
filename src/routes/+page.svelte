@@ -2,7 +2,7 @@
 	import Icon from "$lib/components/Icon.svelte";
 	import { getContext } from "svelte";
 	import SidebarFrame from "./SidebarFrame.svelte";
-	import { demoContext, type SmolblogStore } from "$lib/stores/context";
+	import type { SmolblogStore } from "$lib/stores/context";
 	import LoginModal from "./LoginModal.svelte";
 
 	const context = getContext<SmolblogStore>('smolblog');
@@ -16,10 +16,4 @@
 		Select Site
 	</button>
 	{/if}
-
-	<button class="btn btn-secondary-outline" on:click={() => {
-		context.initWithContext(demoContext);
-	}}>
-		Restore Demo Context
-	</button>
 </SidebarFrame>

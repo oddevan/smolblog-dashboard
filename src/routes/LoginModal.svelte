@@ -8,7 +8,6 @@
 	import type { Modal } from "bootstrap";
 
 	const context = getContext<SmolblogStore>('smolblog');
-	export let showModal: boolean;
 
 	let modalElement: HTMLElement;
 	let newBase: string;
@@ -18,19 +17,17 @@
 	onMount(async () => {
 		newBase = $context?.apiBase ?? PUBLIC_API_BASE;
 
-		if (showModal) {
-			const bootstrap = await import('bootstrap');
-			modalController = bootstrap.Modal.getOrCreateInstance(modalElement);
+		const bootstrap = await import('bootstrap');
+		modalController = bootstrap.Modal.getOrCreateInstance(modalElement);
 
-			modalController.show();
-		}
+		return context.subscribe(api => {
+			if (!api.authHeader) {
+				modalController.show();
+			} else {
+				modalController.hide();
+			}
+		});
 	});
-
-	$: if (showModal) {
-		modalController?.show();
-	} else {
-		modalController?.hide();
-	}
 
 	let connected = false;
 	let errored = false;

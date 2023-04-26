@@ -7,7 +7,7 @@ import { getSiteSettings, setSiteSettings } from "./site";
 export interface SmolblogContext {
 	apiBase: string,
 	authHeader?: string,
-	currentSite?: Site
+	currentSite?: Site,
 }
 
 export default class Smolblog {

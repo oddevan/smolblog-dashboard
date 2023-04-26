@@ -3,20 +3,13 @@
 	import Navbar from './Navbar.svelte';
 	import theme from '$lib/stores/theme';
 	import context from '$lib/stores/context';
-	import user from "$lib/stores/user";
 	import type { SmolblogContext } from '$lib/smolblog';
-
 
 	// Import our custom CSS
 	import '$lib/scss/index.scss';
 	import LoginModal from './LoginModal.svelte';
 
-	// Import all of Bootstrap's JS
-	// @ts-ignore
-	// import * as bootstrap from "bootstrap";
-
 	setContext('smolblog', context);
-	setContext('user', user);
 	setContext('theme', theme);
 
 	onMount(async () => {
@@ -31,9 +24,6 @@
 
 		const contextUnsubscribe = context.subscribe(api => {
 			localStorage.set<SmolblogContext>('context', api.context);
-			api.user?.profile.get().then(info => user.set(info));
-
-			showModal = !(api?.user)
 		})
 
 		const matcher = window.matchMedia("(prefers-color-scheme: dark)");
@@ -51,12 +41,10 @@
 			themeUnsubscribe();
 		};
 	});
-
-	let showModal = false;
 </script>
 
 <Navbar/>
 
 <slot/>
 
-<LoginModal bind:showModal />
+<LoginModal />

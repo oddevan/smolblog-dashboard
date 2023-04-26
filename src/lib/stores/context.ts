@@ -1,4 +1,3 @@
-import { PUBLIC_API_BASE } from "$env/static/public";
 import Smolblog, { type SmolblogContext } from "$lib/smolblog";
 import type { Site } from "$lib/smolblog/types";
 import { writable, type Readable } from "svelte/store";
@@ -32,8 +31,3 @@ const store: SmolblogStore = {
 }
 
 export default store;
-
-export const demoContext: SmolblogContext = {
-	apiBase: PUBLIC_API_BASE,
-	authHeader: 'Basic YWRtaW46c0FuRSBxaHhDIEVJejYgMjZWUyA5ZFdRIHMzQ20=',
-};

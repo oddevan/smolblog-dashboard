@@ -1,13 +1,19 @@
 <script lang="ts">
 	import Icon from "$lib/components/Icon.svelte";
 	import SmolblogLogo from "$lib/components/SmolblogLogo.svelte";
-	import type { UserProfile } from "$lib/smolblog/types";
 	import type { SmolblogStore } from "$lib/stores/context";
 	import { getContext } from "svelte";
-	import type { Writable } from "svelte/store";
+	import { onMount } from "svelte";
 
-	const user = getContext<Writable<UserProfile>>('user');
 	const context = getContext<SmolblogStore>('smolblog');
+
+	let displayName: string;
+	onMount(() => context.subscribe(async api => {
+		if (!api.user) { return; }
+		const profile = await api.user.profile.get();
+
+		displayName = profile.displayName ?? profile.handle;
+	}));
 </script>
 
 <nav class="navbar navbar-expand bg-body-tertiary" id="main-nav">
@@ -33,13 +39,14 @@
 				</ul>
 			</li>
 			{/if}
+			{#if $context?.user}
 			<li class="nav-item dropdown">
 				<button title="My account" class="btn btn-link nav-link dropdown-toggle active"
 					data-bs-toggle="dropdown" aria-expanded="false">
 					<img src="https://picsum.photos/50" width="24" height="24" alt="My Account" style="margin:0;padding:0">
-			</button>
+				</button>
 				<ul class="dropdown-menu dropdown-menu-end">
-					<li><span class="dropdown-item-text text-muted">Logged in as {$user?.displayName}</span></li>
+					<li><span class="dropdown-item-text text-muted">Logged in as {displayName}</span></li>
 					<li><a class="dropdown-item" href="/account">Profile</a></li>
 					<li><a class="dropdown-item" href="/account/security">Security</a></li>
 					<li>
@@ -48,6 +55,7 @@
 					<li><button class="dropdown-item" on:click={context.logout}>Log Out</button></li>
 				</ul>
 			</li>
+			{/if}
 		</ul>
 	</div>
 </nav>
