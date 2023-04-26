@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import { onMount, type ComponentType } from "svelte";
+	import { onMount, type ComponentType, getContext } from "svelte";
 
 	export interface FormField {
 		name: string,
@@ -15,11 +15,13 @@
   import { form as makeForm, field as makeField, type Validator } from 'svelte-forms';
   import { required as requiredValidator } from 'svelte-forms/validators';
 	import TextField from './TextField.svelte';
+	import DisplayField from './DisplayField.svelte';
+	import ErrorBox from '../ErrorBox.svelte';
 
 	export let definition: FormField[];
 	export let initialData: any = {};
 
-	const fields = definition.filter(fieldDef => fieldDef.type != 'display').map(fieldDef => {
+	const fields = definition.map(fieldDef => {
 		const { name, required } = fieldDef;
 
 		const value = initialData[fieldDef.name] ?? '';
@@ -51,27 +53,14 @@
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
+	{#if getError}
+		<ErrorBox error={getError}/>
+	{/if}
 	{#each definition as field (field.name)}
 		{#if field.type == 'text'}
 			<TextField definition={field} controller={formController.getField(field.name)} />
 		{:else if field.type == 'display'}
-		{@const { name, label, description } = field}
-		<div class="row mb-4">
-			<label for="input-{name}" class="col-lg-2 col-form-label">{label}</label>
-			<div class="col-lg">
-				<input
-					type="text"
-					readonly
-					class="form-control-plaintext"
-					id="input-{name}"
-					aria-describedby={description ? `description-${name}` : undefined}
-					value={initialData[name] ?? ''}
-				>
-				{#if description}
-				<span class="form-text" id="description-{name}">{description}</span>
-				{/if}
-			</div>
-		</div>
+			<DisplayField definition={field} controller={formController.getField(field.name)} />
 		{/if}
 	{/each}
 </form>
