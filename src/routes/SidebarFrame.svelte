@@ -5,12 +5,11 @@
   import { page } from '$app/stores';
 	import SiteSelectModal from "./SiteSelectModal.svelte";
 	import type { SmolblogStore } from "$lib/stores/context";
-	import { getContext, onMount } from "svelte";
+	import { getContext } from "svelte";
 
 	const context = getContext<SmolblogStore>('smolblog');
 
-	let version = '';
-	onMount(() => $context?.server.info().then(({ serverVersion }) => version = serverVersion));
+	export let serverVersion = '';
 </script>
 
 <div class="container-fluid mx-auto" style="min-height: 100%">
@@ -23,14 +22,12 @@
 				<button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebar"  aria-label="Close"></button>
 			</div>
 
-			<SiteSelectModal/>
-
 			<nav>
 				<ul class="nav nav-pills flex-column" id="sidebar-nav">
 					<li class="nav-item">
 						<a class="nav-link" href="/"><Icon icon="speedometer2"/> Dashboard</a>
 					</li>
-					{#if $context?.site}
+					{#if $context?.currentSiteId}
 					<!-- <li class="nav-item">
 						<a class="nav-link" href="/reader"><Icon icon="newspaper"/> Reader</a>
 						<slot name="reader-nav"/>
@@ -55,7 +52,7 @@
 				</ul>
 			</nav>
 
-			<p class="mt-5 text-body-tertiary">Server version: {version}</p>
+			<p class="mt-5 text-body-tertiary">Server version: {serverVersion}</p>
 
 		</div>
 		<div class="col-lg">

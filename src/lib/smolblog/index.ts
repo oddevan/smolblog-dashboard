@@ -13,20 +13,17 @@ export interface SmolblogContext {
 export default class Smolblog {
 	readonly apiBase: string;
 	readonly authHeader?: string;
-	readonly currentSiteId?: string;
 
 	readonly server: SmolblogServer;
 	readonly user?: SmolblogUser;
-	readonly site?: SmolblogSite;
 
 	readonly fetch: SmolblogFetch;
 
-	constructor(props: SmolblogContext, fetcher = window?.fetch) {
-		const { apiBase, authHeader, currentSiteId } = props;
+	constructor(props: SmolblogContext, fetcher = window?.fetch ) {
+		const { apiBase, authHeader } = props;
 
 		this.apiBase = apiBase;
 		this.authHeader = authHeader;
-		this.currentSiteId = currentSiteId;
 
 		this.fetch = async (props: { endpoint: string, verb?: string, payload?: unknown }) => {
 			const { endpoint, verb, payload } = props;
@@ -45,7 +42,7 @@ export default class Smolblog {
 			options.method = verb ?? (payload ? 'POST' : 'GET');
 			options.headers = headers;
 
-			console.log({options, endpoint, verb, payload});
+			console.log('Smolblog:48', {url: `${this.apiBase}${endpoint}`, options});
 	
 			const response = await fetcher(`${this.apiBase}${endpoint}`, options);
 			// Some valid responses are not valid JSON (a "No Content" response, for example).
@@ -60,15 +57,17 @@ export default class Smolblog {
 
 		this.server = new SmolblogServer(this.fetch);
 		if (this.authHeader) { this.user = new SmolblogUser(this.fetch); }
-		if (this.currentSiteId) { this.site = new SmolblogSite(this.fetch, this.currentSiteId); }
 	}
 
 	get context(): SmolblogContext {
 		return {
 			apiBase: this.apiBase,
 			authHeader: this.authHeader ?? undefined,
-			currentSiteId: this.currentSiteId ?? undefined,
 		};
+	}
+
+	site(siteId: string): SmolblogSite {
+		return new SmolblogSite(this.fetch, siteId);
 	}
 }
 

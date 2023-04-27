@@ -20,8 +20,9 @@
 		const bootstrap = await import('bootstrap');
 		modalController = bootstrap.Modal.getOrCreateInstance(modalElement);
 
-		return context.subscribe(api => {
-			if (api && !api.authHeader) {
+		return context.subscribe(ctx => {
+			console.log('LoginModal:24', {ctx});
+			if (!ctx?.authHeader) {
 				modalController.show();
 			} else {
 				modalController.hide();
@@ -36,7 +37,9 @@
 		connected = false;
 		errored = false;
 
+		console.log('LoginModal:40', {apiBase});
 		if (!apiBase) { return undefined; }
+		console.log('LoginModal:42', {apiBase});
 
 		try {
 			new URL(apiBase, window.location.href);
@@ -66,7 +69,7 @@
 			if (!modalElement || !connected || !uname || !pass) { return; }
 
 			const authHeader = `Basic ${btoa(`${uname}:${pass}`)}`;
-			context.initWithContext({ apiBase: newBase, authHeader });
+			context.set({ apiBase: newBase, authHeader });
 
 			modalController.hide();
 		} catch (error) {
