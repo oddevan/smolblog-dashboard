@@ -1,5 +1,5 @@
 import { getMarkdown, getServerInfo, getUrlEmbed } from "./server";
-import type { SetUserProfilePayload, Site, SiteSettingsPayload, SmolblogFetch } from "./types";
+import type { SetUserProfilePayload, SiteSettingsPayload, SmolblogFetch } from "./types";
 import { getUserProfile, getUserSites, setUserProfile } from "./user";
 import { startConnectionSession, getUserConnections, linkChannelAndSite, getSiteChannelsForAdmin } from "./connections";
 import { getSiteSettings, setSiteSettings } from "./site";
@@ -7,13 +7,13 @@ import { getSiteSettings, setSiteSettings } from "./site";
 export interface SmolblogContext {
 	apiBase: string,
 	authHeader?: string,
-	currentSite?: Site,
+	currentSiteId?: string,
 }
 
 export default class Smolblog {
 	readonly apiBase: string;
 	readonly authHeader?: string;
-	readonly currentSite?: Site;
+	readonly currentSiteId?: string;
 
 	readonly server: SmolblogServer;
 	readonly user?: SmolblogUser;
@@ -21,12 +21,12 @@ export default class Smolblog {
 
 	readonly fetch: SmolblogFetch;
 
-	constructor(props: SmolblogContext) {
-		const { apiBase, authHeader, currentSite } = props;
+	constructor(props: SmolblogContext, fetcher = window?.fetch) {
+		const { apiBase, authHeader, currentSiteId } = props;
 
 		this.apiBase = apiBase;
 		this.authHeader = authHeader;
-		this.currentSite = currentSite;
+		this.currentSiteId = currentSiteId;
 
 		this.fetch = async (props: { endpoint: string, verb?: string, payload?: unknown }) => {
 			const { endpoint, verb, payload } = props;
@@ -47,7 +47,7 @@ export default class Smolblog {
 
 			console.log({options, endpoint, verb, payload});
 	
-			const response = await fetch(`${this.apiBase}${endpoint}`, options);
+			const response = await fetcher(`${this.apiBase}${endpoint}`, options);
 			// Some valid responses are not valid JSON (a "No Content" response, for example).
 			const responseData = await response.json().catch(() => { return {}; });
 	
@@ -60,14 +60,14 @@ export default class Smolblog {
 
 		this.server = new SmolblogServer(this.fetch);
 		if (this.authHeader) { this.user = new SmolblogUser(this.fetch); }
-		if (this.currentSite) { this.site = new SmolblogSite(this.fetch, this.currentSite.id); }
+		if (this.currentSiteId) { this.site = new SmolblogSite(this.fetch, this.currentSiteId); }
 	}
 
 	get context(): SmolblogContext {
 		return {
 			apiBase: this.apiBase,
 			authHeader: this.authHeader ?? undefined,
-			currentSite: this.currentSite ?? undefined,
+			currentSiteId: this.currentSiteId ?? undefined,
 		};
 	}
 }
