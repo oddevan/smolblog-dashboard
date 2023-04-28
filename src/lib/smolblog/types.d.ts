@@ -22,7 +22,9 @@ export interface ConnectorChannelPlusLink extends ConnectorChannel {
 
 export interface Site {
 	id: string,
+	handle: string,
 	displayName: string,
+	baseUrl: string,
 };
 
 export interface SiteSettingsPayload {

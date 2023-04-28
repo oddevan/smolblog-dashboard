@@ -32,8 +32,6 @@
 			} else {
 				localStorage.remove('context');
 			}
-
-			
 			fetch('/setcookie', { method: 'POST', body: JSON.stringify(ctx) });
 		})
 
@@ -56,6 +54,14 @@
 
 <Navbar userProfile={data.userProfile} />
 
+<div class="container-fluid mx-auto" style="min-height: 100%">
 <slot/>
+
+{#if data.context?.apiBase}
+<p class="m-5 text-body-tertiary text-end">
+	Connected to Smolblog {data.serverVersion} on {(new URL(data.context.apiBase)).hostname}
+</p>
+{/if}
+</div>
 
 <LoginModal />
