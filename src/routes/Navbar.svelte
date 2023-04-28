@@ -41,10 +41,10 @@
 			<li class="nav-item dropdown">
 				<button title="My account" class="btn btn-link nav-link dropdown-toggle active"
 					data-bs-toggle="dropdown" aria-expanded="false">
-					<img src="https://picsum.photos/50" width="24" height="24" alt="My Account" style="margin:0;padding:0">
+					{displayName}
+					<img src="https://picsum.photos/50" width="24" height="24" alt="My Account" style="margin:0;margin-left:5px;padding:0">
 				</button>
 				<ul class="dropdown-menu dropdown-menu-end">
-					<li><span class="dropdown-item-text text-muted">Logged in as {displayName}</span></li>
 					<li><a class="dropdown-item" href="/account">Profile</a></li>
 					<li><a class="dropdown-item" href="/account/security">Security</a></li>
 					<li><a class="dropdown-item" href="/account/connections">Connections</a></li>

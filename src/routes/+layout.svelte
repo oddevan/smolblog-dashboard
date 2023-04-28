@@ -54,7 +54,7 @@
 	});
 </script>
 
-<Navbar showSite={!!$context?.currentSiteId} userProfile={data.userProfile} />
+<Navbar userProfile={data.userProfile} />
 
 <slot/>
 

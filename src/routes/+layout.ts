@@ -16,7 +16,6 @@ export const load = (async ({ data, fetch }) => {
 		const api = new Smolblog(context, fetch);
 		try {
 			serverVersion = (await api.server.info()).serverVersion;
-			currentSiteName = (await api.site?.settings.general.get())?.title
 			userProfile = await api.user?.profile.get();
 		} catch (e) {
 			console.error(e);
@@ -29,7 +28,6 @@ export const load = (async ({ data, fetch }) => {
 		context,
 		userProfile,
 		serverVersion,
-		currentSiteName,
 	};
 }) satisfies LayoutLoad;
 
