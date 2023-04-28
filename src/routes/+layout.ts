@@ -24,8 +24,8 @@ export const load = (async ({ data, fetch }) => {
 	}
 
 	return {
-		breadcrumbs: [{ path: '/', title: 'Dashboard' }],
-		title: 'Dashboard',
+		breadcrumbs: [{ path: '/', title: 'Home' }],
+		title: 'Home',
 		context,
 		userProfile,
 		serverVersion,

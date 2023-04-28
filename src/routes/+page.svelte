@@ -1,5 +1,6 @@
 <script lang="ts">
-	import type { PageData } from "./$types";
+	import SiteDisplay from "$lib/components/SiteDisplay.svelte";
+import type { PageData } from "./$types";
 
 	export let data: PageData;
 	console.log({data});
@@ -19,8 +20,7 @@
 						class="list-group-item list-group-item-action"
 						href="/site/{site.handle}"
 					>
-						{site.displayName}<br>
-						<small class="text-body-tertiary">{site.baseUrl}</small>
+						<SiteDisplay {site}/>
 					</a>
 					{/each}
 			</div>

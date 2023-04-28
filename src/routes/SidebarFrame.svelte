@@ -3,11 +3,9 @@
 	import Icon from "../lib/components/Icon.svelte";
 	import SmolblogLogo from "../lib/components/SmolblogLogo.svelte";
   import { page } from '$app/stores';
-	import SiteSelectModal from "./SiteSelectModal.svelte";
-	import type { SmolblogStore } from "$lib/stores/context";
-	import { getContext } from "svelte";
+	import type { Site } from "$lib/smolblog/types";
 
-	const context = getContext<SmolblogStore>('smolblog');
+	export let site: Site|undefined;
 </script>
 
 <div class="row">
@@ -21,16 +19,16 @@
 
 		<nav>
 			<ul class="nav nav-pills flex-column" id="sidebar-nav">
+				{#if site}
 				<li class="nav-item">
-					<a class="nav-link" href="/"><Icon icon="speedometer2"/> Dashboard</a>
+					<a class="nav-link" href="/site/{site.handle}/"><Icon icon="speedometer2"/> Dashboard</a>
 				</li>
-				{#if $context?.currentSiteId}
 				<!-- <li class="nav-item">
 					<a class="nav-link" href="/reader"><Icon icon="newspaper"/> Reader</a>
 					<slot name="reader-nav"/>
 				</li> -->
 				<li class="nav-item">
-					<a class="nav-link" href="/content"><Icon icon="journal-richtext"/> Content</a>
+					<a class="nav-link" href="/site/{site.handle}/content"><Icon icon="journal-richtext"/> Content</a>
 					<slot name="content-nav"/>
 				</li>
 				<!-- <li class="nav-item">
@@ -38,7 +36,7 @@
 					<slot name="notifications-nav"/>
 				</li> -->
 				<li class="nav-item">
-					<a class="nav-link" href="/settings"><Icon icon="gear"/> Settings</a>
+					<a class="nav-link" href="/site/{site.handle}/settings"><Icon icon="gear"/> Settings</a>
 					<slot name="settings-nav"/>
 				</li>
 				{/if}
