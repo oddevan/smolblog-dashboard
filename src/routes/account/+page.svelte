@@ -45,7 +45,6 @@
 
   const submit = async () => {
     if (payload) {
-      console.log({payload});
       return await $context?.user?.profile.set(payload);
     }
     return false;

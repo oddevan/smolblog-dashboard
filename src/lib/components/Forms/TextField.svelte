@@ -25,7 +25,6 @@
 		<input
 			type="text"
 			bind:value={$controller.value}
-			on:blur={controller.validate}
 			class="form-control"
 			class:is-invalid={$controller.invalid}
 			class:is-valid={$controller.dirty && $controller.valid}

@@ -1,9 +1,11 @@
 <script lang="ts">
 	import Form, { type FormField } from "$lib/components/Forms/Form.svelte";
+	import Smolblog from "$lib/smolblog";
+	import type { PageData } from "./$types";
 
   const definition: FormField[] = [
     {
-      name: 'siteId',
+      name: 'id',
       label: 'Site ID',
       type: 'display',
     },
@@ -22,33 +24,10 @@
     },
   ];
 
-  const initialData = { siteId: 'b000b1e5-293c-4b6d-b41e-b2ae152e1483' }
+  export let data: PageData;
+  const { context, initialData, currentSite } = data;
+  const api = context ? new Smolblog(context) : null;
 
 </script>
 
-<Form {definition} {initialData} setter={async () => {}} />
-
-<hr>
-
-<form>
-  <div class="row mb-4">
-    <label for="inputId" class="col-lg-2 col-form-label">Site ID</label>
-    <div class="col-lg">
-      <input type="email" readonly class="form-control-plaintext" id="inputId" value="a280e68a-f6aa-43de-8c9b-bb3950ddd0e7">
-    </div>
-  </div>
-  <div class="row mb-4">
-    <label for="inputTitle" class="col-lg-2 col-form-label">Title</label>
-    <div class="col-lg">
-      <input type="text" class="form-control" id="inputTitle">
-    </div>
-  </div>
-  <div class="row mb-4">
-    <label for="inputTagline" class="col-lg-2 col-form-label">Tagline</label>
-    <div class="col-lg">
-      <input type="text" class="form-control" id="inputTagline" aria-describedby="inputTaglineHelp">
-			<span class="form-text" id="inputTaglineHelp">Short (quippy?) description of the site.</span>
-    </div>
-  </div>
-	<button class="btn btn-primary">Save</button>
-</form>
+<Form {definition} {initialData} setter={api?.site(currentSite?.id ?? '').settings.general.set} />

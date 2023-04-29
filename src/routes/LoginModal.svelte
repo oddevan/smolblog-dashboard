@@ -21,7 +21,6 @@
 		modalController = bootstrap.Modal.getOrCreateInstance(modalElement);
 
 		return context.subscribe(ctx => {
-			console.log('LoginModal:24', {ctx});
 			if (!ctx?.authHeader) {
 				modalController.show();
 			} else {
@@ -37,9 +36,7 @@
 		connected = false;
 		errored = false;
 
-		console.log('LoginModal:40', {apiBase});
 		if (!apiBase) { return undefined; }
-		console.log('LoginModal:42', {apiBase});
 
 		try {
 			new URL(apiBase, window.location.href);

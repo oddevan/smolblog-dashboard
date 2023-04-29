@@ -7,7 +7,6 @@ import { getSiteSettings, setSiteSettings } from "./site";
 export interface SmolblogContext {
 	apiBase: string,
 	authHeader?: string,
-	currentSiteId?: string,
 }
 
 export default class Smolblog {
@@ -19,7 +18,7 @@ export default class Smolblog {
 
 	readonly fetch: SmolblogFetch;
 
-	constructor(props: SmolblogContext, fetcher = window?.fetch ) {
+	constructor(props: SmolblogContext, fetcher = fetch ) {
 		const { apiBase, authHeader } = props;
 
 		this.apiBase = apiBase;
@@ -41,8 +40,6 @@ export default class Smolblog {
 	
 			options.method = verb ?? (payload ? 'POST' : 'GET');
 			options.headers = headers;
-
-			console.log('Smolblog:48', {url: `${this.apiBase}${endpoint}`, options});
 	
 			const response = await fetcher(`${this.apiBase}${endpoint}`, options);
 			// Some valid responses are not valid JSON (a "No Content" response, for example).

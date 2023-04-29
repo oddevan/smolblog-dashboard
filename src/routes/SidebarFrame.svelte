@@ -4,8 +4,9 @@
 	import SmolblogLogo from "../lib/components/SmolblogLogo.svelte";
   import { page } from '$app/stores';
 	import type { Site } from "$lib/smolblog/types";
+	import SiteDisplay from "$lib/components/SiteDisplay.svelte";
 
-	export let site: Site|undefined;
+	export let site: Site|undefined = undefined;
 </script>
 
 <div class="row">
@@ -20,6 +21,20 @@
 		<nav>
 			<ul class="nav nav-pills flex-column" id="sidebar-nav">
 				{#if site}
+				<li class="nav-item bg-primary-subtle dropdown">
+					<button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+						<SiteDisplay {site}/>
+					</button>
+					<ul class="dropdown-menu">
+						{#each $page.data.userSites as menuSite (menuSite.id)}
+						<li>
+							<a class="dropdown-item" href="/site/{menuSite.handle}">
+								<SiteDisplay site={menuSite}/>
+							</a>
+						</li>
+						{/each}
+					</ul>
+				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/site/{site.handle}/"><Icon icon="speedometer2"/> Dashboard</a>
 				</li>
@@ -40,10 +55,7 @@
 					<slot name="settings-nav"/>
 				</li>
 				{/if}
-				<li class="nav-item">
-					<a class="nav-link" href="/account"><Icon icon="person"/> My Account</a>
-					<slot name="account-nav"/>
-				</li>
+				<slot name="account-nav"/>
 			</ul>
 		</nav>
 

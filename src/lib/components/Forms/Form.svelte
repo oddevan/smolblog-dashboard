@@ -33,34 +33,59 @@
 	});
 	const formController = makeForm(...fields)
 
-	export let getter: (() => Promise<any>) | undefined = undefined;
-	let loading = false;
-	let getError: Error|undefined;
-
-	export let setter: ((arg0: any) => Promise<void>);
+	export let setter: ((arg0: any) => Promise<any>)|undefined;
+	let enableSave = true;
 	let saving = false;
+	let success = false;
 	let setError: Error|undefined;
 
-	onMount(() => formController.subscribe(frm => console.log(frm)));
+	const handleSubmit = async () => {
+		success = false;
+		setError = undefined;
 
-	const handleSubmit = () => {
 		formController.validate();
-		if ($formController.valid) {
-			
+		if ($formController.valid && setter) {
+			saving = true;
+			try {
+				await setter($formController.summary);
+				saving = false;
+				success = true;
+			} catch (e) {
+				setError = e as Error;
+			}
 		}
 	}
+
+	$: enableSave = !saving && $formController.dirty;
 
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
-	{#if getError}
-		<ErrorBox error={getError}/>
-	{/if}
-	{#each definition as field (field.name)}
-		{#if field.type == 'text'}
-			<TextField definition={field} controller={formController.getField(field.name)} />
-		{:else if field.type == 'display'}
-			<DisplayField definition={field} controller={formController.getField(field.name)} />
-		{/if}
-	{/each}
+	<div class="card">
+		<div class="card-body">
+		{#each definition as field (field.name)}
+			{#if field.type == 'text'}
+				<TextField definition={field} controller={formController.getField(field.name)} />
+			{:else if field.type == 'display'}
+				<DisplayField definition={field} controller={formController.getField(field.name)} />
+			{/if}
+		{/each}
+		<ErrorBox error={setError}/>
+		</div>
+		<div class="card-footer d-flex">
+			{#if success}
+				<span class="text-success">Saved successfully!</span>
+			{/if}
+			{#if setter}
+			<button class="btn btn-primary ms-auto" disabled={!enableSave}>
+				{#if saving}
+				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+				Saving...
+				{:else}
+				Save
+				{/if}
+			</button>
+			{/if}
+		</div>
+	</div>
 </form>
