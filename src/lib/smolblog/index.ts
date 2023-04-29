@@ -2,7 +2,7 @@ import { getMarkdown, getServerInfo, getUrlEmbed } from "./server";
 import type { SetUserProfilePayload, SiteSettingsPayload, SmolblogFetch } from "./types";
 import { getUserProfile, getUserSites, setUserProfile } from "./user";
 import { startConnectionSession, getUserConnections, linkChannelAndSite, getSiteChannelsForAdmin } from "./connections";
-import { getSiteSettings, setSiteSettings } from "./site";
+import { getSiteSettings, getSiteUsers, setSiteSettings } from "./site";
 
 export interface SmolblogContext {
 	apiBase: string,
@@ -133,7 +133,7 @@ class SmolblogSite {
 			set: (payload: SiteSettingsPayload) => setSiteSettings(this.fetcher, this.siteId, payload),
 		},
 		users: {
-			get: () => console.error('Smolblog.site.settings.users.get not implemented.'),
+			get: () => getSiteUsers(this.fetcher, this.siteId),
 			set: () => console.error('Smolblog.site.settings.users.set not implemented.'),
 		},
 		channels: {

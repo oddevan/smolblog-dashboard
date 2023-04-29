@@ -41,6 +41,12 @@ export interface UserProfile {
 	pronouns?: string,
 };
 
+export interface UserAndPermissions {
+	user: UserProfile,
+	isAdmin: boolean,
+	isAuthor: boolean,
+}
+
 export interface SetUserProfilePayload {
 	handle?: string,
 	displayName?: string,

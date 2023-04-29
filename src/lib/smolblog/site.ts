@@ -1,4 +1,4 @@
-import type { SiteSettingsPayload, SmolblogFetch } from "./types";
+import type { SiteSettingsPayload, SmolblogFetch, UserAndPermissions } from "./types";
 
 export function getSiteSettings(smolFetch: SmolblogFetch, siteId: string): Promise<SiteSettingsPayload> {
 	return smolFetch({ endpoint: `/site/${siteId}/settings` }) as Promise<SiteSettingsPayload>;
@@ -18,4 +18,9 @@ export async function setSiteSettings(
 	});
 
 	return true;
+}
+
+export async function getSiteUsers(smolFetch: SmolblogFetch, siteId: string): Promise<UserAndPermissions[]> {
+	const result = await smolFetch({ endpoint: `/site/${siteId}/users` }) as { users: UserAndPermissions[] };
+	return result.users;
 }
