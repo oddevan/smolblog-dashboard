@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Readable, Writable } from "svelte/store";
-	import type { FormField } from "./Form.svelte";
+	import type { FormField } from "../Form.svelte";
 	import type { Field } from 'svelte-forms/types';
 
 	export let definition: FormField;
