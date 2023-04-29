@@ -3,14 +3,16 @@
 	import type { LayoutData } from "./$types";
 
 	export let data: LayoutData;
+	const { currentSite } = data;
+	const { handle } = currentSite ?? {};
 </script>
 
-<SidebarFrame site={data.currentSite}>
+<SidebarFrame site={currentSite}>
 <ul class="nav nav-pills flex-column" slot="settings-nav">
-	<li class="nav-item"><a class="nav-link" href="/settings">General</a></li>
-	<li class="nav-item"><a class="nav-link" href="/settings/syndication">Syndication</a></li>
-	<li class="nav-item"><a class="nav-link" href="/settings/permissions">Permissions</a></li>
-	<li class="nav-item"><a class="nav-link" href="/settings/data">Data</a></li>
+	<li class="nav-item"><a class="nav-link" href="/site/{handle}/settings">General</a></li>
+	<li class="nav-item"><a class="nav-link" href="/site/{handle}/settings/syndication">Syndication</a></li>
+	<li class="nav-item"><a class="nav-link" href="/site/{handle}/settings/permissions">Permissions</a></li>
+	<li class="nav-item"><a class="nav-link" href="/site/{handle}/settings/data">Data</a></li>
 </ul>
 
 <slot/>

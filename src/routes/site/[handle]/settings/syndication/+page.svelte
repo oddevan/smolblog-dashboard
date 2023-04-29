@@ -1,29 +1,13 @@
 <script lang="ts">
-	import Loading from "$lib/components/Loading.svelte";
-	import type { ConnectorChannelPlusLink } from "$lib/smolblog/types";
-	import { getContext, onMount } from "svelte";
 	import Channel from "./Channel.svelte";
-	import type { SmolblogStore } from "$lib/stores/context";
+	import type { PageData } from "./$types";
 
-	const context = getContext<SmolblogStore>('smolblog');
+	export let data: PageData;
 
-	let loading = true;
-	let availabeChannels: ConnectorChannelPlusLink[] = [];
-
-	onMount(() => {
-		return context.subscribe(async api => {
-			loading = true;
-			availabeChannels = await api?.site?.settings.channels.get() ?? [];
-			loading = false;
-		});
-	});
+	const { initialData } = data;
 </script>
 
-{#if loading}
-	<Loading/>
-{:else}
-	{#each availabeChannels as channel (channel.id)}
-		<Channel {channel}/>
-	{/each}
-{/if}
+{#each initialData as channel (channel.id)}
+	<Channel {channel}/>
+{/each}
 
