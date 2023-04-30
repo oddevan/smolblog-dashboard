@@ -1,19 +1,17 @@
 <script lang="ts">
 	import Icon from "$lib/components/Icon.svelte";
 	import SmolblogLogo from "$lib/components/SmolblogLogo.svelte";
+	import type { UserProfile } from "$lib/smolblog/types";
 	import type { SmolblogStore } from "$lib/stores/context";
 	import { getContext } from "svelte";
-	import { onMount } from "svelte";
 
 	const context = getContext<SmolblogStore>('smolblog');
 
-	let displayName: string;
-	onMount(() => context.subscribe(async api => {
-		if (!api?.user) { return; }
-		const profile = await api.user.profile.get();
+	export let showSite = false;
+	export let userProfile: UserProfile|undefined = undefined;
 
-		displayName = profile.displayName ?? profile.handle;
-	}));
+	const displayName = userProfile?.displayName ?? userProfile?.handle;
+
 </script>
 
 <nav class="navbar navbar-expand bg-body-tertiary" id="main-nav">
@@ -26,7 +24,7 @@
 			<SmolblogLogo />
 		</a>
 		<ul class="navbar-nav">
-			{#if $context?.site}
+			{#if showSite}
 			<li class="nav-item dropdown">
 				<button class="btn btn-link nav-link dropdown-toggle active"
 					data-bs-toggle="dropdown" aria-expanded="false">
@@ -39,16 +37,18 @@
 				</ul>
 			</li>
 			{/if}
-			{#if $context?.user}
+			{#if userProfile}
 			<li class="nav-item dropdown">
 				<button title="My account" class="btn btn-link nav-link dropdown-toggle active"
 					data-bs-toggle="dropdown" aria-expanded="false">
-					<img src="https://picsum.photos/50" width="24" height="24" alt="My Account" style="margin:0;padding:0">
+					{displayName}
+					<img src="https://picsum.photos/50" width="24" height="24" alt="My Account" style="margin:0;margin-left:5px;padding:0">
 				</button>
 				<ul class="dropdown-menu dropdown-menu-end">
-					<li><span class="dropdown-item-text text-muted">Logged in as {displayName}</span></li>
 					<li><a class="dropdown-item" href="/account">Profile</a></li>
 					<li><a class="dropdown-item" href="/account/security">Security</a></li>
+					<li><a class="dropdown-item" href="/account/connections">Connections</a></li>
+					<li><a class="dropdown-item" href="/account/preferences">Preferences</a></li>
 					<li>
 						<hr class="dropdown-divider">
 					</li>

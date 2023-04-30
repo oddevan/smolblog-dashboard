@@ -1,12 +1,12 @@
 import type { LayoutLoad } from "./$types";
 
 export const load = (async ({ parent }) => {
-	const parentData = await parent();
+	const { breadcrumbs, currentSite } = await parent();
 
 	return {
 		breadcrumbs: [
-			...parentData.breadcrumbs,
-			{ path: '/settings', title: 'Settings' }
+			...breadcrumbs,
+			{ path: `/site/${currentSite?.handle}/settings`, title: 'Settings' }
 		]
 	}
 }) satisfies LayoutLoad;

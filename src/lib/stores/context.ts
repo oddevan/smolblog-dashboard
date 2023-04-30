@@ -1,32 +1,29 @@
-import Smolblog, { type SmolblogContext } from "$lib/smolblog";
-import type { Site } from "$lib/smolblog/types";
+import type { SmolblogContext } from "$lib/smolblog";
 import { writable, type Readable } from "svelte/store";
 
-export interface SmolblogStore extends Readable<Smolblog> {
+export interface SmolblogStore extends Readable<SmolblogContext> {
 	init: (base: string) => void,
-	initWithContext: (props: SmolblogContext) => void,
+	set: (props: SmolblogContext) => void,
 	setAuthHeader: (header: string) => void,
-	setCurrentSite: (site: Site) => void,
+	setCurrentSite: (site: string) => void,
 	logout: () => void,
 };
 
-const { subscribe, set, update } = writable<Smolblog>();
+const { subscribe, set, update } = writable<SmolblogContext>();
 const store: SmolblogStore = {
 	subscribe,
+	set,
 	init(base: string) {
-		set(new Smolblog({ apiBase: base }));
-	},
-	initWithContext(props: SmolblogContext) {
-		set(new Smolblog(props));
+		set({ apiBase: base });
 	},
 	setAuthHeader(header: string) {
-		update(lib => new Smolblog({ ...lib.context, authHeader: header }));
+		update(ctx => ({ ...ctx, authHeader: header }));
 	},
-	setCurrentSite(site: Site) {
-		update(lib => new Smolblog({ ...lib.context, currentSite: site }));
+	setCurrentSite(site: string) {
+		update(ctx => ({ ...ctx, currentSiteId: site }));
 	},
 	logout: () => {
-		update(lib => new Smolblog({ apiBase: lib.apiBase }));
+		update(ctx => ({ apiBase: ctx.apiBase }));
 	}
 }
 

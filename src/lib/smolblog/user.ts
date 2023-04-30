@@ -18,7 +18,7 @@ export async function setUserProfile(smolFetch: SmolblogFetch, profile: SetUserP
 	await smolFetch({
 		endpoint: '/my/profile/update',
 		verb: 'POST',
-		payload: JSON.stringify(profile),
+		payload: profile,
 	});
 
 	return true;

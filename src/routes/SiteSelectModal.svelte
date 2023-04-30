@@ -5,15 +5,17 @@
 	import Loading from "$lib/components/Loading.svelte";
 	import Error from "$lib/components/ErrorBox.svelte";
 	import type { SmolblogStore } from "$lib/stores/context";
+	import Smolblog from "$lib/smolblog";
 
 	const context = getContext<SmolblogStore>('smolblog');
+	let api: Smolblog|undefined;
 
-	let sites: Site[] = [];
-	let siteName: string = 'Select Site';
+	export let siteName: string = 'Select Site';
 	
 	onMount(() => {
-		return context.subscribe(async api => {
-			siteName = api?.currentSite?.displayName ?? 'Select Site';
+		return context.subscribe(async ctx => {
+			api = ctx ? new Smolblog(ctx) : undefined;
+			siteName = (await api?.site?.settings.general.get())?.title ?? 'Select Site';
 		});
 	});
 </script>
@@ -32,14 +34,14 @@
 			</div>
 			<div class="modal-body">
 				<div class="list-group list-group-flush">
-					{#await $context?.user?.sites.get() ?? []}
+					{#await api?.user?.sites.get() ?? []}
 						<Loading />
 					{:then sites}
 						{#each sites as site (site.id)}
 						<button
 							class="list-group-item list-group-item-action"
 							data-bs-dismiss="modal"
-							on:click={() => context.setCurrentSite(site)}
+							on:click={() => context.setCurrentSite(site.id)}
 						>
 							{site.displayName}
 						</button>

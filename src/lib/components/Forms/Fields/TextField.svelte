@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Readable, Writable } from "svelte/store";
-	import type { FormField } from "./Form.svelte";
+	import type { FormField } from "../Form.svelte";
 	import type { Field } from 'svelte-forms/types';
 
 	export let definition: FormField;
@@ -25,7 +25,6 @@
 		<input
 			type="text"
 			bind:value={$controller.value}
-			on:blur={controller.validate}
 			class="form-control"
 			class:is-invalid={$controller.invalid}
 			class:is-valid={$controller.dirty && $controller.valid}

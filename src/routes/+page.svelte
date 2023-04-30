@@ -1,19 +1,49 @@
 <script lang="ts">
-	import Icon from "$lib/components/Icon.svelte";
-	import { getContext } from "svelte";
-	import SidebarFrame from "./SidebarFrame.svelte";
-	import type { SmolblogStore } from "$lib/stores/context";
-	import LoginModal from "./LoginModal.svelte";
+	import SiteDisplay from "$lib/components/SiteDisplay.svelte";
+import type { PageData } from "./$types";
 
-	const context = getContext<SmolblogStore>('smolblog');
+	export let data: PageData;
+
+	const { context, userSites } = data;
 </script>
 
-<SidebarFrame>
-	{#if !$context?.site}
-	<p>Welcome! Select a site to get started.</p>
-	<button type="button" class="btn btn-primary p-2" data-bs-toggle="modal" data-bs-target="#siteSelectModal">
-		<Icon icon="window-stack"/>
-		Select Site
-	</button>
-	{/if}
-</SidebarFrame>
+<div class="row justify-content-center">
+	<div class="col-sm col-md-6 col-lg-5 col-xl-4">
+		<div class="card">
+			<h2 class="card-header h4">
+				Select a site
+			</h2>
+			<div class="list-group list-group-flush">
+					{#each userSites ?? [] as site (site.id)}
+					<a
+						class="list-group-item list-group-item-action"
+						href="/site/{site.handle}"
+					>
+						<SiteDisplay {site}/>
+					</a>
+					{/each}
+			</div>
+		</div>
+	</div>
+	<div class="col-sm col-md-3 col-xl-2">
+		<div class="card">
+			<h2 class="card-header h4">
+				My account
+			</h2>
+			<div class="list-group list-group-flush">
+				<a class="list-group-item list-group-item-action" href="/account">Profile</a>
+				<a class="list-group-item list-group-item-action" href="/account/security">Security</a>
+				<a class="list-group-item list-group-item-action" href="/account/connections">Connections</a>
+				<a class="list-group-item list-group-item-action" href="/account/preferences">Preferences</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<h4>Context</h4>
+<dl class="row">
+	<dt class="col-sm-3">apiBase:</dt>
+	<dd class="col-sm-9">{context?.apiBase}</dd>
+	<dt class="col-sm-3">authHeader:</dt>
+	<dd class="col-sm-9">{context?.authHeader}</dd>
+</dl>

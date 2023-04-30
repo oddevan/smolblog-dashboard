@@ -1,32 +1,28 @@
 import { getMarkdown, getServerInfo, getUrlEmbed } from "./server";
-import type { SetUserProfilePayload, Site, SiteSettingsPayload, SmolblogFetch } from "./types";
+import type { SetUserProfilePayload, SiteSettingsPayload, SmolblogFetch } from "./types";
 import { getUserProfile, getUserSites, setUserProfile } from "./user";
 import { startConnectionSession, getUserConnections, linkChannelAndSite, getSiteChannelsForAdmin } from "./connections";
-import { getSiteSettings, setSiteSettings } from "./site";
+import { getSiteSettings, getSiteUsers, setSiteSettings } from "./site";
 
 export interface SmolblogContext {
 	apiBase: string,
 	authHeader?: string,
-	currentSite?: Site,
 }
 
 export default class Smolblog {
 	readonly apiBase: string;
 	readonly authHeader?: string;
-	readonly currentSite?: Site;
 
 	readonly server: SmolblogServer;
 	readonly user?: SmolblogUser;
-	readonly site?: SmolblogSite;
 
 	readonly fetch: SmolblogFetch;
 
-	constructor(props: SmolblogContext) {
-		const { apiBase, authHeader, currentSite } = props;
+	constructor(props: SmolblogContext, fetcher = fetch ) {
+		const { apiBase, authHeader } = props;
 
 		this.apiBase = apiBase;
 		this.authHeader = authHeader;
-		this.currentSite = currentSite;
 
 		this.fetch = async (props: { endpoint: string, verb?: string, payload?: unknown }) => {
 			const { endpoint, verb, payload } = props;
@@ -44,10 +40,8 @@ export default class Smolblog {
 	
 			options.method = verb ?? (payload ? 'POST' : 'GET');
 			options.headers = headers;
-
-			console.log({options, endpoint, verb, payload});
 	
-			const response = await fetch(`${this.apiBase}${endpoint}`, options);
+			const response = await fetcher(`${this.apiBase}${endpoint}`, options);
 			// Some valid responses are not valid JSON (a "No Content" response, for example).
 			const responseData = await response.json().catch(() => { return {}; });
 	
@@ -60,15 +54,17 @@ export default class Smolblog {
 
 		this.server = new SmolblogServer(this.fetch);
 		if (this.authHeader) { this.user = new SmolblogUser(this.fetch); }
-		if (this.currentSite) { this.site = new SmolblogSite(this.fetch, this.currentSite.id); }
 	}
 
 	get context(): SmolblogContext {
 		return {
 			apiBase: this.apiBase,
 			authHeader: this.authHeader ?? undefined,
-			currentSite: this.currentSite ?? undefined,
 		};
+	}
+
+	site(siteId: string): SmolblogSite {
+		return new SmolblogSite(this.fetch, siteId);
 	}
 }
 
@@ -137,7 +133,7 @@ class SmolblogSite {
 			set: (payload: SiteSettingsPayload) => setSiteSettings(this.fetcher, this.siteId, payload),
 		},
 		users: {
-			get: () => console.error('Smolblog.site.settings.users.get not implemented.'),
+			get: () => getSiteUsers(this.fetcher, this.siteId),
 			set: () => console.error('Smolblog.site.settings.users.set not implemented.'),
 		},
 		channels: {

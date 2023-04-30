@@ -1,99 +1,40 @@
 <script lang="ts">
 	import ErrorBox from "$lib/components/ErrorBox.svelte";
+	import Form from "$lib/components/Forms/Form.svelte";
+	import type { FormField } from "$lib/components/Forms/Form.svelte";
   import Loading from "$lib/components/Loading.svelte";
 	import type { SetUserProfilePayload, UserProfile } from "$lib/smolblog/types";
 	import type { SmolblogStore } from "$lib/stores/context";
 	import { getContext, onMount } from "svelte";
+	import type { PageData } from "./$types";
+	import Smolblog from "$lib/smolblog";
 
-	const context = getContext<SmolblogStore>('smolblog');
+  const definition: FormField[] = [
+    {
+      name: 'handle',
+      label: 'Handle',
+      type: 'text',
+      description: 'Unique name for you; used to log in.',
+      required: true
+    },
+    {
+      name: 'displayName',
+      label: 'Name',
+      type: 'text',
+      description: 'Name displayed to yourself and others.',
+      required: true,
+    },
+    {
+      name: 'pronouns',
+      label: 'Pronouns',
+      type: 'text',
+      description: 'Optionaly indicate how you would like to be identified.',
+    },
+  ];
 
-  let loading = true;
-  let error: Error|undefined;
-  let profile: UserProfile|undefined;
-  let payload: SetUserProfilePayload|undefined;
-  let initialPayload: SetUserProfilePayload|undefined;
-
-  onMount(() => {
-    context.subscribe(api => {
-      if (api?.user) {
-        api.user.profile.get()
-          .then(res => {
-            profile = res;
-            loading = false;
-            error = undefined;
-            payload = {
-              handle: profile.handle,
-              displayName: profile.displayName,
-              pronouns: profile.pronouns,
-            };
-            initialPayload = {...payload};
-          }).catch(e => error = e);
-      } else {
-        loading = false;
-        error = new Error('You must be logged in to access this page.');
-      }
-    });
-  });
-
-  const isValid: () => boolean = () => {
-    return !!(
-      payload && initialPayload &&
-      (payload != initialPayload) &&
-      (payload?.handle || initialPayload?.handle)
-    );
-  }
-
-  const submit = async () => {
-    if (payload) {
-      console.log({payload});
-      return await $context?.user?.profile.set(payload);
-    }
-    return false;
-  }
-
+  export let data: PageData;
+  const { context, initialData } = data;
+  const api = context ? new Smolblog(context) : undefined;
 </script>
 
-{#if error}
-  <ErrorBox {error}/>
-{:else if profile && payload}
-  <form>
-    <div class="row mb-4">
-      <label for="inputId" class="col-lg-2 col-form-label">ID</label>
-      <div class="col-lg">
-        <input type="email" readonly class="form-control-plaintext" id="inputId" value={profile.id}>
-      </div>
-    </div>
-    <div class="row mb-4">
-      <label for="inputEmail" class="col-lg-2 col-form-label">Email</label>
-      <div class="col-lg">
-        <input type="email" readonly class="form-control-plaintext" id="inputEmail" value={profile.email}>
-      </div>
-    </div>
-    <div class="row mb-4">
-      <label for="inputHandle" class="col-lg-2 col-form-label">Handle</label>
-      <div class="col-lg">
-        <input type="text" readonly class="form-control-plaintext" id="inputHandle" aria-describedby="inputHandleHelp" bind:value={payload.handle}>
-        <span class="form-text" id="inputHandleHelp">Unique name for you; used to log in.</span>
-      </div>
-    </div>
-    <div class="row mb-4">
-      <label for="inputName" class="col-lg-2 col-form-label">Name</label>
-      <div class="col-lg">
-        <input type="text" class="form-control" id="inputName" aria-describedby="inputNameHelp" bind:value={payload.displayName}>
-        <span class="form-text" id="inputNameHelp">Name displayed to yourself and others.</span>
-      </div>
-    </div>
-    <div class="row mb-4">
-      <label for="inputPronouns" class="col-lg-2 col-form-label">Pronouns</label>
-      <div class="col-lg">
-        <input type="text" class="form-control" id="inputPronouns" aria-describedby="inputPronounsHelp" bind:value={payload.pronouns}>
-        <span class="form-text" id="inputPronounsHelp">Optionaly indicate how you would like to be identified.</span>
-      </div>
-    </div>
-    <button class="btn btn-primary" disabled={!isValid()} on:click={submit}>Save</button>
-  </form>
-{:else if loading}
-  <Loading/>
-{:else }
-  <ErrorBox error={new Error('Something went very wrong...')}/>
-{/if}
+<Form {definition} {initialData} setter={api?.user?.profile.set} />

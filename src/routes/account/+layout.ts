@@ -1,11 +1,11 @@
 import type { LayoutLoad } from "./$types";
 
 export const load = (async ({ parent }) => {
-	const parentData = await parent();
+	const { breadcrumbs } = await parent();
 
 	return {
 		breadcrumbs: [
-			...parentData.breadcrumbs,
+			...breadcrumbs,
 			{ path: '/account', title: 'My Account' }
 		]
 	}

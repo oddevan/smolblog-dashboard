@@ -1,22 +1,26 @@
 <script lang="ts" context="module">
-	import { onMount, type ComponentType, getContext } from "svelte";
-
 	export interface FormField {
 		name: string,
 		label: string,
-		type: 'text'|'display',
+		type: 'text'|'display'|'switch'|'hidden',
 		description?: string,
-		component?: ComponentType,
 		required?: boolean,
+	};
+
+	export interface FormState {
+		saving: boolean,
+		success: boolean,
+		saveError?: Error,
 	};
 </script>
 
 <script lang="ts">
   import { form as makeForm, field as makeField, type Validator } from 'svelte-forms';
   import { required as requiredValidator } from 'svelte-forms/validators';
-	import TextField from './TextField.svelte';
-	import DisplayField from './DisplayField.svelte';
-	import ErrorBox from '../ErrorBox.svelte';
+	import { writable } from "svelte/store";
+	import CardForm from './CardForm.svelte';
+	import LineForm from './LineForm.svelte';
+	import { onMount } from 'svelte';
 
 	export let definition: FormField[];
 	export let initialData: any = {};
@@ -33,34 +37,36 @@
 	});
 	const formController = makeForm(...fields)
 
-	export let getter: (() => Promise<any>) | undefined = undefined;
-	let loading = false;
-	let getError: Error|undefined;
+	export let setter: ((arg0: any) => Promise<any>)|undefined;
 
-	export let setter: ((arg0: any) => Promise<void>);
-	let saving = false;
-	let setError: Error|undefined;
+	const state = writable<FormState>({
+		saving: false,
+		success: false,
+	});
 
-	onMount(() => formController.subscribe(frm => console.log(frm)));
+	const handleSubmit = async () => {
+		if (!setter) { return; }
 
-	const handleSubmit = () => {
-		formController.validate();
-		if ($formController.valid) {
-			
+		state.set({ saving: true, success: false });
+
+		try {
+			formController.validate();
+			if ($formController.valid) {
+				await setter($formController.summary);
+				state.set({ saving: false, success: true });
+			}
+		} catch (e) {
+			state.set({ saving: false, success: false, saveError: e as Error});
 		}
 	}
 
+	export let type: 'card'|'line' = 'card';
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
-	{#if getError}
-		<ErrorBox error={getError}/>
+	{#if type === 'card'}
+		<CardForm {state} {definition} {formController}/>
+	{:else if type === 'line'}
+		<LineForm {state} {definition} {formController}/>
 	{/if}
-	{#each definition as field (field.name)}
-		{#if field.type == 'text'}
-			<TextField definition={field} controller={formController.getField(field.name)} />
-		{:else if field.type == 'display'}
-			<DisplayField definition={field} controller={formController.getField(field.name)} />
-		{/if}
-	{/each}
 </form>

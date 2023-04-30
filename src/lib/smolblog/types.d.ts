@@ -22,7 +22,9 @@ export interface ConnectorChannelPlusLink extends ConnectorChannel {
 
 export interface Site {
 	id: string,
+	handle: string,
 	displayName: string,
+	baseUrl: string,
 };
 
 export interface SiteSettingsPayload {
@@ -38,6 +40,12 @@ export interface UserProfile {
 	displayName?: string,
 	pronouns?: string,
 };
+
+export interface UserAndPermissions {
+	user: UserProfile,
+	isAdmin: boolean,
+	isAuthor: boolean,
+}
 
 export interface SetUserProfilePayload {
 	handle?: string,
