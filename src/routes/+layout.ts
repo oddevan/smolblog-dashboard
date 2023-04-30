@@ -4,7 +4,7 @@ import Smolblog from "$lib/smolblog";
 import type { Site, UserProfile } from "$lib/smolblog/types";
 import type { LayoutLoad } from "./$types";
 
-export const prerender = true;
+export const prerender = 'auto';
 
 export const load = (async ({ data, fetch }) => {
 	const context: SmolblogContext|undefined = data?.context ?? await getLocalContext();
