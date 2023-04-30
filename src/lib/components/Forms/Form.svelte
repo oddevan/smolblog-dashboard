@@ -2,7 +2,7 @@
 	export interface FormField {
 		name: string,
 		label: string,
-		type: 'text'|'display',
+		type: 'text'|'display'|'switch'|'hidden',
 		description?: string,
 		required?: boolean,
 	};
@@ -19,6 +19,8 @@
   import { required as requiredValidator } from 'svelte-forms/validators';
 	import { writable } from "svelte/store";
 	import CardForm from './CardForm.svelte';
+	import LineForm from './LineForm.svelte';
+	import { onMount } from 'svelte';
 
 	export let definition: FormField[];
 	export let initialData: any = {};
@@ -57,8 +59,14 @@
 			state.set({ saving: false, success: false, saveError: e as Error});
 		}
 	}
+
+	export let type: 'card'|'line' = 'card';
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
-	<CardForm {state} {definition} {formController}/>
+	{#if type === 'card'}
+		<CardForm {state} {definition} {formController}/>
+	{:else if type === 'line'}
+		<LineForm {state} {definition} {formController}/>
+	{/if}
 </form>

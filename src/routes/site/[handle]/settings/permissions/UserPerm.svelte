@@ -1,5 +1,26 @@
 <script lang="ts">
+	import Form, { type FormField } from "$lib/components/Forms/Form.svelte";
 	import type { UserAndPermissions } from "$lib/smolblog/types";
+
+	const definition: FormField[] = [
+    {
+      name: 'id',
+      label: 'Site ID',
+      type: 'hidden',
+    },
+    {
+      name: 'isAuthor',
+      label: 'Author',
+      type: 'switch',
+			description: 'User can create content'
+    },
+    {
+      name: 'isAdmin',
+      label: 'Admin',
+      type: 'switch',
+			description: 'User can change site options'
+    },
+  ];
 
 	export let line: UserAndPermissions;
 	const { user, isAdmin, isAuthor } = line;
@@ -9,23 +30,12 @@
 	<div class="col-sm-6">
 		{user.displayName} ({user.handle})
 	</div>
-	<div class="col-xs-4 col-sm-2">
-		<div class="form-check form-switch">
-			<label class="form-check-label" for="canPushSwitch">
-				Push
-			</label>
-			<input class="form-check-input" type="checkbox" role="switch" id="canPushSwitch" bind:checked={push}>
-		</div>
-	</div>
-	<div class="col-xs-4 col-sm-2">
-		<div class="form-check form-switch">
-			<label class="form-check-label" for="canPullSwitch">
-				Pull
-			</label>
-			<input class="form-check-input" type="checkbox" role="switch" id="canPullSwitch" bind:checked={pull}>
-		</div>
-	</div>
-	<div class="col-xs-4 col-sm-2">
-		<button class="btn btn-sm btn-outline-primary" disabled={!enabled} on:click={save}>Save</button>
+	<div class="col-sm-6">
+		<Form
+			type="line"
+			{definition}
+			initialData={{ id: user.id, isAdmin, isAuthor }}
+			setter={async payload => console.log({payload})}
+		/>
 	</div>
 </div>
