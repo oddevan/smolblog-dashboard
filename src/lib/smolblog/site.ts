@@ -24,3 +24,19 @@ export async function getSiteUsers(smolFetch: SmolblogFetch, siteId: string): Pr
 	const result = await smolFetch({ endpoint: `/site/${siteId}/users` }) as { users: UserAndPermissions[] };
 	return result.users;
 }
+
+export async function setSitePermission(
+	smolFetch: SmolblogFetch,
+	siteId: string,
+	payload: { userId: string, isAuthor: boolean, isAdmin: boolean }
+): Promise<boolean> {
+	const { userId, isAuthor, isAdmin } = payload;
+
+	await smolFetch({
+		endpoint: `/site/${siteId}/users/set`,
+		verb: 'PUT',
+		payload: { userId, isAuthor, isAdmin },
+	});
+
+	return true;
+}

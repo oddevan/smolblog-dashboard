@@ -12,6 +12,8 @@
 		success: boolean,
 		saveError?: Error,
 	};
+
+	export type FormSetter = ((arg0: any) => Promise<any>);
 </script>
 
 <script lang="ts">
@@ -37,7 +39,7 @@
 	});
 	const formController = makeForm(...fields)
 
-	export let setter: ((arg0: any) => Promise<any>)|undefined;
+	export let setter: FormSetter|undefined;
 
 	const state = writable<FormState>({
 		saving: false,

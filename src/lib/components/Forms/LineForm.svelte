@@ -27,6 +27,11 @@
 				<Icon icon="check-circle"/>
 			</span>
 		{/if}
+		{#if $state.saveError}
+			<span class="text-danger">
+				<Icon icon="exclamation-circle"/>
+			</span>
+		{/if}
 		<button class="btn btn-sm btn-outline-primary" disabled={!enableSave}>
 			{#if $state.saving}
 			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>

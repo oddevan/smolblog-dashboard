@@ -1,52 +1,47 @@
 <script lang="ts">
+	import Form, { type FormSetter } from "$lib/components/Forms/Form.svelte";
+import type { FormField } from "$lib/components/Forms/Form.svelte";
 	import Icon from "$lib/components/Icon.svelte";
 	import type { ConnectorChannelPlusLink } from "$lib/smolblog/types";
-	import type { SmolblogStore } from "$lib/stores/context";
-	import { getContext, onMount } from "svelte";
 
-	const context = getContext<SmolblogStore>('smolblog');
+	const definition: FormField[] = [
+    {
+      name: 'channelId',
+      label: 'Channel ID',
+      type: 'hidden',
+    },
+    {
+      name: 'push',
+      label: 'Push',
+      type: 'switch',
+			description: 'Site can push content to this channel'
+    },
+    {
+      name: 'pull',
+      label: 'Pull',
+      type: 'switch',
+			description: 'Site can pull content from this channel'
+    },
+  ];
 
 	export let channel: ConnectorChannelPlusLink;
-	let push: boolean = channel.canPush;
-	let pull: boolean = channel.canPull;
+	export let setter: FormSetter|undefined;
 
-	let original = { push: false, pull: false };
-	let enabled: boolean;
-	$: enabled = original.push != push || original.pull != pull;
-
-	const reset = () => original = { push, pull };
-	const save = () => {
-		enabled = false;
-		$context.site?.settings.channels.link(channel.id, push, pull);
-		reset();
-	};
-
-	onMount(reset);
+	const { connectionProvider, connectionName, displayName, id, canPull, canPush } = channel;
 </script>
 
 <div class="row">
 	<div class="col-sm-6">
-		<Icon icon={channel.connectionProvider}/>
-		{channel.connectionName}:
-		{channel.displayName}
+		<Icon icon={connectionProvider}/>
+		{connectionName}:
+		{displayName}
 	</div>
-	<div class="col-xs-4 col-sm-2">
-		<div class="form-check form-switch">
-			<label class="form-check-label" for="canPushSwitch">
-				Push
-			</label>
-			<input class="form-check-input" type="checkbox" role="switch" id="canPushSwitch" bind:checked={push}>
-		</div>
-	</div>
-	<div class="col-xs-4 col-sm-2">
-		<div class="form-check form-switch">
-			<label class="form-check-label" for="canPullSwitch">
-				Pull
-			</label>
-			<input class="form-check-input" type="checkbox" role="switch" id="canPullSwitch" bind:checked={pull}>
-		</div>
-	</div>
-	<div class="col-xs-4 col-sm-2">
-		<button class="btn btn-sm btn-outline-primary" disabled={!enabled} on:click={save}>Save</button>
+	<div class="col-sm-6">
+		<Form 
+			type="line"
+			{definition}
+			initialData={{ channelId: id, pull: canPull, push: canPush }}
+			{setter}
+		/>
 	</div>
 </div>

@@ -4,6 +4,7 @@
 	import type { UserProfile } from "$lib/smolblog/types";
 	import type { SmolblogStore } from "$lib/stores/context";
 	import { getContext } from "svelte";
+	import md5 from "crypto-js/md5";
 
 	const context = getContext<SmolblogStore>('smolblog');
 
@@ -11,6 +12,9 @@
 	export let userProfile: UserProfile|undefined = undefined;
 
 	const displayName = userProfile?.displayName ?? userProfile?.handle;
+
+	const emailHash = md5(userProfile?.email ?? 'example@example.com');
+	const gravatar = `https://www.gravatar.com/avatar/${emailHash}.jpg?s=48&d=mp`;
 
 </script>
 
@@ -42,7 +46,7 @@
 				<button title="My account" class="btn btn-link nav-link dropdown-toggle active"
 					data-bs-toggle="dropdown" aria-expanded="false">
 					{displayName}
-					<img src="https://picsum.photos/50" width="24" height="24" alt="My Account" style="margin:0;margin-left:5px;padding:0">
+					<img src="{gravatar}" width="24" height="24" alt="My Account" style="margin:0;margin-left:5px;padding:0">
 				</button>
 				<ul class="dropdown-menu dropdown-menu-end">
 					<li><a class="dropdown-item" href="/account">Profile</a></li>
