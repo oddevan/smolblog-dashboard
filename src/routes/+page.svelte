@@ -32,7 +32,6 @@ import type { PageData } from "./$types";
 			</h2>
 			<div class="list-group list-group-flush">
 				<a class="list-group-item list-group-item-action" href="/account">Profile</a>
-				<a class="list-group-item list-group-item-action" href="/account/security">Security</a>
 				<a class="list-group-item list-group-item-action" href="/account/connections">Connections</a>
 				<a class="list-group-item list-group-item-action" href="/account/preferences">Preferences</a>
 			</div>

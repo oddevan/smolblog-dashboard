@@ -29,7 +29,7 @@
 						{/if}
 					</button>
 					<ul class="dropdown-menu">
-						{#each $page.data.userSites as menuSite (menuSite.id)}
+						{#each $page.data.userSites ?? [] as menuSite (menuSite.id)}
 						<li>
 							<a class="dropdown-item" href="/site/{menuSite.handle}">
 								<SiteDisplay site={menuSite}/>
