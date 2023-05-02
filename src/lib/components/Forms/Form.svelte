@@ -2,7 +2,7 @@
 	export interface FormField {
 		name: string,
 		label: string,
-		type: 'text'|'display'|'switch'|'hidden',
+		type: 'text'|'display'|'switch'|'hidden'|'markdown',
 		description?: string,
 		required?: boolean,
 	};
@@ -22,7 +22,6 @@
 	import { writable } from "svelte/store";
 	import CardForm from './CardForm.svelte';
 	import LineForm from './LineForm.svelte';
-	import { onMount } from 'svelte';
 
 	export let definition: FormField[];
 	export let initialData: any = {};

@@ -58,3 +58,14 @@ export type SmolblogFetch = (args: {
 	verb?: string,
 	payload?: unknown,
 }) => Promise<unknown>;
+
+export interface NewStatusPayload {
+	text: string,
+	publish: boolean
+};
+
+export interface NewReblogPayload {
+	url: string,
+	comment?: string,
+	publish: boolean
+};

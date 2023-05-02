@@ -20,10 +20,13 @@
 
 		<nav>
 			<ul class="nav nav-pills flex-column" id="sidebar-nav">
-				{#if site}
 				<li class="nav-item bg-primary-subtle dropdown">
 					<button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+						{#if site}
 						<SiteDisplay {site}/>
+						{:else}
+						<Icon icon="person"/> My Account
+						{/if}
 					</button>
 					<ul class="dropdown-menu">
 						{#each $page.data.userSites as menuSite (menuSite.id)}
@@ -33,8 +36,15 @@
 							</a>
 						</li>
 						{/each}
+						<li>
+							<a class="dropdown-item" href="/account">
+								<Icon icon="person"/> My Account
+							</a>
+						</li>
 					</ul>
 				</li>
+
+				{#if site}
 				<li class="nav-item">
 					<a class="nav-link" href="/site/{site.handle}/"><Icon icon="speedometer2"/> Dashboard</a>
 				</li>

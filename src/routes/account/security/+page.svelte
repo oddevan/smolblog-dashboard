@@ -1,1 +1,0 @@
-<p>To change your password, visit the WordPress dashboard.</p>

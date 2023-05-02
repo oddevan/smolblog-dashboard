@@ -5,6 +5,8 @@
 	import type { Field } from "svelte-forms/types";
 	import DisplayField from "./Fields/DisplayField.svelte";
 	import ErrorBox from "../ErrorBox.svelte";
+	import MarkdownFormField from "./Fields/MarkdownFormField.svelte";
+	import SwitchField from "./Fields/SwitchField.svelte";
 
 	export let state: Readable<FormState>;
 	export let definition: FormField[];
@@ -23,6 +25,12 @@
 			<TextField definition={field} controller={formController.getField(field.name)} />
 		{:else if field.type == 'display'}
 			<DisplayField definition={field} controller={formController.getField(field.name)} />
+		{:else if field.type == 'markdown'}
+			<MarkdownFormField definition={field} controller={formController.getField(field.name)} />
+		{:else if field.type == 'switch'}
+			<div class="row mb-4 justify-content-end">
+				<SwitchField definition={field} controller={formController.getField(field.name)} />
+			</div>
 		{/if}
 	{/each}
 	<ErrorBox error={$state.saveError}/>

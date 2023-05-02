@@ -50,7 +50,6 @@
 				</button>
 				<ul class="dropdown-menu dropdown-menu-end">
 					<li><a class="dropdown-item" href="/account">Profile</a></li>
-					<li><a class="dropdown-item" href="/account/security">Security</a></li>
 					<li><a class="dropdown-item" href="/account/connections">Connections</a></li>
 					<li><a class="dropdown-item" href="/account/preferences">Preferences</a></li>
 					<li>

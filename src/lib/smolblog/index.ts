@@ -1,8 +1,9 @@
 import { getMarkdown, getServerInfo, getUrlEmbed } from "./server";
-import type { SetUserProfilePayload, SiteSettingsPayload, SmolblogFetch } from "./types";
+import type { NewReblogPayload, NewStatusPayload, SetUserProfilePayload, SiteSettingsPayload, SmolblogFetch } from "./types";
 import { getUserProfile, getUserSites, setUserProfile } from "./user";
 import { startConnectionSession, getUserConnections, linkChannelAndSite, getSiteChannelsForAdmin } from "./connections";
 import { getSiteSettings, getSiteUsers, setSitePermission, setSiteSettings } from "./site";
+import { createReblog, createStatus } from "./status";
 
 export interface SmolblogContext {
 	apiBase: string,
@@ -116,13 +117,13 @@ class SmolblogSite {
 		all: () => console.error('Smolblog.site.content.all not implemented.'),
 		status: {
 			get: () => console.error('Smolblog.site.content.status.get not implemented.'),
-			create: () => console.error('Smolblog.site.content.status.create not implemented.'),
+			create: (payload: NewStatusPayload) => createStatus(this.fetcher, this.siteId, payload),
 			edit: () => console.error('Smolblog.site.content.status.edit not implemented.'),
 			delete: () => console.error('Smolblog.site.content.status.delete not implemented.'),
 		},
 		reblog: {
 			get: () => console.error('Smolblog.site.content.reblog.get not implemented.'),
-			create: () => console.error('Smolblog.site.content.reblog.create not implemented.'),
+			create: (payload: NewReblogPayload) => createReblog(this.fetcher, this.siteId, payload),
 			edit: () => console.error('Smolblog.site.content.status.edit not implemented.'),
 			delete: () => console.error('Smolblog.site.content.reblog.delete not implemented.'),
 		}
