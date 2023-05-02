@@ -1,11 +1,16 @@
 <script lang="ts">
-	import Form, { type FormField } from "$lib/components/Forms/Form.svelte";
+	import Form, { type FormField, type FormSetter } from "$lib/components/Forms/Form.svelte";
 	import Smolblog from "$lib/smolblog";
 	import SidebarFrame from "../../SidebarFrame.svelte";
 	import type { PageData } from "./$types";
 
 	export let data: PageData;
 	const api = data.context && data.currentSite ? new Smolblog(data.context) : undefined;
+
+	function wrapSetter(setter?: FormSetter): FormSetter|undefined {
+		if (!setter) { return undefined; }
+		return (payload) => setter(payload).then(() => window.location.href += '/content');
+	}
 
 	const statusFormDefinition: FormField[] = [
     {
@@ -20,7 +25,7 @@
       type: 'switch',
     },
 	];
-	const statusSetter = api?.site(data.currentSite?.id ?? '').content.status.create;
+	const statusSetter = wrapSetter(api?.site(data.currentSite?.id ?? '').content.status.create);
 
 	const reblogFormDefinition: FormField[] = [
     {
@@ -40,7 +45,7 @@
       type: 'switch',
     },
 	];
-	const reblogSetter = api?.site(data.currentSite?.id ?? '').content.reblog.create;
+	const reblogSetter = wrapSetter(api?.site(data.currentSite?.id ?? '').content.reblog.create);
 
 </script>
 
