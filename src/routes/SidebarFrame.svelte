@@ -21,9 +21,9 @@
 		<nav>
 			<ul class="nav nav-pills flex-column" id="sidebar-nav">
 				<li class="nav-item bg-primary-subtle dropdown">
-					<button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+					<button class="nav-link" data-bs-toggle="dropdown" aria-expanded="false">
 						{#if site}
-						<SiteDisplay {site}/>
+						<SiteDisplay {site} maxWidth="224px"/>
 						{:else}
 						<Icon icon="person"/> My Account
 						{/if}
