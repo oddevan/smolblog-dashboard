@@ -1,4 +1,4 @@
-import type { SmolblogFetch, NewStatusPayload, NewReblogPayload } from "./types";
+import type { SmolblogFetch, NewStatusPayload, NewReblogPayload, Content } from "./types";
 
 export async function createStatus(fetcher: SmolblogFetch, siteId: string, payload: NewStatusPayload) {
 	const { text, publish } = payload;
@@ -16,8 +16,14 @@ export async function createReblog(fetcher: SmolblogFetch, siteId: string, paylo
 
 	await fetcher({
 		endpoint: `/site/${siteId}/content/reblog/new`,
-		payload: { url, comment, publish }
+		payload: { reblog: { url, comment }, publish }
 	});
 
 	return true;
+}
+
+export async function getContentList(fetcher: SmolblogFetch, siteId: string) {
+	const results = await fetcher({ endpoint: `/site/${siteId}/content` }) as { content: Content[] };
+
+	return results.content;
 }

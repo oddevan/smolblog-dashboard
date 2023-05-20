@@ -3,7 +3,7 @@ import type { NewReblogPayload, NewStatusPayload, SetUserProfilePayload, SiteSet
 import { getUserProfile, getUserSites, setUserProfile } from "./user";
 import { startConnectionSession, getUserConnections, linkChannelAndSite, getSiteChannelsForAdmin } from "./connections";
 import { getSiteSettings, getSiteUsers, setSitePermission, setSiteSettings } from "./site";
-import { createReblog, createStatus } from "./status";
+import { createReblog, createStatus, getContentList } from "./status";
 
 export interface SmolblogContext {
 	apiBase: string,
@@ -114,7 +114,7 @@ class SmolblogSite {
 	}
 
 	content = {
-		all: () => console.error('Smolblog.site.content.all not implemented.'),
+		all: () => getContentList(this.fetcher, this.siteId),
 		status: {
 			get: () => console.error('Smolblog.site.content.status.get not implemented.'),
 			create: (payload: NewStatusPayload) => createStatus(this.fetcher, this.siteId, payload),

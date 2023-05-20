@@ -9,7 +9,7 @@
 
 	function wrapSetter(setter?: FormSetter): FormSetter|undefined {
 		if (!setter) { return undefined; }
-		return (payload) => setter(payload).then(() => window.location.href += '/content');
+		return (payload) => setter(payload);//.then(() => window.location.href += '/content');
 	}
 
 	const statusFormDefinition: FormField[] = [

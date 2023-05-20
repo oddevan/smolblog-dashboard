@@ -69,3 +69,16 @@ export interface NewReblogPayload {
 	comment?: string,
 	publish: boolean
 };
+
+export interface Content {
+	id: string,
+	title: string,
+	body: string,
+	siteId: string,
+	authorId: string,
+	permalink?: string,
+	publishTimestamp?: Date,
+	visibility: 'draft'|'private'|'published',
+	type?: unknown,
+	extensions?: unknown[]
+}
