@@ -1,16 +1,36 @@
 <script lang="ts">
-	import type { Content } from "$lib/smolblog/types";
+	import Icon from "$lib/components/Icon.svelte";
+import type { Content } from "$lib/smolblog/types";
 
 	export let row: Content;
 	export let baseUrl = '';
 
-	const { id, title, visibility, publishTimestamp, permalink } = row;
+	const { id, title, visibility, publishTimestamp, permalink, contentType } = row;
 	const fullPermalink = `${baseUrl}${permalink}`;
+	const type = contentShortName(contentType?.typeClass ?? '');
+
+	function contentShortName(contentType: string): string|null {
+		switch (contentType) {
+			case 'Smolblog\\Core\\Content\\Types\\Status\\Status':
+				return 'status';
+			case 'Smolblog\\Core\\Content\\Types\\Reblog\\Reblog':
+				return 'reblog';
+			default:
+				return null;
+		}
+	}
 </script>
 
 <div class="row">
 	<div class="col-sm-6">
-		<h6><a href="edit/{id}">{title}</a></h6>
+		<h6>
+			{#if type === 'status'}
+			<Icon icon="chat-left-text"/>
+			{:else if type === 'reblog'}
+			<Icon icon="repeat"/>
+			{/if}
+			<a href="edit/{type}/{id}">{title}</a>
+		</h6>
 	</div>
 	<div class="col-sm-6">
 		<div class="row">

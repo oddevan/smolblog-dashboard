@@ -79,6 +79,8 @@ export interface Content {
 	permalink?: string,
 	publishTimestamp?: Date,
 	visibility: 'draft'|'private'|'published',
-	type?: unknown,
-	extensions?: unknown[]
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	contentType?: any,
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	extensions?: any[]
 }
