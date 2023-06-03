@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../app.postcss';
 	import { onMount, setContext } from 'svelte';
 	import Navbar from './Navbar.svelte';
 	import theme from '$lib/stores/theme';
@@ -26,22 +27,22 @@
 
 		const localStorage = new Vault({});
 
-		const contextUnsubscribe = context.subscribe(ctx => {
+		const contextUnsubscribe = context.subscribe((ctx) => {
 			if (ctx) {
 				localStorage.set<SmolblogContext>('context', ctx);
 			} else {
 				localStorage.remove('context');
 			}
 			fetch('/setcookie', { method: 'POST', body: JSON.stringify(ctx) });
-		})
+		});
 
-		const matcher = window.matchMedia("(prefers-color-scheme: dark)");
+		const matcher = window.matchMedia('(prefers-color-scheme: dark)');
 		theme.setBrowserPref(matcher.matches ? 'dark' : 'light');
-		matcher.addEventListener('change', e => {
+		matcher.addEventListener('change', (e) => {
 			theme.setBrowserPref(e.matches ? 'dark' : 'light');
 		});
 
-		const themeUnsubscribe = theme.subscribe(storeVal => {
+		const themeUnsubscribe = theme.subscribe((storeVal) => {
 			document.documentElement.dataset.bsTheme = storeVal.currentTheme();
 		});
 
@@ -52,16 +53,16 @@
 	});
 </script>
 
-<Navbar userProfile={data.userProfile} />
+<Navbar userprofile={data.userProfile} />
 
 <div class="container-fluid mx-auto" style="min-height: 100%">
-<slot/>
+	<slot />
 
-{#if data.context?.apiBase}
-<p class="m-5 text-body-tertiary text-end">
-	Connected to Smolblog {data.serverVersion} on {(new URL(data.context.apiBase)).hostname}
-</p>
-{/if}
+	{#if data.context?.apiBase}
+		<p class="m-5 text-body-tertiary text-end">
+			Connected to Smolblog {data.serverVersion} on {new URL(data.context.apiBase).hostname}
+		</p>
+	{/if}
 </div>
 
 <LoginModal />
