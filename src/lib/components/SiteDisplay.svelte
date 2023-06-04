@@ -1,39 +1,20 @@
 <script lang="ts">
+	import { Avatar } from 'flowbite-svelte';
 	import type { Site } from "$lib/smolblog/types";
-	import Icon from "./Icon.svelte";
 
 	export let site: Site;
-	export let maxWidth = '100%';
 
 	const siteServer = (new URL(site.baseUrl)).hostname;
 </script>
 
-<style lang="scss">
-	.site-menu-item {
-		overflow: hidden;
-		display: flex;
-		flex-direction: row;
-
-		.column-icon {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 40px;
-		}
-
-		.name, .url {
-			display: block;
-			text-align: start;
-		}
-	}
-</style>
-
-<div class="site-menu-item" style:max-width={maxWidth}>
-	<div class="column-icon">
-		<span class="icon"><Icon icon="layout-text-window-reverse"/></span>
-	</div>
-	<div class="column-text">
-		<span class="name">{site.displayName}</span>
-		<small class="text-body-tertiary url">{siteServer}</small>
+<div class="flex items-center p-1 space-x-4 bg-white dark:bg-gray-900">
+	<Avatar rounded>
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+			<path stroke-linecap="round" stroke-linejoin="round" d="M3 8.25V18a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 18V8.25m-18 0V6a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 6v2.25m-18 0h18M5.25 6h.008v.008H5.25V6zM7.5 6h.008v.008H7.5V6zm2.25 0h.008v.008H9.75V6z" />
+		</svg>
+	</Avatar>		
+	<div class="space-y-1 font-medium dark:text-white">
+			<div>{site.displayName}</div>
+			<div class="text-sm secondary-text">{siteServer}</div>
 	</div>
 </div>

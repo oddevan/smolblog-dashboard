@@ -13,7 +13,7 @@ import type { PageData } from "./$types";
 			<h2 class="card-header h4">
 				Select a site
 			</h2>
-			<div class="space-y-2">
+			<div class="list-group list-group-flush">
 					{#each userSites ?? [] as site (site.id)}
 					<a
 						class="list-group-item list-group-item-action"
