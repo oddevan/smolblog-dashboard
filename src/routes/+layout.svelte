@@ -2,7 +2,7 @@
 	import '../app.postcss';
 
 	import { onMount, setContext } from 'svelte';
-  import { Navbar, NavBrand, NavLi, NavUl, NavHamburger, DarkMode } from 'flowbite-svelte'
+  import { Navbar, NavBrand, DarkMode, Button, Avatar, MegaMenu, Sidebar, SidebarWrapper, SidebarGroup, SidebarItem, Card, Label, Input, Checkbox } from 'flowbite-svelte'
 
 	import type { SmolblogContext } from '$lib/smolblog';
 	import type { LayoutData } from './$types';
@@ -10,6 +10,10 @@
 	export let data: LayoutData;
 	
 	import context from '$lib/stores/context';
+	import type { LinkType } from 'flowbite-svelte/dist/types';
+	import SiteDisplay from '$lib/components/SiteDisplay.svelte';
+	import SmolblogLogo from '$lib/components/SmolblogLogo.svelte';
+	import LoginModal from './LoginModal.svelte';
 	setContext('smolblog', context);
 
 	if (data.context) {
@@ -34,41 +38,60 @@
 			contextUnsubscribe();
 		};
 	});
+
+	const menuSites: (LinkType & { [propName: string]: any; })[] = data.userSites?.map(
+		site => { return {
+			name: site.displayName,
+			href: `/site/${site.handle}`,
+			site
+		};}
+	) ?? [];
 </script>
 
-<svelte:head>
-	<script>
-		// On page load or when changing themes, best to add inline in `head` to avoid FOUC
-		if (
-			localStorage.getItem('color-theme') === 'dark' ||
-			(!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-		) {
-			document.documentElement.classList.add('dark');
-		} else {
-			document.documentElement.classList.remove('dark')
-		}
-	</script>
-</svelte:head>
+{#if data.context}
+
+<Navbar let:hidden let:toggle class="bg-white dark:bg-boop">
+	<NavBrand href="/">
+		<SmolblogLogo/>
+	</NavBrand>
+	<div class="flex justify-end items-center">
+	<Button class="bg-snek dark:bg-snek mr-2" size="xs">
+		<Avatar size="sm">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+			</svg>				
+		</Avatar>
+		<Avatar size="sm" stacked>
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M3 8.25V18a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 18V8.25m-18 0V6a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 6v2.25m-18 0h18M5.25 6h.008v.008H5.25V6zM7.5 6h.008v.008H7.5V6zm2.25 0h.008v.008H9.75V6z" />
+			</svg>
+		</Avatar>
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+			<path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+		</svg>
+	</Button>
+	<MegaMenu full items={menuSites ?? []} let:item>
+		<a href={item.href} class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 h-full">
+			<SiteDisplay site={item.site}/>
+		</a>
+		<div slot="extra" class="">
+			<Sidebar>
+				<SidebarWrapper>
+					<SidebarGroup>
+						<SidebarItem label="My Account" href="/account" />
+						<SidebarItem label="My Connections" href="/account/connections" />
+					</SidebarGroup>
+				</SidebarWrapper>
+			</Sidebar>
+		</div>
+	</MegaMenu>
+	<DarkMode size="lg"/>
+	</div>
+</Navbar>
 
 <div class="m-2 md:m-3">
 
-	<Navbar let:hidden let:toggle rounded color="form">
-		<NavBrand href="/">
-			<img src="/images/flowbite-svelte-icon-logo.svg" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo"/>
-			<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Flowbite</span>
-		</NavBrand>
-		<NavHamburger on:click={toggle} />
-		<NavUl {hidden}>
-			<NavLi href="/" active={true}>Home</NavLi>
-			<NavLi href="/about">About</NavLi>
-			<NavLi href="/services">Services</NavLi>
-			<NavLi href="/pricing">Pricing</NavLi>
-			<NavLi href="/contact">Contact</NavLi>
-		</NavUl>
-		<DarkMode/>
-	</Navbar>
-
-	<!-- <slot /> -->
+	<slot />
 
 	{#if data.context?.apiBase}
 		<p class="m-5 secondary-text text-end">
@@ -77,3 +100,11 @@
 	{/if}
 
 </div>
+
+{:else}
+
+<div class="grid grid-cols-1 h-screen place-content-center">
+<LoginModal/>
+</div>
+
+{/if}
