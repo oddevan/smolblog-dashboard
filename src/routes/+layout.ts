@@ -26,7 +26,7 @@ export const load = (async ({ data, fetch }) => {
 	}
 
 	return {
-		breadcrumbs: [{ path: '/', title: 'Home' }],
+		breadcrumbs: [],
 		title: 'Home',
 		context,
 		userProfile,
