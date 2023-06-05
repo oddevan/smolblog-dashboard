@@ -9,6 +9,7 @@ declare global {
 		// interface Locals {}
 		interface PageData {
 			breadcrumbs: BreadcrumbStep[],
+			subnav?: BreadcrumbStep[],
 			title: string
 		}
 		// interface Platform {}

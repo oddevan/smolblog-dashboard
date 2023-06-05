@@ -14,6 +14,6 @@ export const load = (async ({ parent, params }) => {
 	return {
 		currentSite,
 		breadcrumbs: [...breadcrumbs, { path: `/site/${currentSite?.handle}`, title: currentSite?.displayName }],
-		subnav: [{ subpath: '', title: 'All Content' }, { subpath: '/content/drafts', title: 'Drafts' }]
+		subnav: [],
 	};
 }) satisfies LayoutLoad;
