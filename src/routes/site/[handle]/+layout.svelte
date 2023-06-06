@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Breadcrumbs from "$lib/components/Breadcrumbs.svelte";
 	import { BottomNav, BottomNavItem, Button, Modal, Sidebar, SidebarGroup, SidebarItem, SidebarWrapper, Tooltip } from "flowbite-svelte";
-  import { page } from '$app/stores';
 	import type { LayoutData } from "./$types";
 	import Subnav from "$lib/components/Subnav.svelte";
+	import PageTitle from "$lib/components/PageTitle.svelte";
+	import { page } from '$app/stores';
 
 	export let data: LayoutData;
 	const makePath = (subpath: string) => `/site/${data.currentSite?.handle}${subpath}`;
@@ -54,19 +54,14 @@
 		</Sidebar>
 	</div>
 	<div class="grow">
-		<Subnav items={data.subnav}/>
-
-		{#if $page.data.breadcrumbs.length > 0}
-		<Breadcrumbs steps={$page.data.breadcrumbs} current={$page.data.title} />
-		{/if}
-		
-		<h1 class="my-3 font-bold text-3xl sm:text-4xl md:text-5xl text-black dark:text-white grow">{$page.data.title}</h1>
+		<Subnav items={$page.data.subnav}/>
+		<PageTitle/>
 
 		<slot/>
 	</div>
 </div>
 
-<BottomNav outerDiv="md:hidden" position="absolute" navType="application" innerDiv="grid-cols-5">
+<BottomNav outerDiv="md:hidden w-11/12" position="absolute" navType="application" innerDiv="grid-cols-5">
   <BottomNavItem btnName="Reader" appBtnPosition="left" href={makePath('/reader')}>
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-500" aria-hidden="true">
 			<path d="M5.625 3.75a2.625 2.625 0 100 5.25h12.75a2.625 2.625 0 000-5.25H5.625zM3.75 11.25a.75.75 0 000 1.5h16.5a.75.75 0 000-1.5H3.75zM3 15.75a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75zM3.75 18.75a.75.75 0 000 1.5h16.5a.75.75 0 000-1.5H3.75z" />

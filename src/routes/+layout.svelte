@@ -15,6 +15,7 @@
 	import SmolblogLogo from '$lib/components/SmolblogLogo.svelte';
 	import LoginModal from './LoginModal.svelte';
 	import { page } from '$app/stores';
+	import AccountSidebar from '$lib/components/AccountSidebar.svelte';
 	setContext('smolblog', context);
 
 	if (data.context) {
@@ -75,16 +76,9 @@
 	</Button>
 	<MegaMenu full items={menuSites ?? []} let:item>
 		<SiteDisplay site={item.site} />
-		<div slot="extra" class="">
-			<Sidebar>
-				<SidebarWrapper>
-					<SidebarGroup>
-						<SidebarItem label="My Account" href="/account" />
-						<SidebarItem label="My Connections" href="/account/connections" />
-					</SidebarGroup>
-				</SidebarWrapper>
-			</Sidebar>
-		</div>
+		<svelte:fragment slot="extra">
+			<AccountSidebar/>
+		</svelte:fragment>
 	</MegaMenu>
 	<DarkMode size="lg"/>
 	</div>

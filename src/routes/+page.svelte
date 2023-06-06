@@ -1,5 +1,6 @@
 <script lang="ts">
-	import SiteDisplay from "$lib/components/SiteDisplay.svelte";
+	import AccountSidebar from "$lib/components/AccountSidebar.svelte";
+import SiteDisplay from "$lib/components/SiteDisplay.svelte";
 import type { PageData } from "./$types";
 
 	export let data: PageData;
@@ -7,35 +8,19 @@ import type { PageData } from "./$types";
 	const { context, userSites } = data;
 </script>
 
-<div class="row justify-content-center">
-	<div class="col-sm col-md-6 col-lg-5 col-xl-4">
-		<div class="card">
+<div class="flex justify-center flex-row w-full space-x-3">
+	<div class="sm:w-2/3 md:w-1/2 lg:w-5/12 xl:w-1/3">
 			<h2 class="card-header h4">
 				Select a site
 			</h2>
 			<div class="space-y-2">
 					{#each userSites ?? [] as site (site.id)}
-					<a
-						class="list-group-item list-group-item-action"
-						href="/site/{site.handle}"
-					>
 						<SiteDisplay {site}/>
-					</a>
 					{/each}
 			</div>
-		</div>
 	</div>
-	<div class="col-sm col-md-3 col-xl-2">
-		<div class="card">
-			<h2 class="card-header h4">
-				My account
-			</h2>
-			<div class="list-group list-group-flush">
-				<a class="list-group-item list-group-item-action" href="/account">Profile</a>
-				<a class="list-group-item list-group-item-action" href="/account/connections">Connections</a>
-				<a class="list-group-item list-group-item-action" href="/account/preferences">Preferences</a>
-			</div>
-		</div>
+	<div class="sm:w-1/3 md:w-1/4 xl:w-1/6">
+		<AccountSidebar/>
 	</div>
 </div>
 
