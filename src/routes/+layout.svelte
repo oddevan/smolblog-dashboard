@@ -50,7 +50,7 @@
 	) ?? [];
 </script>
 
-{#if data.context}
+{#if data.context && true}
 
 <Navbar let:hidden let:toggle class="bg-white dark:bg-boop">
 	<NavBrand href="/">
