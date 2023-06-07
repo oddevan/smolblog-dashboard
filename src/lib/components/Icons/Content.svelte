@@ -1,9 +1,15 @@
+<script lang="ts">
+	export let alt: string | undefined = undefined;
+	export let size = 6;
+	const nodeClass = $$props.class ?? `w-${size} h-${size}`;
+</script>
+
 <svg
 	xmlns="http://www.w3.org/2000/svg"
 	viewBox="0 0 24 24"
 	fill="currentColor"
-	class="w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-500"
 	aria-hidden="true"
+	class={nodeClass}
 >
 	<path
 		fill-rule="evenodd"
@@ -16,3 +22,4 @@
 		clip-rule="evenodd"
 	/>
 </svg>
+{#if alt}<span class="sr-only">{alt}</span>{/if}
