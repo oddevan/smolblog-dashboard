@@ -1,5 +1,6 @@
 <script lang="ts">
-	import Icon from './Icon.svelte';
+	import { Alert } from 'flowbite-svelte';
+	import { Alert as AlertIcon } from './Icons';
 
 	export let error: Error | undefined = undefined;
 	export let message = error
@@ -8,8 +9,8 @@
 </script>
 
 {#if message}
-	<div class="alert alert-danger" role="alert">
-		<Icon icon="exclamation-triangle-fill" />
+	<Alert color="red">
+		<AlertIcon slot="icon" />
 		{message}
-	</div>
+	</Alert>
 {/if}

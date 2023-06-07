@@ -66,7 +66,7 @@
 		}) ?? [];
 </script>
 
-{#if data.context && true}
+{#if $context?.authHeader}
 	<Navbar let:hidden let:toggle class="bg-white dark:bg-boop">
 		<NavBrand href="/">
 			<SmolblogLogo />

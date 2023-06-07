@@ -7,7 +7,7 @@
 	const siteServer = new URL(site.baseUrl).hostname;
 </script>
 
-<Card href="/site/{site.handle}" horizontal padding="none">
+<Card href="/site/{site.handle}" horizontal padding="none" class={$$props.class}>
 	<div class="flex items-center p-3 overflow-hidden space-x-4">
 		<Avatar rounded>
 			<svg

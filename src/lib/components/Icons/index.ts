@@ -1,3 +1,4 @@
+export { default as Alert } from './Alert.svelte';
 export { default as Content } from './Content.svelte';
 export { default as Inbox } from './Inbox.svelte';
 export { default as Reader } from './Reader.svelte';

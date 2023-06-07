@@ -16,6 +16,7 @@
 	import Subnav from '$lib/components/Subnav.svelte';
 	import PageTitle from '$lib/components/PageTitle.svelte';
 	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 	import { Reader, Inbox, Content, Settings, Status, Reblog } from '$lib/components/Icons/';
 
 	export let data: LayoutData;
@@ -51,13 +52,13 @@
 			</SidebarWrapper>
 		</Sidebar>
 
-		<SpeedDial defaultClass="mt-3" tooltip="none" placement="bottom" textOutside>
+		<SpeedDial defaultClass="absolute right-3 top-20" tooltip="none" placement="bottom" textOutside>
 			{@const textOutsideClass =
 				'block absolute left-14 top-1/2 mb-px text-sm font-medium -translate-y-1/2'}
-			<SpeedDialButton name="Status" {textOutsideClass}>
+			<SpeedDialButton name="Status">
 				<Status />
 			</SpeedDialButton>
-			<SpeedDialButton name="Reblog" {textOutsideClass}>
+			<SpeedDialButton name="Reblog">
 				<Reblog />
 			</SpeedDialButton>
 		</SpeedDial>
@@ -76,11 +77,11 @@
 	navType="application"
 	innerDiv="grid-cols-5"
 >
-	<BottomNavItem btnName="Reader" appBtnPosition="left" href={makePath('/reader')}>
+	<BottomNavItem btnName="Reader" appBtnPosition="left" on:click={() => goto(makePath('/reader'))}>
 		<Reader />
 		<Tooltip arrow={false}>Reader</Tooltip>
 	</BottomNavItem>
-	<BottomNavItem btnName="Inbox" appBtnPosition="middle" href={makePath('/inbox')}>
+	<BottomNavItem btnName="Inbox" appBtnPosition="middle" on:click={() => goto(makePath('/inbox'))}>
 		<Inbox />
 		<Tooltip arrow={false}>Inbox</Tooltip>
 	</BottomNavItem>
@@ -107,11 +108,19 @@
 			<Tooltip arrow={false}>Create new item</Tooltip>
 		</BottomNavItem>
 	</div>
-	<BottomNavItem btnName="Content" appBtnPosition="middle" href={makePath('/content')}>
+	<BottomNavItem
+		btnName="Content"
+		appBtnPosition="middle"
+		on:click={() => goto(makePath('/content'))}
+	>
 		<Content />
 		<Tooltip arrow={false}>Content</Tooltip>
 	</BottomNavItem>
-	<BottomNavItem btnName="Settings" appBtnPosition="right" href={makePath('/settings')}>
+	<BottomNavItem
+		btnName="Settings"
+		appBtnPosition="right"
+		on:click={() => goto(makePath('/settings'))}
+	>
 		<Settings />
 		<Tooltip arrow={false}>Settings</Tooltip>
 	</BottomNavItem>

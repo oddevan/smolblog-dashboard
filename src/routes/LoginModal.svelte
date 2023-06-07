@@ -11,6 +11,7 @@
 	import { required } from 'svelte-forms/validators';
 	import type { FormField } from '$lib/components/FormFields/BaseField.svelte';
 	import { error } from '@sveltejs/kit';
+	import Password from '$lib/components/FormFields/Password.svelte';
 
 	const checkServer = async (apiBase: string) => {
 		if (!apiBase) {
@@ -54,13 +55,35 @@
 	let pass: string;
 	let loginError: Error;
 
+	const unameFieldDef: FormField = {
+		name: 'uname',
+		label: 'Username',
+		type: 'text',
+		required: true
+	};
+	const unameFieldController = makeField('uname', '', [required()]);
+
+	const passFieldDef: FormField = {
+		name: 'pass',
+		label: 'App Password',
+		type: 'password',
+		required: true
+	};
+	const passFieldController = makeField('pass', '', [required()]);
+
 	const saveToContext = async () => {
 		try {
-			if (!$serverFieldController.valid || !uname || !pass) {
+			if (
+				!$serverFieldController.valid ||
+				!$unameFieldController.valid ||
+				!$passFieldController.valid
+			) {
 				return;
 			}
 
-			const authHeader = `Basic ${btoa(`${uname}:${pass}`)}`;
+			const authHeader = `Basic ${btoa(
+				`${$unameFieldController.value}:${$passFieldController.value}`
+			)}`;
 			context.set({ apiBase: $serverFieldController.value, authHeader });
 		} catch (error) {
 			loginError = error as Error;
@@ -69,9 +92,21 @@
 </script>
 
 <Card shadow rounded class="place-self-center min-w-fit">
-	<form class="flex flex-col space-y-6" action="/">
+	<div class="flex flex-col space-y-6">
 		<h1 class="text-center"><SmolblogLogo /></h1>
 		<Text definition={serverFieldDef} controller={serverFieldController} />
 		<hr />
-	</form>
+
+		<!-- TODO: Check the server for supported auth schemes. -->
+		<!-- BIGGER TODO: Implement an OAuth flow here -->
+		<!-- REALLY BIG TODO: Get OAuth working on the server ^_^;; -->
+		<div class="space-y-3">
+			<Text definition={unameFieldDef} controller={unameFieldController} />
+			<Password definition={passFieldDef} controller={passFieldController} />
+		</div>
+
+		<ErrorBox error={loginError} />
+
+		<Button on:click={saveToContext}>Connect to Smolblog</Button>
+	</div>
 </Card>

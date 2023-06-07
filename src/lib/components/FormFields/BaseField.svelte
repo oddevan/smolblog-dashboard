@@ -2,7 +2,7 @@
 	export interface FormField {
 		name: string;
 		label: string;
-		type: 'text' | 'display' | 'switch' | 'hidden' | 'markdown';
+		type: 'text' | 'password' | 'display' | 'switch' | 'hidden' | 'markdown';
 		description?: string;
 		required?: boolean;
 		errorMessageHandler?: (validatorNames: string[]) => string;
