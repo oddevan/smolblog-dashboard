@@ -5,12 +5,11 @@
 	import Smolblog from '$lib/smolblog';
 	import type { SmolblogStore } from '$lib/stores/context';
 	import { getContext, onMount } from 'svelte';
-	import { Button, Card, Checkbox, Input, Label } from 'flowbite-svelte';
+	import { Button, Card } from 'flowbite-svelte';
 	import { Text } from '$lib/components/FormFields';
-	import { form as makeForm, field as makeField, type Validator } from 'svelte-forms';
+	import { field as makeField } from 'svelte-forms';
 	import { required } from 'svelte-forms/validators';
 	import type { FormField } from '$lib/components/FormFields/BaseField.svelte';
-	import { error } from '@sveltejs/kit';
 	import Password from '$lib/components/FormFields/Password.svelte';
 
 	const checkServer = async (apiBase: string) => {

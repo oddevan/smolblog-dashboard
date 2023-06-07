@@ -55,19 +55,10 @@
 			contextUnsubscribe();
 		};
 	});
-
-	const menuSites: (LinkType & { [propName: string]: any })[] =
-		data.userSites?.map((site) => {
-			return {
-				name: site.displayName,
-				href: `/site/${site.handle}`,
-				site
-			};
-		}) ?? [];
 </script>
 
 {#if $context?.authHeader}
-	<Navbar let:hidden let:toggle class="bg-white dark:bg-boop">
+	<Navbar class="bg-white dark:bg-boop">
 		<NavBrand href="/">
 			<SmolblogLogo />
 		</NavBrand>
@@ -122,8 +113,12 @@
 					/>
 				</svg>
 			</Button>
-			<MegaMenu full items={menuSites ?? []} let:item>
-				<SiteDisplay site={item.site} />
+			<MegaMenu full>
+				{#each data.userSites ?? [] as site}
+					<li class="col-span-2 sm:col-auto">
+						<SiteDisplay site={site} />
+					</li>
+				{/each}
 				<svelte:fragment slot="extra">
 					<AccountSidebar />
 				</svelte:fragment>
