@@ -1,12 +1,12 @@
 <script lang="ts" context="module">
 	export interface FormField {
-		name: string,
-		label: string,
-		type: 'text'|'display'|'switch'|'hidden'|'markdown',
-		description?: string,
-		required?: boolean,
-		errorMessageHandler?: (validatorNames: string[]) => string,
-	};
+		name: string;
+		label: string;
+		type: 'text' | 'display' | 'switch' | 'hidden' | 'markdown';
+		description?: string;
+		required?: boolean;
+		errorMessageHandler?: (validatorNames: string[]) => string;
+	}
 
 	const defaultErrorMessageHandler = (validatorNames: string[]) => {
 		if (validatorNames.includes('required')) {
@@ -18,7 +18,7 @@
 </script>
 
 <script lang="ts">
-	import type { Writable } from "svelte/store";
+	import type { Writable } from 'svelte/store';
 	import type { Field } from 'svelte-forms/types';
 
 	export let definition: FormField;
@@ -26,14 +26,14 @@
 
 	const errorMessageHandler = definition.errorMessageHandler ?? defaultErrorMessageHandler;
 
-	let helpText: string|undefined = undefined;
+	let helpText: string | undefined = undefined;
 	$: if ($controller.invalid) {
 		helpText = errorMessageHandler($controller.errors);
 	} else {
 		helpText = definition.description ?? undefined;
 	}
 
-	let color: 'red'|'green'|undefined = undefined;
+	let color: 'red' | 'green' | undefined = undefined;
 	$: if ($controller.invalid) {
 		color = 'red';
 	} else if ($controller.dirty && $controller.valid) {

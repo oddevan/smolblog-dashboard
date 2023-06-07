@@ -1,19 +1,21 @@
 <script lang="ts">
-	import { PUBLIC_API_BASE } from "$env/static/public";
-	import ErrorBox from "$lib/components/ErrorBox.svelte";
-	import SmolblogLogo from "$lib/components/SmolblogLogo.svelte";
-	import Smolblog from "$lib/smolblog";
-	import type { SmolblogStore } from "$lib/stores/context";
-	import { getContext, onMount } from "svelte";
-	import { Button, Card, Checkbox, Input, Label } from "flowbite-svelte";
-	import { Text } from "$lib/components/FormFields";
-  import { form as makeForm, field as makeField, type Validator } from 'svelte-forms';
-	import { required } from "svelte-forms/validators";
-	import type { FormField } from "$lib/components/FormFields/BaseField.svelte";
-	import { error } from "@sveltejs/kit";
+	import { PUBLIC_API_BASE } from '$env/static/public';
+	import ErrorBox from '$lib/components/ErrorBox.svelte';
+	import SmolblogLogo from '$lib/components/SmolblogLogo.svelte';
+	import Smolblog from '$lib/smolblog';
+	import type { SmolblogStore } from '$lib/stores/context';
+	import { getContext, onMount } from 'svelte';
+	import { Button, Card, Checkbox, Input, Label } from 'flowbite-svelte';
+	import { Text } from '$lib/components/FormFields';
+	import { form as makeForm, field as makeField, type Validator } from 'svelte-forms';
+	import { required } from 'svelte-forms/validators';
+	import type { FormField } from '$lib/components/FormFields/BaseField.svelte';
+	import { error } from '@sveltejs/kit';
 
 	const checkServer = async (apiBase: string) => {
-		if (!apiBase) { return { valid: false, name: 'check_server' }; }
+		if (!apiBase) {
+			return { valid: false, name: 'check_server' };
+		}
 
 		try {
 			new URL(apiBase, window.location.href);
@@ -38,14 +40,11 @@
 			if (errors.includes('required')) {
 				return 'Please enter a server to connect to.';
 			} else {
-				return 'Could not connect to server.'
+				return 'Could not connect to server.';
 			}
-		},
+		}
 	};
-	const serverFieldController = makeField('server', '', [
-		required(),
-		checkServer,
-	]);
+	const serverFieldController = makeField('server', '', [required(), checkServer]);
 
 	onMount(async () => {
 		$serverFieldController.value = $context?.apiBase ?? PUBLIC_API_BASE;
@@ -57,7 +56,9 @@
 
 	const saveToContext = async () => {
 		try {
-			if (!$serverFieldController.valid|| !uname || !pass) { return; }
+			if (!$serverFieldController.valid || !uname || !pass) {
+				return;
+			}
 
 			const authHeader = `Basic ${btoa(`${uname}:${pass}`)}`;
 			context.set({ apiBase: $serverFieldController.value, authHeader });
@@ -69,9 +70,8 @@
 
 <Card shadow rounded class="place-self-center min-w-fit">
 	<form class="flex flex-col space-y-6" action="/">
-		<h1 class="text-center"><SmolblogLogo/></h1>
+		<h1 class="text-center"><SmolblogLogo /></h1>
 		<Text definition={serverFieldDef} controller={serverFieldController} />
-		<hr/>
-		
+		<hr />
 	</form>
 </Card>

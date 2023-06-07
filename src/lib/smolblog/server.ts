@@ -1,8 +1,8 @@
-import type { SmolblogFetch } from "./types";
+import type { SmolblogFetch } from './types';
 
 export async function getUrlEmbed(fetcher: SmolblogFetch, url: string) {
 	function timeout(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+		return new Promise((resolve) => setTimeout(resolve, ms));
 	}
 	await timeout(3000);
 
@@ -11,7 +11,7 @@ export async function getUrlEmbed(fetcher: SmolblogFetch, url: string) {
 
 export async function getMarkdown(fetcher: SmolblogFetch, markdown: string) {
 	function timeout(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+		return new Promise((resolve) => setTimeout(resolve, ms));
 	}
 	await timeout(500);
 
@@ -19,5 +19,5 @@ export async function getMarkdown(fetcher: SmolblogFetch, markdown: string) {
 }
 
 export function getServerInfo(fetcher: SmolblogFetch) {
-	return fetcher({ endpoint: '/hello' }) as Promise<{ serverVersion: string, specHref: string }>;
+	return fetcher({ endpoint: '/hello' }) as Promise<{ serverVersion: string; specHref: string }>;
 }

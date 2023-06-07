@@ -1,4 +1,4 @@
-import type { LayoutLoad } from "./$types";
+import type { LayoutLoad } from './$types';
 
 export const load = (async ({ parent }) => {
 	const { breadcrumbs, currentSite } = await parent();
@@ -11,7 +11,7 @@ export const load = (async ({ parent }) => {
 		subnav: [
 			{ path: `/site/${currentSite?.handle}/settings`, title: 'General' },
 			{ path: `/site/${currentSite?.handle}/settings/syndication`, title: 'Syndication' },
-			{ path: `/site/${currentSite?.handle}/settings/data`, title: 'Data' },
+			{ path: `/site/${currentSite?.handle}/settings/data`, title: 'Data' }
 		]
-	}
+	};
 }) satisfies LayoutLoad;

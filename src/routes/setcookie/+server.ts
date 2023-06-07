@@ -1,10 +1,10 @@
-import type { RequestHandler } from "./$types";
-import type { SmolblogContext } from "$lib/smolblog";
+import type { RequestHandler } from './$types';
+import type { SmolblogContext } from '$lib/smolblog';
 
 export const POST = (async ({ request, cookies }) => {
 	try {
-		const { apiBase, authHeader } = await request.json() as SmolblogContext;
-		
+		const { apiBase, authHeader } = (await request.json()) as SmolblogContext;
+
 		cookies.set('smolblog', JSON.stringify({ apiBase, authHeader }), { path: '/' });
 	} catch (err) {
 		cookies.delete('smolblog');

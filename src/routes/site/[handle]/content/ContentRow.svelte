@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Icon from "$lib/components/Icon.svelte";
-import type { Content } from "$lib/smolblog/types";
+	import Icon from '$lib/components/Icon.svelte';
+	import type { Content } from '$lib/smolblog/types';
 
 	export let row: Content;
 	export let baseUrl = '';
@@ -9,7 +9,7 @@ import type { Content } from "$lib/smolblog/types";
 	const fullPermalink = `${baseUrl}${permalink}`;
 	const type = contentShortName(contentType?.typeClass ?? '');
 
-	function contentShortName(contentType: string): string|null {
+	function contentShortName(contentType: string): string | null {
 		switch (contentType) {
 			case 'Smolblog\\Core\\Content\\Types\\Status\\Status':
 				return 'status';
@@ -25,9 +25,9 @@ import type { Content } from "$lib/smolblog/types";
 	<div class="col-sm-6">
 		<h6>
 			{#if type === 'status'}
-			<Icon icon="chat-left-text"/>
+				<Icon icon="chat-left-text" />
 			{:else if type === 'reblog'}
-			<Icon icon="repeat"/>
+				<Icon icon="repeat" />
 			{/if}
 			<a href="edit/{type}/{id}">{title}</a>
 		</h6>
@@ -36,8 +36,10 @@ import type { Content } from "$lib/smolblog/types";
 		<div class="row">
 			<div class="col-5">{visibility}</div>
 			{#if visibility === 'published'}
-			<div class="col-5">{publishTimestamp}</div>
-			<div class="col-2"><a href="{fullPermalink}" class="btn btn-sm btn-outline-secondary">View</a></div>
+				<div class="col-5">{publishTimestamp}</div>
+				<div class="col-2">
+					<a href={fullPermalink} class="btn btn-sm btn-outline-secondary">View</a>
+				</div>
 			{/if}
 		</div>
 	</div>

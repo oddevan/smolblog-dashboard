@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type { Readable, Writable } from "svelte/store";
-	import type { FormField, FormState } from "./Form.svelte";
-	import type { Field } from "svelte-forms/types";
-	import SwitchField from "./Fields/SwitchField.svelte";
-	import Icon from "../Icon.svelte";
+	import type { Readable, Writable } from 'svelte/store';
+	import type { FormField, FormState } from './Form.svelte';
+	import type { Field } from 'svelte-forms/types';
+	import SwitchField from './Fields/SwitchField.svelte';
+	import Icon from '../Icon.svelte';
 
 	export let state: Readable<FormState>;
 	export let definition: FormField[];
 	export let formController: Readable<{ dirty: boolean }> & {
-		getField: (name: string) => Writable<Field<any>> & { validate: () => void }
+		getField: (name: string) => Writable<Field<any>> & { validate: () => void };
 	};
 
 	let enableSave: boolean;
@@ -24,20 +24,20 @@
 	<div class="col-4 text-end">
 		{#if $state.success}
 			<span class="text-success">
-				<Icon icon="check-circle"/>
+				<Icon icon="check-circle" />
 			</span>
 		{/if}
 		{#if $state.saveError}
 			<span class="text-danger">
-				<Icon icon="exclamation-circle"/>
+				<Icon icon="exclamation-circle" />
 			</span>
 		{/if}
 		<button class="btn btn-sm btn-outline-primary" disabled={!enableSave}>
 			{#if $state.saving}
-			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-			Saving...
+				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+				Saving...
 			{:else}
-			Save
+				Save
 			{/if}
 		</button>
 	</div>

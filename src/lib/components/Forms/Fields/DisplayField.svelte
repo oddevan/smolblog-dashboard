@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Writable } from "svelte/store";
-	import type { FormField } from "../Form.svelte";
-	import type { Field } from "svelte-forms/types";
+	import type { Writable } from 'svelte/store';
+	import type { FormField } from '../Form.svelte';
+	import type { Field } from 'svelte-forms/types';
 
 	export let definition: FormField;
 	export let controller: Writable<Field<any>> & { validate: () => void };
@@ -19,9 +19,9 @@
 			id="input-{name}"
 			aria-describedby={description ? `description-${name}` : undefined}
 			bind:value={$controller.value}
-		>
+		/>
 		{#if description}
-		<span class="form-text" id="description-{name}">{description}</span>
+			<span class="form-text" id="description-{name}">{description}</span>
 		{/if}
 	</div>
 </div>

@@ -1,5 +1,3 @@
-import Text from "./Text.svelte";
+import Text from './Text.svelte';
 
-export {
-	Text
-};
+export { Text };

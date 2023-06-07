@@ -3,6 +3,17 @@
 	export let title: string;
 </script>
 
+<div data-bs-theme={key} class="bg-body">
+	<h4 class="text-body-emphasis">{title}</h4>
+	<p class="text-body">Text and <a>link</a></p>
+	<div class="swatch-bin" aria-hidden="true">
+		<span class="bg-primary" />
+		<span class="bg-secondary" />
+		<span class="bg-body-secondary" />
+		<span class="bg-body-tertiary" />
+	</div>
+</div>
+
 <style>
 	.swatch-bin {
 		display: flex;
@@ -15,14 +26,3 @@
 		flex-grow: 1;
 	}
 </style>
-
-<div data-bs-theme={key} class="bg-body">
-	<h4 class="text-body-emphasis">{title}</h4>
-	<p class="text-body">Text and <a>link</a></p>
-	<div class="swatch-bin" aria-hidden="true">
-		<span class="bg-primary"></span>
-		<span class="bg-secondary"></span>
-		<span class="bg-body-secondary"></span>
-		<span class="bg-body-tertiary"></span>
-	</div>
-</div>

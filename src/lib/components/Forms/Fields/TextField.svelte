@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Readable, Writable } from "svelte/store";
-	import type { FormField } from "../Form.svelte";
+	import type { Readable, Writable } from 'svelte/store';
+	import type { FormField } from '../Form.svelte';
 	import type { Field } from 'svelte-forms/types';
 
 	export let definition: FormField;
@@ -19,7 +19,8 @@
 <div class="row mb-4">
 	<label for="input-{name}" class="col-lg-2 col-form-label">
 		{label}
-		{#if required}<span class="text-danger">* <span class="visually-hidden">(required)</span></span>{/if}
+		{#if required}<span class="text-danger">* <span class="visually-hidden">(required)</span></span
+			>{/if}
 	</label>
 	<div class="col-lg">
 		<input
@@ -31,13 +32,11 @@
 			id="input-{name}"
 			aria-describedby={description ? `description-${name}` : undefined}
 			required={required ? true : false}
-		>
+		/>
 		{#if description}
-		<span
-			class="form-text"
-			class:invalid-feedback={$controller.invalid}
-			id="description-{name}"
-		>{description}</span>
+			<span class="form-text" class:invalid-feedback={$controller.invalid} id="description-{name}"
+				>{description}</span
+			>
 		{/if}
 	</div>
 </div>

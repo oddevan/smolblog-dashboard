@@ -1,86 +1,86 @@
 export interface ConnectorConnection {
-	id: string,
-	userId: string,
-	provider: string,
-	providerKey: string,
-	displayName: string,
-	channels: ConnectorChannel[],
-};
+	id: string;
+	userId: string;
+	provider: string;
+	providerKey: string;
+	displayName: string;
+	channels: ConnectorChannel[];
+}
 
 export interface ConnectorChannel {
-	id: string,
-	channelKey: string,
-	displayName: string,
-	connectionProvider?: string,
-	connectionName?: string,
-};
+	id: string;
+	channelKey: string;
+	displayName: string;
+	connectionProvider?: string;
+	connectionName?: string;
+}
 
 export interface ConnectorChannelPlusLink extends ConnectorChannel {
-	canPull: boolean,
-	canPush: boolean,
-};
+	canPull: boolean;
+	canPush: boolean;
+}
 
 export interface Site {
-	id: string,
-	handle: string,
-	displayName: string,
-	baseUrl: string,
-};
+	id: string;
+	handle: string;
+	displayName: string;
+	baseUrl: string;
+}
 
 export interface SiteSettingsPayload {
-	id?: string,
-	title: string,
-	tagline: string,
+	id?: string;
+	title: string;
+	tagline: string;
 }
 
 export interface UserProfile {
-	id: string,
-	email: string,
-	handle: string,
-	displayName?: string,
-	pronouns?: string,
-};
+	id: string;
+	email: string;
+	handle: string;
+	displayName?: string;
+	pronouns?: string;
+}
 
 export interface UserAndPermissions {
-	user: UserProfile,
-	isAdmin: boolean,
-	isAuthor: boolean,
+	user: UserProfile;
+	isAdmin: boolean;
+	isAuthor: boolean;
 }
 
 export interface SetUserProfilePayload {
-	handle?: string,
-	displayName?: string,
-	pronouns?: string,
-};
+	handle?: string;
+	displayName?: string;
+	pronouns?: string;
+}
 
 export type SmolblogFetch = (args: {
-	endpoint: string,
-	verb?: string,
-	payload?: unknown,
+	endpoint: string;
+	verb?: string;
+	payload?: unknown;
 }) => Promise<unknown>;
 
 export interface NewStatusPayload {
-	text: string,
-	publish: boolean
-};
+	text: string;
+	publish: boolean;
+}
 
 export interface NewReblogPayload {
-	url: string,
-	comment?: string,
-	publish: boolean
-};
+	url: string;
+	comment?: string;
+	publish: boolean;
+}
 
 export interface Content {
-	id: string,
-	title: string,
-	body: string,
-	siteId: string,
-	authorId: string,
-	permalink?: string,
-	publishTimestamp?: Date,
-	visibility: 'draft'|'private'|'published',
+	id: string;
+	title: string;
+	body: string;
+	siteId: string;
+	authorId: string;
+	permalink?: string;
+	publishTimestamp?: Date;
+	visibility: 'draft' | 'private' | 'published';
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	contentType?: any,
+	contentType?: any;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	extensions?: any[]
+	extensions?: any[];
 }
