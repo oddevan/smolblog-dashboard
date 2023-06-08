@@ -1,5 +1,5 @@
 <script lang="ts">
-	import BaseField, { type FormField } from './BaseField.svelte';
+	import BaseField, { makeDefaultController, type FormField } from './BaseField.svelte';
 	import type { Writable } from 'svelte/store';
 	import type { Field } from 'svelte-forms/types';
 	import { Input } from 'flowbite-svelte';
@@ -7,9 +7,12 @@
 	import BaseHelper from './BaseHelper.svelte';
 
 	export let definition: FormField;
-	export let controller: Writable<Field<any>> & { validate: () => void };
+	export let controller: Writable<Field<any>> & { validate: () => void } =
+		makeDefaultController(definition);
+	export let value: any = undefined;
 
 	const { name, label, required } = definition;
+	$: value = $controller.value;
 </script>
 
 <BaseField {definition} {controller}>

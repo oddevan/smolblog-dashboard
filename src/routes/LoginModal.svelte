@@ -60,7 +60,6 @@
 		type: 'text',
 		required: true
 	};
-	const unameFieldController = makeField('uname', '', [required()]);
 
 	const passFieldDef: FormField = {
 		name: 'pass',
@@ -68,21 +67,14 @@
 		type: 'password',
 		required: true
 	};
-	const passFieldController = makeField('pass', '', [required()]);
 
 	const saveToContext = async () => {
 		try {
-			if (
-				!$serverFieldController.valid ||
-				!$unameFieldController.valid ||
-				!$passFieldController.valid
-			) {
+			if (!$serverFieldController.valid || !uname || !pass) {
 				return;
 			}
 
-			const authHeader = `Basic ${btoa(
-				`${$unameFieldController.value}:${$passFieldController.value}`
-			)}`;
+			const authHeader = `Basic ${btoa(`${uname}:${pass}`)}`;
 			context.set({ apiBase: $serverFieldController.value, authHeader });
 		} catch (error) {
 			loginError = error as Error;
@@ -100,8 +92,8 @@
 		<!-- BIGGER TODO: Implement an OAuth flow here -->
 		<!-- REALLY BIG TODO: Get OAuth working on the server ^_^;; -->
 		<div class="space-y-3">
-			<Text definition={unameFieldDef} controller={unameFieldController} />
-			<Password definition={passFieldDef} controller={passFieldController} />
+			<Text definition={unameFieldDef} bind:value={uname} />
+			<Password definition={passFieldDef} bind:value={pass} />
 		</div>
 
 		<ErrorBox error={loginError} />

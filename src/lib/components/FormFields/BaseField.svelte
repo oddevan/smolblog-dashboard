@@ -1,4 +1,7 @@
 <script lang="ts" context="module">
+	import { field, type Validator } from 'svelte-forms';
+	import { required as requiredValidator } from 'svelte-forms/validators';
+
 	export interface FormField {
 		name: string;
 		label: string;
@@ -6,6 +9,19 @@
 		description?: string;
 		required?: boolean;
 		errorMessageHandler?: (validatorNames: string[]) => string;
+	}
+
+	export function makeDefaultController(
+		def: FormField
+	): Writable<Field<any>> & { validate: () => void } {
+		const { name, required } = def;
+		const validators: Validator[] = [];
+
+		if (required) {
+			validators.push(requiredValidator());
+		}
+
+		return field(name, undefined, validators);
 	}
 
 	const defaultErrorMessageHandler = (validatorNames: string[]) => {

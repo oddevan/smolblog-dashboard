@@ -2,9 +2,10 @@
 	import BaseField, { makeDefaultController, type FormField } from './BaseField.svelte';
 	import type { Writable } from 'svelte/store';
 	import type { Field } from 'svelte-forms/types';
-	import { Input } from 'flowbite-svelte';
-	import BaseLabel from './BaseLabel.svelte';
 	import BaseHelper from './BaseHelper.svelte';
+	import { Markdown as MarkdownIcon } from '../Icons';
+	import { createTextareaAutosize } from '@grail-ui/svelte/textareaAutosize';
+	import { Spinner, Textarea } from 'flowbite-svelte';
 
 	export let definition: FormField;
 	export let controller: Writable<Field<any>> & { validate: () => void } =
@@ -17,15 +18,15 @@
 
 <BaseField {definition} {controller}>
 	<div slot="field" let:helpText let:color>
-		<BaseLabel {required} {color}>{label}</BaseLabel>
-		<Input
-			{color}
+		<Textarea
 			{name}
-			bind:value={$controller.value}
 			id="input-{name}"
-			aria-describedby={helpText ? `description-${name}` : undefined}
-			required={required ? true : false}
+			aria-label={label}
+			rows={3}
+			placeholder={label}
+			bind:value={$controller.value}
 		/>
-		<BaseHelper {color} {helpText} />
+		<MarkdownIcon />
+		<BaseHelper {helpText} {color} />
 	</div>
 </BaseField>
