@@ -10,6 +10,6 @@
 	let showContentModal = false;
 </script>
 
-<Button on:click={() => showContentModal = true}>New Note</Button>
+<Button on:click={() => (showContentModal = true)}>New Note</Button>
 
-<ContentModal bind:show={showContentModal}/>
+<ContentModal bind:show={showContentModal} />
