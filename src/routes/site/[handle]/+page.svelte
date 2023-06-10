@@ -1,14 +1,15 @@
 <script lang="ts">
-	import Markdown from '$lib/components/FormFields/Markdown.svelte';
 	import Smolblog from '$lib/smolblog';
+	import { Button } from 'flowbite-svelte';
 	import type { PageData } from './$types';
+	import ContentModal from '$lib/components/ContentModal.svelte';
 
 	export let data: PageData;
 	const api = data.context && data.currentSite ? new Smolblog(data.context) : undefined;
+
+	let showContentModal = false;
 </script>
 
-<Markdown definition={{
-	name: 'text',
-	label: "What's happening?",
-	type: 'markdown',
-}}/>
+<Button on:click={() => showContentModal = true}>New Note</Button>
+
+<ContentModal bind:show={showContentModal}/>

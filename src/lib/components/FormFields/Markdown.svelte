@@ -17,16 +17,22 @@
 </script>
 
 <BaseField {definition} {controller}>
-	<div slot="field" let:helpText let:color>
+	<div class={$$props.class} slot="field" let:helpText let:color>
 		<Textarea
 			{name}
+			{color}
 			id="input-{name}"
 			aria-label={label}
 			rows={3}
 			placeholder={label}
 			bind:value={$controller.value}
+			class="rounded-br-none"
 		/>
-		<MarkdownIcon />
-		<BaseHelper {helpText} {color} />
+		<div class="flex flex-row justify-end align-middle">
+			<BaseHelper class="grow" {helpText} {color} />
+			<span class="bg-gray-50 dark:bg-gray-600 p-2 rounded-b-lg">
+				<MarkdownIcon class="fill-gray-600 dark:fill-gray-500 h-4" />
+			</span>
+		</div>
 	</div>
 </BaseField>

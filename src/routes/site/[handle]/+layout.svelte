@@ -72,10 +72,11 @@
 </div>
 
 <BottomNav
-	outerDiv="md:hidden w-11/12"
+	outerDiv="md:hidden w-11/12 z-30"
 	position="absolute"
 	navType="application"
 	innerDiv="grid-cols-5"
+	style="z-index: 30"
 >
 	<BottomNavItem btnName="Reader" appBtnPosition="left" on:click={() => goto(makePath('/reader'))}>
 		<Reader />
