@@ -34,11 +34,13 @@
 		type: 'text',
 		description: 'URL of the Smolblog server to connect to.',
 		required: true,
-		validators: [{
-			key: 'check_server',
-			func: checkServer,
-			message: 'Could not connect to server.',
-		}]
+		validators: [
+			{
+				key: 'check_server',
+				func: checkServer,
+				message: 'Could not connect to server.'
+			}
+		]
 	};
 	const serverFieldController = makeField('server', '', makeValidators(serverFieldDef));
 

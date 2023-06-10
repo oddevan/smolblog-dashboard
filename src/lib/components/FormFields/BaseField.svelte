@@ -3,24 +3,24 @@
 	import { required as makeRequiredValidator } from 'svelte-forms/validators';
 
 	export interface FieldValidator {
-		key: string,
-		func: (val: any) => Promise<boolean>,
-		message: string,
-	};
+		key: string;
+		func: (val: any) => Promise<boolean>;
+		message: string;
+	}
 
 	export interface FormField {
-		name: string,
-		label: string,
-		type: 'text' | 'password' | 'display' | 'switch' | 'hidden' | 'markdown',
-		description?: string,
-		required?: boolean,
-		validators?: FieldValidator[],
+		name: string;
+		label: string;
+		type: 'text' | 'password' | 'display' | 'switch' | 'hidden' | 'markdown';
+		description?: string;
+		required?: boolean;
+		validators?: FieldValidator[];
 	}
 
 	export function makeValidators(def: FormField): Validator[] {
 		const { required = false, validators = [] } = def;
 
-		const retVal: Validator[] = validators.map(vDef => {
+		const retVal: Validator[] = validators.map((vDef) => {
 			const { key, func } = vDef;
 			return async (val: any) => ({ name: key, valid: await func(val) });
 		});
@@ -33,7 +33,7 @@
 
 	export function makeDefaultController(
 		def: FormField,
-		value: any,
+		value: any
 	): Writable<Field<any>> & { validate: () => void } {
 		const { name } = def;
 		const validators = makeValidators(def);
@@ -41,17 +41,21 @@
 		return field(name, value, validators);
 	}
 
-	export function getErrorMessage(validatorNames: string[], def: FormField): string|undefined {
-		if (!validatorNames) { return undefined; }
+	export function getErrorMessage(validatorNames: string[], def: FormField): string | undefined {
+		if (!validatorNames) {
+			return undefined;
+		}
 
 		if (validatorNames.includes('required')) {
 			return 'This field is required.';
 		} else {
-			return validatorNames.map(
-				name => def.validators?.find(val => name === val.key)?.message ?? 'Value is invalid.'
-			).join(' ');
+			return validatorNames
+				.map(
+					(name) => def.validators?.find((val) => name === val.key)?.message ?? 'Value is invalid.'
+				)
+				.join(' ');
 		}
-	};
+	}
 </script>
 
 <script lang="ts">
@@ -65,16 +69,18 @@
 	let helpText: string | undefined = undefined;
 	let color: 'red' | 'green' | undefined = undefined;
 
-	onMount(() => controller.subscribe(fieldState => {
-		helpText = getErrorMessage(fieldState.errors, definition) ?? definition.description;
-		if (fieldState.invalid) {
-			color = 'red';
-		} else if (fieldState.dirty && fieldState.valid) {
-			color = 'green';
-		} else {
-			color = undefined;
-		}
-	}));
+	onMount(() =>
+		controller.subscribe((fieldState) => {
+			helpText = getErrorMessage(fieldState.errors, definition) ?? definition.description;
+			if (fieldState.invalid) {
+				color = 'red';
+			} else if (fieldState.dirty && fieldState.valid) {
+				color = 'green';
+			} else {
+				color = undefined;
+			}
+		})
+	);
 </script>
 
 <slot name="field" {helpText} {color} />

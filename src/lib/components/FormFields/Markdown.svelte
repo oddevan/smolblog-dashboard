@@ -8,9 +8,11 @@
 	import { Spinner, Textarea } from 'flowbite-svelte';
 
 	export let definition: FormField;
-	export let value: string|undefined = undefined;
-	export let controller: Writable<Field<string>> & { validate: () => void } =
-		makeDefaultController(definition, value);
+	export let value: string | undefined = undefined;
+	export let controller: Writable<Field<string>> & { validate: () => void } = makeDefaultController(
+		definition,
+		value
+	);
 
 	const { name, label } = definition;
 	$: value = $controller.value;
