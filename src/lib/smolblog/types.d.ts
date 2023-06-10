@@ -1,3 +1,5 @@
+export type ContentType = 'Status' | 'Reblog';
+
 export interface ConnectorConnection {
 	id: string;
 	userId: string;
@@ -79,8 +81,6 @@ export interface Content {
 	permalink?: string;
 	publishTimestamp?: Date;
 	visibility: 'draft' | 'private' | 'published';
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	contentType?: any;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	extensions?: any[];
+	type: object;
+	extensions: { [x: string]: object };
 }

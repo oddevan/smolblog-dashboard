@@ -23,7 +23,7 @@
 		dirty: false
 	};
 
-	const fields = definition.map(def => makeDefaultController(def, initialData[def.name]));
+	const fields = definition.map((def) => makeDefaultController(def, initialData[def.name]));
 	const formController = makeForm(...fields);
 	const getFieldController = (fieldName: string) =>
 		formController.getField(fieldName) as Writable<Field<string>> & { validate: () => void };

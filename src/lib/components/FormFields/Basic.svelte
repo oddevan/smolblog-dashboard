@@ -15,7 +15,9 @@
 	);
 
 	const { name, label, required, type: defType } = definition;
-	const type: InputType = ['text', 'password'].includes(defType) ? (defType as InputType) : 'text';
+	const type: InputType = ['text', 'password', 'url'].includes(defType)
+		? (defType as InputType)
+		: 'text';
 
 	$: value = $controller.value;
 </script>

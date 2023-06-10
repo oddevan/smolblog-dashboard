@@ -1,6 +1,9 @@
 <script lang="ts" context="module">
 	import { field, type Validator } from 'svelte-forms';
-	import { required as makeRequiredValidator } from 'svelte-forms/validators';
+	import {
+		required as makeRequiredValidator,
+		url as makeUrlValidator
+	} from 'svelte-forms/validators';
 
 	export interface FieldValidator {
 		key: string;
@@ -11,14 +14,14 @@
 	export interface FormField {
 		name: string;
 		label: string;
-		type: 'text' | 'password' | 'display' | 'switch' | 'hidden' | 'markdown';
+		type: 'text' | 'password' | 'url' | 'display' | 'switch' | 'hidden' | 'markdown';
 		description?: string;
 		required?: boolean;
 		validators?: FieldValidator[];
 	}
 
 	export function makeValidators(def: FormField): Validator[] {
-		const { required = false, validators = [] } = def;
+		const { type, required = false, validators = [] } = def;
 
 		const retVal: Validator[] = validators.map((vDef) => {
 			const { key, func } = vDef;
@@ -26,6 +29,9 @@
 		});
 		if (required) {
 			retVal.push(makeRequiredValidator());
+		}
+		if (type === 'url') {
+			retVal.push(makeUrlValidator());
 		}
 
 		return retVal;
@@ -42,19 +48,19 @@
 	}
 
 	export function getErrorMessage(validatorNames: string[], def: FormField): string | undefined {
-		if (!validatorNames) {
+		if (!validatorNames || validatorNames.length < 1) {
 			return undefined;
 		}
 
 		if (validatorNames.includes('required')) {
 			return 'This field is required.';
-		} else {
-			return validatorNames
-				.map(
-					(name) => def.validators?.find((val) => name === val.key)?.message ?? 'Value is invalid.'
-				)
-				.join(' ');
+		} else if (validatorNames.includes('url')) {
+			return 'Please enter a valid URL.';
 		}
+
+		return (
+			def.validators?.find((val) => validatorNames[0] === val.key)?.message ?? 'Value is invalid.'
+		);
 	}
 </script>
 
