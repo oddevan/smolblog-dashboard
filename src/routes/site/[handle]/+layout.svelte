@@ -18,11 +18,19 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { Reader, Inbox, Content, Settings, Status, Reblog } from '$lib/components/Icons/';
+	import type { ContentType } from '$lib/smolblog/types';
+	import ContentModal from '$lib/components/ContentModal.svelte';
 
 	export let data: LayoutData;
 	const makePath = (subpath: string) => `/site/${data.currentSite?.handle}${subpath}`;
 
 	let showNewModal = false;
+	let newContentModalType: ContentType;
+
+	const launchNewModal = (type: ContentType) => {
+		newContentModalType = type;
+		showNewModal = true;
+	};
 </script>
 
 <div class="flex flex-row h-full space-x-3">
@@ -55,10 +63,10 @@
 		<SpeedDial defaultClass="absolute right-3 top-20" tooltip="none" placement="bottom" textOutside>
 			{@const textOutsideClass =
 				'block absolute left-14 top-1/2 mb-px text-sm font-medium -translate-y-1/2'}
-			<SpeedDialButton name="Status">
+			<SpeedDialButton on:click={() => launchNewModal('Status')} name="Status">
 				<Status />
 			</SpeedDialButton>
-			<SpeedDialButton name="Reblog">
+			<SpeedDialButton on:click={() => launchNewModal('Reblog')} name="Reblog">
 				<Reblog />
 			</SpeedDialButton>
 		</SpeedDial>
@@ -127,16 +135,4 @@
 	</BottomNavItem>
 </BottomNav>
 
-<Modal bind:open={showNewModal} size="xs">
-	<h3>Create new content</h3>
-	<div class="grid grid-cols-2 gap-4 place-content-center">
-		<Button href="content/new/status">
-			<Status /><br />
-			Status
-		</Button>
-		<Button href="content/new/reblog">
-			<Reblog /><br />
-			Reblog
-		</Button>
-	</div>
-</Modal>
+<ContentModal bind:show={showNewModal} type={newContentModalType} />
