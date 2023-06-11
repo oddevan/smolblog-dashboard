@@ -13,7 +13,7 @@
 	let typeState: FormPartState = { payload: content.type, dirty: false, valid: true };
 </script>
 
-<Modal {title} bind:open={show} outsideclose class="-left-1 -mx-3 sm:mx-0 w-screen sm:w-full">
+<Modal {title} bind:open={show} outsideclose defaultClass="relative flex flex-col" class="-left-1 -mx-3 sm:mx-0 w-screen sm:w-full">
 	<div class="inner-modal">
 		<FormPart
 			definition={ContentTypes[type]}
