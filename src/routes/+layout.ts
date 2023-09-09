@@ -1,12 +1,10 @@
 import { browser } from '$app/environment';
-import { PUBLIC_BUILD_SPA } from '$env/static/public';
 import type { SmolblogContext } from '$lib/smolblog';
 import Smolblog from '$lib/smolblog';
 import type { Site, UserProfile } from '$lib/smolblog/types';
 import type { LayoutLoad } from './$types';
 
 export const prerender = 'auto';
-export const ssr = !(PUBLIC_BUILD_SPA ?? false);
 
 export const load = (async ({ data, fetch }) => {
 	const context: SmolblogContext | undefined = data?.context ?? (await getLocalContext());

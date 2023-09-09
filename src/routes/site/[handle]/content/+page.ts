@@ -8,7 +8,7 @@ export const load = (async ({ parent }) => {
 
 	if (context?.authHeader && currentSite) {
 		const api = new Smolblog(context, fetch);
-		initialData = await api.site(currentSite.id).content.all();
+		initialData = await api.site(currentSite.id).content.all() ?? [];
 	}
 
 	return { title: 'All Content', initialData };
