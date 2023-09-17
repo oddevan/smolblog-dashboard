@@ -1,16 +1,19 @@
 <script lang="ts">
+	// Floating UI for Popups
+	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
+	import { localStorageStore, storePopup } from '@skeletonlabs/skeleton';
+	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+
 	import '../app.postcss';
 	import { AppShell, AppRail, AppRailAnchor, autoModeWatcher, Avatar } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import Snek from '$lib/components/Icons/snek.svelte';
-
-	// Floating UI for Popups
-	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { storePopup } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import type { LayoutData } from './$types';
-	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+	import md5 from "crypto-js/md5";
+	import type { SmolblogContext } from '$lib/smolblog/types';
+	import smolblog from '$lib/smolblog';
 
 	export const ssr = false;
 
@@ -20,6 +23,16 @@
 		if (!data.context.token && !$page.url.pathname.startsWith('/auth/')) {
 			goto('/auth/login');
 		}
+
+		return localStorageStore<SmolblogContext>('smolContext', { token: null }).subscribe(async (context) => {
+			if (!context.token) return;
+			const api = smolblog(context);
+			data = {
+				context,
+				user: await api.user.me(),
+				sites: await api.user.sites(),
+			};
+		});
 	});
 </script>
 
@@ -28,7 +41,6 @@
 
 {#if data.context.token}
 
-<!-- App Shell -->
 <AppShell>
 	<svelte:fragment slot="sidebarLeft">
 		<AppRail>
@@ -39,29 +51,31 @@
 					</svelte:fragment>
 				</AppRailAnchor>
 			</svelte:fragment>
-			<AppRailAnchor href="/" selected={$page.url.pathname === '/'}>
+
+			{#each data.sites as site (site.id)}
+			{@const dashUrl = `/site/${site.handle}/`}
+			<AppRailAnchor href={dashUrl} selected={$page.url.pathname === dashUrl} title={site.displayName}>
 				<svelte:fragment slot="lead">
-					<Avatar initials="SB" src="av.png" width="w-10"/>
+					<Avatar initials={site.displayName.substring(0,2)} src="av.png" width="w-10"/>
 				</svelte:fragment>
-				(icon)
+				{site.handle}
 			</AppRailAnchor>
-			<AppRailAnchor href="/about" selected={$page.url.pathname === '/about'}>
-				<svelte:fragment slot="lead">
-					<Avatar initials="SB" src="av.png" width="w-10"/>
-				</svelte:fragment>
-				(icon)
-			</AppRailAnchor>
+			{/each}
+
 			<svelte:fragment slot="trail">
-				<AppRailAnchor href="/" target="_blank" title="Account">
+				<AppRailAnchor href="/account" title="Account">
 					<svelte:fragment slot="lead">
-						<Avatar initials="SB" src="av.png" width="w-10"/>
+						{@const emailHash = md5(data.user?.email ?? 'example@example.com')}
+						<Avatar initials="SB" src={`https://www.gravatar.com/avatar/${emailHash}.jpg?s=48&d=mp`} width="w-10"/>
 					</svelte:fragment>
-					(icon)
+					Account
 				</AppRailAnchor>
 			</svelte:fragment>
 		</AppRail>
 	</svelte:fragment>
-	<!-- Page Route Content -->
+	<svelte:fragment slot="pageHeader">
+		
+	</svelte:fragment>
 	<slot />
 </AppShell>
 

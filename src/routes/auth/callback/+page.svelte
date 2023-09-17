@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
+	import { goto, invalidateAll } from "$app/navigation";
 	import { onMount } from "svelte";
 	import type { PageData } from "./$types";
 	import { localStorageStore } from "@skeletonlabs/skeleton";
 	import { getToken } from "$lib/auth/auth";
+	import type { SmolblogContext } from "$lib/smolblog/types";
 
 	export let data: PageData;
 	const { code, state } = data;
@@ -20,7 +21,7 @@
 		try {
 			const token = await getToken(code, state);
 
-			const store = localStorageStore<{ token: string|null }>('smolContext', { token: null });
+			const store = localStorageStore<SmolblogContext>('smolContext', { token: null });
 			store.set({ token });
 
 			goto('/');
