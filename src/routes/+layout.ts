@@ -7,7 +7,7 @@ import Smolblog from '$lib/smolblog';
 
 export const load: LayoutLoad = async () => {
 	let context: SmolblogContext = { token: null };
-	let sites: Site[] = [];
+	let allSites: Site[] = [];
 	let user: User|null = null;
 
 	if (browser) {
@@ -16,10 +16,10 @@ export const load: LayoutLoad = async () => {
 
 		if (context.token) {
 			const api = Smolblog(context);
-			sites = await api.user.sites();
+			allSites = await api.user.sites();
 			user = await api.user.me();
 		}
 	}
 
-	return { context, sites, user };
+	return { context, allSites, user };
 };
