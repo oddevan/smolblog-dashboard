@@ -5,6 +5,8 @@ import type { LayoutLoad } from './$types';
 import { localStorageStore } from "@skeletonlabs/skeleton";
 import Smolblog from '$lib/smolblog';
 
+export const ssr = false;
+
 export const load: LayoutLoad = async () => {
 	let context: SmolblogContext = { token: null };
 	let allSites: Site[] = [];

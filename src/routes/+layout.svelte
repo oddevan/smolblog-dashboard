@@ -17,8 +17,6 @@
 	import ArrowOut from '$lib/components/Icons/ArrowOut.svelte';
 	import { PUBLIC_SERVER_URL } from '$env/static/public';
 
-	export const ssr = false;
-
 	export let data: LayoutData;
 
 	onMount(() => {
