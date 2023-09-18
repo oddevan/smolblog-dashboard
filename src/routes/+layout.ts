@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import type { Site, SmolblogContext, User } from '$lib/smolblog/types';
+import type { Server, Site, SmolblogContext, User } from '$lib/smolblog/types';
 import { get } from 'svelte/store';
 import type { LayoutLoad } from './$types';
 import { localStorageStore } from "@skeletonlabs/skeleton";
@@ -9,6 +9,7 @@ export const load: LayoutLoad = async () => {
 	let context: SmolblogContext = { token: null };
 	let allSites: Site[] = [];
 	let user: User|null = null;
+	let server: Server|null = null;
 
 	if (browser) {
 		const store = localStorageStore<{ token: string|null }>('smolContext', { token: null });
@@ -16,10 +17,13 @@ export const load: LayoutLoad = async () => {
 
 		if (context.token) {
 			const api = Smolblog(context);
-			allSites = await api.user.sites();
-			user = await api.user.me();
+			await Promise.all([
+				api.user.sites().then(res => allSites = res),
+				api.user.me().then(res => user = res),
+				api.server.info().then(res => server = res),
+			]);
 		}
 	}
 
-	return { context, allSites, user };
+	return { context, server, allSites, user };
 };

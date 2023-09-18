@@ -1,9 +1,11 @@
 import { PUBLIC_SERVER_URL } from '$env/static/public';
+import smolblogServer from './server';
 import type { SmolblogApiClient, SmolblogContext } from "./types";
 import smolblogUser from './user';
 
 export default function smolblog(context: SmolblogContext): SmolblogApiClient {
 	return {
+		server: smolblogServer(),
 		user: smolblogUser(context),
 		site: (id: string) => id,
 	};

@@ -15,6 +15,7 @@
 	import type { SmolblogContext } from '$lib/smolblog/types';
 	import smolblog from '$lib/smolblog';
 	import ArrowOut from '$lib/components/Icons/ArrowOut.svelte';
+	import { PUBLIC_SERVER_URL } from '$env/static/public';
 
 	export const ssr = false;
 
@@ -93,11 +94,17 @@
 					<span>Visit site</span>
 				</a>
 				{/if}
+				<a href="/auth/logout" class="btn btn-sm variant-soft-error">
+					Log out
+				</a>
 			</svelte:fragment>
 			<svelte:fragment slot="headline"><h1 class="h1">{$page.data.section}</h1></svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
 	<slot />
+	<svelte:fragment slot="pageFooter">
+		<p class="opacity-50 text-end p-4">Connected to Smolblog {$page.data.server?.serverVersion} at {PUBLIC_SERVER_URL}.</p>
+	</svelte:fragment>
 </AppShell>
 
 {:else}

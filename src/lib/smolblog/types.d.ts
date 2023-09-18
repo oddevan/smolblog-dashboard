@@ -3,13 +3,23 @@ export interface SmolblogContext {
 }
 
 export interface SmolblogApiClient {
+	server: SmolblogServerApiClient,
 	user: SmolblogUserApiClient,
 	site: (id: string) => SmolblogSiteApiClient,
+}
+
+export interface SmolblogServerApiClient {
+	info: () => Promise<Server>,
 }
 
 export interface SmolblogUserApiClient {
 	me: () => Promise<User>,
 	sites: () => Promise<Site[]>,
+}
+
+export interface Server {
+	serverVersion: string,
+	specHref: string,
 }
 
 export interface User {

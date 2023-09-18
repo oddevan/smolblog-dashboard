@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto, invalidateAll } from "$app/navigation";
+	import { goto, invalidate, invalidateAll } from "$app/navigation";
 	import { onMount } from "svelte";
 	import type { PageData } from "./$types";
 	import { localStorageStore } from "@skeletonlabs/skeleton";
@@ -24,6 +24,7 @@
 			const store = localStorageStore<SmolblogContext>('smolContext', { token: null });
 			store.set({ token });
 
+			invalidate('/');
 			goto('/');
 		} catch (error) {
 			authError = (error instanceof Error) ? error.message : 'Something went wrong.';
