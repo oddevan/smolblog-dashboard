@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getAuthUrl } from "$lib/auth/auth";
-	import Snek from "$lib/components/Icons/Snek.svelte";
+	import Snek from "$lib/components/Icons/SmolSnek.svelte";
 
 	function startLogin() {
 		getAuthUrl().then(url => window.location.href = url).catch(e => console.error(e));

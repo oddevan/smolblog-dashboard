@@ -7,7 +7,7 @@
 	import '../app.postcss';
 	import { AppShell, AppRail, AppRailAnchor, autoModeWatcher, Avatar } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
-	import Snek from '$lib/components/Icons/Snek.svelte';
+	import Snek from '$lib/components/Icons/SmolSnek.svelte';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import type { LayoutData } from './$types';
