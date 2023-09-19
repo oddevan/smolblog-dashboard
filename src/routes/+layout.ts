@@ -16,15 +16,15 @@ export const load: LayoutLoad = async () => {
 	if (browser) {
 		const store = localStorageStore<{ token: string|null }>('smolContext', { token: null });
 		context = get(store);
+	}
 
-		if (context.token) {
-			const api = Smolblog(context);
-			await Promise.all([
-				api.user.sites().then(res => allSites = res),
-				api.user.me().then(res => user = res),
-				api.server.info().then(res => server = res),
-			]);
-		}
+	if (context.token) {
+		const api = Smolblog(context);
+		await Promise.all([
+			api.user.sites().then(res => allSites = res),
+			api.user.me().then(res => user = res),
+			api.server.info().then(res => server = res),
+		]);
 	}
 
 	return { context, server, allSites, user };

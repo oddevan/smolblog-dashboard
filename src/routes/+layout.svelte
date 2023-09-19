@@ -8,12 +8,11 @@
 	import { AppShell, AppRail, AppRailAnchor, autoModeWatcher, Avatar } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import Snek from '$lib/components/Icons/Snek.svelte';
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import type { LayoutData } from './$types';
 	import md5 from "crypto-js/md5";
 	import type { SmolblogContext } from '$lib/smolblog/types';
-	import smolblog from '$lib/smolblog';
 	import ArrowOut from '$lib/components/Icons/ArrowOut.svelte';
 	import { PUBLIC_SERVER_URL } from '$env/static/public';
 
@@ -23,16 +22,6 @@
 		if (!data.context.token && !$page.url.pathname.startsWith('/auth/')) {
 			goto('/auth/login');
 		}
-
-		return localStorageStore<SmolblogContext>('smolContext', { token: null }).subscribe(async (context) => {
-			if (!context.token) return;
-			const api = smolblog(context);
-			data = {
-				context,
-				user: await api.user.me(),
-				allSites: await api.user.sites(),
-			};
-		});
 	});
 </script>
 
@@ -65,7 +54,7 @@
 			<svelte:fragment slot="trail">
 				<AppRailAnchor href="/account" title="Account">
 					<svelte:fragment slot="lead">
-						{@const emailHash = md5(data.user?.email ?? 'example@example.com')}
+						{@const emailHash = md5($page.data.user?.email ?? 'example@example.com')}
 						<Avatar initials="SB" src={`https://www.gravatar.com/avatar/${emailHash}.jpg?s=48&d=mp`} width="w-10"/>
 					</svelte:fragment>
 					Account

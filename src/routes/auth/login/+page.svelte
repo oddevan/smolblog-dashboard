@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { getAuthUrl } from "$lib/auth/auth";
+	import { getLocalStateStore } from "$lib/auth/store";
 	import Snek from "$lib/components/Icons/Snek.svelte";
 
 	function startLogin() {
-		getAuthUrl().then(url => window.location.href = url).catch(e => console.error(e));
+		getAuthUrl(getLocalStateStore()).then(url => window.location.href = url).catch(e => console.error(e));
 	}
 </script>
 

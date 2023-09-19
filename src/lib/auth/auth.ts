@@ -1,11 +1,14 @@
 import { PUBLIC_SERVER_URL, PUBLIC_DASHBOARD_URL } from '$env/static/public';
-import { localStorageStore } from '@skeletonlabs/skeleton';
 import { generateCodeChallenge, generateRandomString } from './pkce';
-import { get } from 'svelte/store';
 
-interface AuthState {
+export interface AuthState {
 	state: string,
 	challenge: string,
+}
+
+export interface AuthStateStore {
+	getAuthState: () => AuthState,
+	setAuthState: (state: AuthState) => void,
 }
 
 const authEndpoint = `${PUBLIC_SERVER_URL}/wp-json/indieauth/1.0/auth`;
@@ -25,27 +28,12 @@ const baseTokenRequestOptions = {
 	redirect_uri: `${PUBLIC_DASHBOARD_URL}/auth/callback`,
 }
 
-function getStateStore() {
-	return localStorageStore('smolAuthState', {
-		state: '',
-		challenge: '',
-	});
-}
-
-function setAuthState(authState: AuthState) {
-	getStateStore().set(authState);
-}
-
-function getAuthState() {
-	return get(getStateStore());
-}
-
-export async function getAuthUrl() {
+export async function getAuthUrl(store: AuthStateStore) {
 	const authState = {
 		state: crypto.randomUUID(),
 		challenge: generateRandomString(Math.floor(Math.random() * 85) + 43)
 	};
-	setAuthState(authState);
+	store.setAuthState(authState);
 
 	const params = new URLSearchParams({
 		...baseAuthRequestOptions,
@@ -56,13 +44,11 @@ export async function getAuthUrl() {
 	return `${authEndpoint}?${params.toString()}`;
 }
 
-export async function getToken(code: string, state: string, fetch = window.fetch): Promise<string> {
-	const authState = getAuthState();
+export async function getToken(store: AuthStateStore, code: string, state: string, fetch = window.fetch): Promise<string> {
+	const authState = store.getAuthState();
 	if (state !== authState.state) {
 		throw new Error("Incorrect auth state; please try again.");
 	}
-
-	console.log({authState});
 
 	const params = new URLSearchParams({
 		...baseTokenRequestOptions,
@@ -70,15 +56,11 @@ export async function getToken(code: string, state: string, fetch = window.fetch
 		code_verifier: authState.challenge
 	});
 
-	console.log({params});
-
 	const response = await fetch(tokenEndpoint, {
 		method: 'POST',
 		headers: {'Content-type': 'application/x-www-form-urlencoded'},
 		body: params.toString(),
 	}).then(res => res.json());
-
-	console.log({response});
 
 	return response.access_token;
 }

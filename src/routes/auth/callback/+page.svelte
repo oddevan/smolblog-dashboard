@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { goto, invalidate, invalidateAll } from "$app/navigation";
+	import { goto } from "$app/navigation";
 	import { onMount } from "svelte";
 	import type { PageData } from "./$types";
 	import { localStorageStore } from "@skeletonlabs/skeleton";
 	import { getToken } from "$lib/auth/auth";
 	import type { SmolblogContext } from "$lib/smolblog/types";
+	import { getLocalStateStore } from "$lib/auth/store";
 
 	export let data: PageData;
 	const { code, state } = data;
@@ -19,13 +20,12 @@
 		}
 
 		try {
-			const token = await getToken(code, state);
+			const token = await getToken(getLocalStateStore(), code, state);
 
 			const store = localStorageStore<SmolblogContext>('smolContext', { token: null });
 			store.set({ token });
-
-			invalidate('/');
-			goto('/');
+			// setTimeout(() => goto('/', { invalidateAll: true }), 1000);
+			goto('/', { invalidateAll: true });
 		} catch (error) {
 			authError = (error instanceof Error) ? error.message : 'Something went wrong.';
 		} finally {
