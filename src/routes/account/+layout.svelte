@@ -9,3 +9,5 @@
 	<TabAnchor href="/account/connections">Connections</TabAnchor>
 	<TabAnchor href="/account/settings">Settings</TabAnchor>
 </TabGroup>
+
+<slot/>

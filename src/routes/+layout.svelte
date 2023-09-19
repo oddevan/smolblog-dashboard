@@ -87,21 +87,27 @@
 			<svelte:fragment slot="trail">
 				{#if $page.data.site}
 				{@const { baseUrl } = $page.data.site}
-				<a href={baseUrl} class="btn btn-sm variant-filled-tertiary">
+				<a href={baseUrl} class="btn btn-sm variant-filled-primary">
 					<span><ArrowOut size={5}/></span>
 					<span>Visit site</span>
 				</a>
-				{/if}
-				<a href="/auth/logout" class="btn btn-sm variant-soft-error">
-					Log out
+				<a href={baseUrl} class="btn btn-sm variant-filled-tertiary">
+					<span><ArrowOut size={5}/></span>
+					<span>WP Admin</span>
 				</a>
+				{/if}
 			</svelte:fragment>
 			<svelte:fragment slot="headline"><h1 class="h1">{$page.data.section}</h1></svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
 	<slot />
 	<svelte:fragment slot="pageFooter">
-		<p class="opacity-50 text-end p-4">Connected to Smolblog {$page.data.server?.serverVersion} at {PUBLIC_SERVER_URL}.</p>
+		<p class="text-end p-4">
+			<span class="opacity-50">Connected to Smolblog {$page.data.server?.serverVersion} at {PUBLIC_SERVER_URL}.</span>
+			<a href="/auth/logout" class="btn btn-sm variant-soft-error">
+				Log out
+			</a>
+		</p>
 	</svelte:fragment>
 </AppShell>
 
