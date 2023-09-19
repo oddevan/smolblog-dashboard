@@ -80,7 +80,7 @@
 					<span><ArrowOut size={5}/></span>
 					<span>Visit site</span>
 				</a>
-				<a href={baseUrl} class="btn btn-sm variant-filled-tertiary">
+				<a href={`${baseUrl}/wp-admin`} class="btn btn-sm variant-filled-tertiary">
 					<span><ArrowOut size={5}/></span>
 					<span>WP Admin</span>
 				</a>
