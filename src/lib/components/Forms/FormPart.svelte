@@ -1,11 +1,3 @@
-<script lang="ts" context="module">
-	export interface FormPartState {
-		payload: any;
-		dirty: boolean;
-		valid: boolean;
-	}
-</script>
-
 <script lang="ts">
 	import { form as makeForm } from 'svelte-forms';
 	import { makeDefaultController, type FormField } from '../FormFields';
@@ -13,6 +5,7 @@
 	import { Basic, Markdown } from '../FormFields';
 	import type { Writable } from 'svelte/store';
 	import type { Field } from 'svelte-forms/types';
+	import type { FormPartState } from '.';
 
 	export let fieldClass = '';
 	export let definition: FormField[];
