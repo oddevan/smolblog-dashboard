@@ -1,35 +1,35 @@
-export interface SmolblogContext {
+export type SmolblogContext = {
 	token: string|null,
 }
 
-export interface SmolblogApiClient {
+export type SmolblogApiClient = {
 	server: SmolblogServerApiClient,
 	user: SmolblogUserApiClient,
 	site: (id: string) => SmolblogSiteApiClient,
 }
 
-export interface SmolblogServerApiClient {
+export type SmolblogServerApiClient = {
 	info: () => Promise<Server>,
 }
 
-export interface SmolblogUserApiClient {
+export type SmolblogUserApiClient = {
 	me: () => Promise<User>,
 	sites: () => Promise<Site[]>,
 }
 
-export interface Server {
+export type Server = {
 	serverVersion: string,
 	specHref: string,
 }
 
-export interface User {
+export type User = {
 	id: string,
 	handle: string,
 	displayName: string,
 	email: string,
 }
 
-export interface Site {
+export type Site = {
 	id: string,
 	handle: string,
 	displayName: string,
