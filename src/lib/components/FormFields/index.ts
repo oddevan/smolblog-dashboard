@@ -64,5 +64,15 @@ export function getErrorMessage(validatorNames: string[], def: FormField): strin
 	);
 }
 
-export { default as Basic } from './Basic.svelte';
-export { default as Markdown } from './Markdown.svelte';
+export function getValidationState(fieldState: Field<unknown>) {
+	if (fieldState.invalid) {
+		return 'invalid';
+	} else if (fieldState.dirty && fieldState.valid) {
+		return 'valid';
+	} else {
+		return undefined;
+	}
+}
+
+export { default as Basic } from './Text.svelte';
+// export { default as Markdown } from './Markdown.svelte';

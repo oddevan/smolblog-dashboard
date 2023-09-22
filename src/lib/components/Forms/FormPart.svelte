@@ -2,7 +2,7 @@
 	import { form as makeForm } from 'svelte-forms';
 	import { makeDefaultController, type FormField } from '../FormFields';
 	import { onMount } from 'svelte';
-	import { Basic, Markdown } from '../FormFields';
+	import { Basic } from '../FormFields';
 	import type { Writable } from 'svelte/store';
 	import type { Field } from 'svelte-forms/types';
 	import type { FormPartState } from '.';
