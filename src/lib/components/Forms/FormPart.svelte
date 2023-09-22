@@ -37,7 +37,7 @@
 		{@const { name, type } = fieldDef}
 		<div class={fieldClass}>
 			{#if type === 'markdown'}
-				<Markdown definition={fieldDef} controller={getFieldController(name)} />
+				<!-- <Markdown definition={fieldDef} controller={getFieldController(name)} /> -->
 			{:else}
 				<Basic definition={fieldDef} controller={getFieldController(name)} />
 			{/if}
