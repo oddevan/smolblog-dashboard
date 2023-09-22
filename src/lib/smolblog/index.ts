@@ -1,19 +1,19 @@
 import { PUBLIC_SERVER_URL } from '$env/static/public';
 import smolblogServer from './server';
-import type { SmolblogApiClient, SmolblogContext } from "./types";
+import type { SmolblogApiClient, SmolblogContext } from './types';
 import smolblogUser from './user';
 
 export default function smolblog(context: SmolblogContext): SmolblogApiClient {
 	return {
 		server: smolblogServer(),
 		user: smolblogUser(context),
-		site: (id: string) => id,
+		site: (id: string) => id
 	};
 }
 
 export async function smolFetch(
 	props: { endpoint: string; token?: string; verb?: string; payload?: unknown },
-	fetcher = window.fetch,
+	fetcher = window.fetch
 ): Promise<unknown> {
 	const apiBase = `${PUBLIC_SERVER_URL}/wp-json/smolblog/v2`;
 
@@ -40,10 +40,7 @@ export async function smolFetch(
 	});
 
 	if (!response.ok) {
-		throw new Error(
-			`Error from Smolblog: ${responseData.error ?? response.status}`,
-			responseData
-		);
+		throw new Error(`Error from Smolblog: ${responseData.error ?? response.status}`, responseData);
 	}
 
 	return responseData;

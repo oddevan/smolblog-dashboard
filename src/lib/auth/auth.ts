@@ -2,13 +2,13 @@ import { PUBLIC_SERVER_URL, PUBLIC_DASHBOARD_URL } from '$env/static/public';
 import { generateCodeChallenge, generateRandomString } from './pkce';
 
 export interface AuthState {
-	state: string,
-	challenge: string,
+	state: string;
+	challenge: string;
 }
 
 export interface AuthStateStore {
-	getAuthState: () => AuthState,
-	setAuthState: (state: AuthState) => void,
+	getAuthState: () => AuthState;
+	setAuthState: (state: AuthState) => void;
 }
 
 const authEndpoint = `${PUBLIC_SERVER_URL}/wp-json/indieauth/1.0/auth`;
@@ -19,14 +19,14 @@ const baseAuthRequestOptions = {
 	client_id: PUBLIC_DASHBOARD_URL,
 	redirect_uri: `${PUBLIC_DASHBOARD_URL}/auth/callback`,
 	code_challenge_method: 'S256',
-	scope: 'profile create update delete',
+	scope: 'profile create update delete'
 };
 
 const baseTokenRequestOptions = {
 	grant_type: 'authorization_code',
 	client_id: PUBLIC_DASHBOARD_URL,
-	redirect_uri: `${PUBLIC_DASHBOARD_URL}/auth/callback`,
-}
+	redirect_uri: `${PUBLIC_DASHBOARD_URL}/auth/callback`
+};
 
 export async function getAuthUrl(store: AuthStateStore) {
 	const authState = {
@@ -44,10 +44,15 @@ export async function getAuthUrl(store: AuthStateStore) {
 	return `${authEndpoint}?${params.toString()}`;
 }
 
-export async function getToken(store: AuthStateStore, code: string, state: string, fetch = window.fetch): Promise<string> {
+export async function getToken(
+	store: AuthStateStore,
+	code: string,
+	state: string,
+	fetch = window.fetch
+): Promise<string> {
 	const authState = store.getAuthState();
 	if (state !== authState.state) {
-		throw new Error("Incorrect auth state; please try again.");
+		throw new Error('Incorrect auth state; please try again.');
 	}
 
 	const params = new URLSearchParams({
@@ -58,9 +63,9 @@ export async function getToken(store: AuthStateStore, code: string, state: strin
 
 	const response = await fetch(tokenEndpoint, {
 		method: 'POST',
-		headers: {'Content-type': 'application/x-www-form-urlencoded'},
-		body: params.toString(),
-	}).then(res => res.json());
+		headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+		body: params.toString()
+	}).then((res) => res.json());
 
 	return response.access_token;
 }

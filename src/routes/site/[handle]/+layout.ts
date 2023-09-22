@@ -4,7 +4,7 @@ import type { LayoutLoad } from './$types';
 export const load = (async ({ parent, params }) => {
 	const { allSites } = await parent();
 
-	let site: Site|null = null;
+	let site: Site | null = null;
 
 	if (allSites) {
 		// const api = new Smolblog(context, fetch);

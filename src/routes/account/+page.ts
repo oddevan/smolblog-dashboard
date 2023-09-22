@@ -1,5 +1,5 @@
-import Smolblog from "$lib/smolblog";
-import type { PageLoad } from "../$types";
+import Smolblog from '$lib/smolblog';
+import type { PageLoad } from '../$types';
 
 export const load = (async ({ parent }) => {
 	const { context } = await parent();

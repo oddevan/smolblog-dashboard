@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { TabAnchor, TabGroup } from "@skeletonlabs/skeleton";
-
-
+	import { TabAnchor, TabGroup } from '@skeletonlabs/skeleton';
 </script>
 
 <TabGroup>
@@ -10,4 +8,4 @@
 	<TabAnchor href="/account/settings">Settings</TabAnchor>
 </TabGroup>
 
-<slot/>
+<slot />

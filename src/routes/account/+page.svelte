@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { FormField } from "$lib/components/FormFields";
-	import type { FormPartState } from "$lib/components/Forms";
-	import FormPart from "$lib/components/Forms/FormPart.svelte";
-	import type { PageData } from "./$types";
+	import type { FormField } from '$lib/components/FormFields';
+	import type { FormPartState } from '$lib/components/Forms';
+	import FormPart from '$lib/components/Forms/FormPart.svelte';
+	import type { PageData } from './$types';
 
 	export let data: PageData;
 
@@ -11,24 +11,24 @@
 			name: 'displayName',
 			label: 'Name',
 			type: 'text',
-			required: true,
+			required: true
 		},
 		{
 			name: 'handle',
 			label: 'Handle',
 			description: 'A unique name to represent your account.',
 			type: 'text',
-			required: true,
+			required: true
 		},
 		{
 			name: 'email',
 			label: 'Email',
-			type: 'display',
-		},
+			type: 'display'
+		}
 	];
 
 	let profileState: FormPartState;
-	$: console.log({profileState});
+	$: console.log({ profileState });
 </script>
 
 <h2 class="h2">Edit profile</h2>
