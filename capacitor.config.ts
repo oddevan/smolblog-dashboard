@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'smolblog-dashboard',
+  appId: 'com.smolblog.dashboard',
+  appName: 'Smolblog',
   webDir: 'dist',
   server: {
     androidScheme: 'https'

@@ -1,7 +1,8 @@
 {
-  "name": "smolblog-dashboard",
+  "name": "Smolblog Dashboard",
   "integrations": {
     "capacitor": {}
   },
-  "type": "react-vite"
+  "type": "react-vite",
+  "id": "37426906"
 }
