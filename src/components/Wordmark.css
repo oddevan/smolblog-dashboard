@@ -1,0 +1,13 @@
+.st0 {
+    fill: #191b20;
+}
+
+.st1 {
+    fill: #9cd398;
+}
+
+@media (prefers-color-scheme: dark) {
+    .st0 {
+        fill: #e9e3db;
+    }
+}

@@ -4,6 +4,7 @@ import {
   IonIcon,
   IonLabel,
   IonRouterOutlet,
+  IonSplitPane,
   IonTabBar,
   IonTabButton,
   IonTabs,
@@ -34,42 +35,25 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import React from 'react';
+import Page from './pages/Page';
+import Menu from './components/Menu';
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/content">
-            <Tab1 />
+      <IonSplitPane contentId="main">
+        <Menu />
+        <IonRouterOutlet id="main">
+          <Route path="/" exact={true}>
+            <Redirect to="/folder/Inbox" />
           </Route>
-          <Route exact path="/new">
-            <Tab2 />
-          </Route>
-          <Route path="/settings">
-            <Tab3 />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/content" />
+          <Route path="/folder/:name" exact={true}>
+            <Page />
           </Route>
         </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/content">
-            <IonIcon aria-hidden="true" icon={documentsOutline} />
-            <IonLabel>Content</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab2" href="/new">
-            <IonIcon aria-hidden="true" icon={create} />
-            <IonLabel>New</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab3" href="/settings">
-            <IonIcon aria-hidden="true" icon={settingsOutline} />
-            <IonLabel>Settings</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
+      </IonSplitPane>
     </IonReactRouter>
   </IonApp>
 );
