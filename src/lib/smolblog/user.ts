@@ -1,13 +1,13 @@
-import { smolFetch } from '.';
+import { smolFetch, type FetchFunction } from '.';
 import type { Site, SmolblogContext, SmolblogUserApiClient, User } from './types';
 
-export default function smolblogUser(context: SmolblogContext): SmolblogUserApiClient {
+export default function smolblogUser(context: SmolblogContext, fetcher: FetchFunction): SmolblogUserApiClient {
 	return {
 		me: () =>
-			smolFetch({ endpoint: '/my/profile', token: context.token ?? undefined }) as Promise<User>,
+			smolFetch({ endpoint: '/my/profile', token: context.token ?? undefined }, fetcher) as Promise<User>,
 		sites: () =>
 			(
-				smolFetch({ endpoint: '/my/sites', token: context.token ?? undefined }) as Promise<{
+				smolFetch({ endpoint: '/my/sites', token: context.token ?? undefined }, fetcher) as Promise<{
 					sites: Site[];
 				}>
 			).then((obj) => obj.sites)

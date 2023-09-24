@@ -8,7 +8,7 @@ export const load = (async ({ parent, params }) => {
 
 	if (allSites) {
 		// const api = new Smolblog(context, fetch);
-		site = allSites?.find((s) => s.handle == params.handle);
+		site = allSites?.find((s) => s.handle == params.handle) ?? null;
 	}
 
 	return { site, section: 'Dashboard' };

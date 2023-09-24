@@ -7,7 +7,7 @@ import Smolblog from '$lib/smolblog';
 
 export const ssr = false;
 
-export const load: LayoutLoad = async () => {
+export const load: LayoutLoad = async ({ fetch }) => {
 	let context: SmolblogContext = { token: null };
 	let allSites: Site[] = [];
 	let user: User | null = null;
@@ -19,7 +19,7 @@ export const load: LayoutLoad = async () => {
 	}
 
 	if (context.token) {
-		const api = Smolblog(context);
+		const api = Smolblog(context, fetch);
 		await Promise.all([
 			api.user.sites().then((res) => (allSites = res)),
 			api.user.me().then((res) => (user = res)),

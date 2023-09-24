@@ -3,17 +3,19 @@ import smolblogServer from './server';
 import type { SmolblogApiClient, SmolblogContext } from './types';
 import smolblogUser from './user';
 
-export default function smolblog(context: SmolblogContext): SmolblogApiClient {
+export type FetchFunction = (input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>;
+
+export default function smolblog(context: SmolblogContext, fetcher: FetchFunction = window.fetch): SmolblogApiClient {
 	return {
-		server: smolblogServer(),
-		user: smolblogUser(context),
+		server: smolblogServer(fetcher),
+		user: smolblogUser(context, fetcher),
 		site: (id: string) => id
 	};
 }
 
 export async function smolFetch(
 	props: { endpoint: string; token?: string; verb?: string; payload?: unknown },
-	fetcher = window.fetch
+	fetcher: FetchFunction,
 ): Promise<unknown> {
 	const apiBase = `${PUBLIC_SERVER_URL}/wp-json/smolblog/v2`;
 

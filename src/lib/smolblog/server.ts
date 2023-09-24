@@ -1,8 +1,8 @@
-import { smolFetch } from '.';
+import { smolFetch, type FetchFunction } from '.';
 import type { Server } from './types';
 
-export default function smolblogServer() {
+export default function smolblogServer(fetcher: FetchFunction) {
 	return {
-		info: () => smolFetch({ endpoint: '/hello' }) as Promise<Server>
+		info: () => smolFetch({ endpoint: '/hello' }, fetcher) as Promise<Server>
 	};
 }
