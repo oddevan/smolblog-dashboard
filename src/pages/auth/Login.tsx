@@ -2,6 +2,7 @@ import { IonButton, IonContent, IonHeader, IonInput, IonPage, IonTitle, IonToolb
 import React, { useState } from "react";
 import { useSmolblog } from "../../components/SmolblogContext";
 import { Browser } from '@capacitor/browser';
+import { Storage } from '@ionic/storage';
 
 const LoginPage = () => {
     const smolblog = useSmolblog();
@@ -22,7 +23,12 @@ const LoginPage = () => {
             </IonToolbar>
             </IonHeader>
             <div className="container">
-                <IonInput label="Server" labelPlacement="stacked" value={serverInput} />
+                <IonInput
+                    label="Server"
+                    type="url"
+                    labelPlacement="stacked"
+                    value={serverInput}
+                />
                 <IonButton color="primary">Login with Smolblog</IonButton>
             </div>
         </IonContent>
