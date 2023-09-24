@@ -1,27 +1,30 @@
 <script lang="ts">
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { AppBar, localStorageStore, storePopup } from '@skeletonlabs/skeleton';
+	import { AppBar, Drawer, getDrawerStore, initializeStores, storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+	initializeStores();
 
 	import '../app.postcss';
 	import {
 		AppShell,
-		AppRail,
-		AppRailAnchor,
 		autoModeWatcher,
-		Avatar
 	} from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
-	import Snek from '$lib/components/Icons/Snek.svelte';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import type { LayoutData } from './$types';
 	import md5 from 'crypto-js/md5';
 	import ArrowOut from '$lib/components/Icons/ArrowOut.svelte';
 	import { PUBLIC_SERVER_URL } from '$env/static/public';
+	import RailNav from './RailNav.svelte';
+	import DrawerNav from './DrawerNav.svelte';
+	import { Menu } from '$lib/components/Icons';
 
 	export let data: LayoutData;
+	const drawerStore = getDrawerStore();
+	let emailHash: string = '00000000000000000000000000000000';
+	$: emailHash = md5($page.data.user?.email ?? 'example@example.com').toString()
 
 	onMount(() => {
 		if (!data.context.token && !$page.url.pathname.startsWith('/auth/')) {
@@ -34,52 +37,29 @@
 <svelte:head
 	>{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}</svelte:head
 >
+<!-- Only one Drawer per app -->
+<Drawer>
+	{#if $drawerStore.id === 'DrawerNav'}
+	<DrawerNav allSites={data.allSites} {emailHash} />
+	{/if}
+</Drawer>
 
 {#if data.context.token}
 	<AppShell>
 		<svelte:fragment slot="sidebarLeft">
-			<AppRail>
-				<svelte:fragment slot="lead">
-					<AppRailAnchor href="/">
-						<svelte:fragment slot="lead">
-							<Snek />
-						</svelte:fragment>
-					</AppRailAnchor>
-				</svelte:fragment>
-
-				{#each data.allSites as site (site.id)}
-					{@const { handle, displayName, baseUrl } = site}
-					{@const dashUrl = `/site/${handle}/`}
-					<AppRailAnchor
-						href={dashUrl}
-						selected={$page.url.pathname === dashUrl}
-						title={displayName}
-					>
-						<svelte:fragment slot="lead">
-							<Avatar initials={site.displayName.substring(0, 2)} width="w-10" />
-						</svelte:fragment>
-						{site.handle}
-					</AppRailAnchor>
-				{/each}
-
-				<svelte:fragment slot="trail">
-					<AppRailAnchor href="/account" title="Account">
-						<svelte:fragment slot="lead">
-							{@const emailHash = md5($page.data.user?.email ?? 'example@example.com')}
-							<Avatar
-								initials="SB"
-								src={`https://www.gravatar.com/avatar/${emailHash}.jpg?s=48&d=mp`}
-								width="w-10"
-							/>
-						</svelte:fragment>
-						Account
-					</AppRailAnchor>
-				</svelte:fragment>
-			</AppRail>
+			<div class="hidden sm:block">
+				<RailNav allSites={data.allSites} {emailHash} />
+			</div>
 		</svelte:fragment>
 		<svelte:fragment slot="pageHeader">
 			<AppBar>
 				<svelte:fragment slot="lead">
+					<button
+						class="btn-icon me-2 sm:hidden"
+						on:click={() => drawerStore.open({ id: 'DrawerNav', width: 'w-[280px] md:w-[480px]' })}
+					>
+						<Menu alt="Main navigation"/>
+					</button>
 					{#if $page.data.site}
 						{@const { handle, displayName } = $page.data.site}
 						<ol class="breadcrumb">
