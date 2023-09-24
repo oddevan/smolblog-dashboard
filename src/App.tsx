@@ -1,20 +1,11 @@
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
-  IonIcon,
-  IonLabel,
   IonRouterOutlet,
   IonSplitPane,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { create, documentsOutline, ellipse, settingsOutline, square, triangle } from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -35,26 +26,47 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import React from 'react';
-import Page from './pages/Page';
 import Menu from './components/Menu';
+import SmolblogProvider from './components/SmolblogContext';
+import ContentListPage from './pages/site/ContentList';
+import ContentNewPage from './pages/site/ContentNew';
+import SettingsPage from './pages/site/Settings';
+import ProfilePage from './pages/user/Profile';
+import ConnectionsPage from './pages/user/Connections';
+import LoginPage from './pages/auth/Login';
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
-    <IonReactRouter>
-      <IonSplitPane contentId="main">
-        <Menu />
-        <IonRouterOutlet id="main">
-          <Route path="/" exact={true}>
-            <Redirect to="/folder/Inbox" />
-          </Route>
-          <Route path="/folder/:name" exact={true}>
-            <Page />
-          </Route>
-        </IonRouterOutlet>
-      </IonSplitPane>
-    </IonReactRouter>
+    <SmolblogProvider>
+      <IonReactRouter>
+        <IonSplitPane contentId="main">
+          <Menu />
+          <IonRouterOutlet id="main">
+            <Route path="/" exact={true}>
+              {/* <Redirect to="/content" /> */}
+              <LoginPage/>
+            </Route>
+            <Route path="/new" exact={true}>
+              <ContentNewPage/>
+            </Route>
+            <Route path="/content" exact={true}>
+              <ContentListPage/>
+            </Route>
+            <Route path="/settings" exact={true}>
+              <SettingsPage/>
+            </Route>
+            <Route path="/profile" exact={true}>
+              <ProfilePage/>
+            </Route>
+            <Route path="/connections" exact={true}>
+              <ConnectionsPage/>
+            </Route>
+          </IonRouterOutlet>
+        </IonSplitPane>
+      </IonReactRouter>
+    </SmolblogProvider>
   </IonApp>
 );
 
