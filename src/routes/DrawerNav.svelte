@@ -24,7 +24,7 @@
 				{@const { handle, displayName, baseUrl } = site}
 				{@const dashUrl = `/site/${handle}/`}
 				<li>
-					<a href={dashUrl} class={$page.url.pathname === dashUrl ? '!bg-primary-500' : ''} on:click={closeDrawer}>
+					<a href={dashUrl} class={$page.url.pathname.startsWith(dashUrl) ? '!bg-primary-500' : ''} on:click={closeDrawer}>
 						<span><Avatar initials={site.displayName.substring(0, 2)} width="w-10" /></span>
 						<span class="flex-auto">
 							{handle}<br>
@@ -34,7 +34,7 @@
 				</li>
 			{/each}
 			<li>
-				<a href='/account' class={$page.url.pathname === '/account' ? '!bg-primary-500' : ''} on:click={closeDrawer}>
+				<a href='/account' class={$page.url.pathname.startsWith('/account') ? '!bg-primary-500' : ''} on:click={closeDrawer}>
 					<span>
 						<Avatar
 							initials="SB"

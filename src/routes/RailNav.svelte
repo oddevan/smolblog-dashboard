@@ -8,7 +8,7 @@
 	export let emailHash: string = '00000000000000000000000000000000';
 </script>
 
-<AppRail>
+<AppRail class={$$props.class}>
 	<svelte:fragment slot="lead">
 		<AppRailAnchor href="/">
 			<svelte:fragment slot="lead">
@@ -19,10 +19,10 @@
 
 	{#each allSites as site (site.id)}
 		{@const { handle, displayName, baseUrl } = site}
-		{@const dashUrl = `/site/${handle}/`}
+		{@const dashUrl = `/site/${handle}`}
 		<AppRailAnchor
 			href={dashUrl}
-			selected={$page.url.pathname === dashUrl}
+			selected={$page.url.pathname.startsWith(dashUrl)}
 			title={displayName}
 		>
 			<svelte:fragment slot="lead">
@@ -33,7 +33,7 @@
 	{/each}
 
 	<svelte:fragment slot="trail">
-		<AppRailAnchor href="/account" title="Account">
+		<AppRailAnchor href="/account" title="Account" selected={$page.url.pathname.startsWith('/account')}>
 			<svelte:fragment slot="lead">
 				<Avatar
 					initials="SB"

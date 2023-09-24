@@ -33,10 +33,6 @@
 	});
 </script>
 
-<!-- Match light/dark mode to OS -->
-<svelte:head
-	>{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}</svelte:head
->
 <!-- Only one Drawer per app -->
 <Drawer>
 	{#if $drawerStore.id === 'DrawerNav'}
@@ -47,9 +43,7 @@
 {#if data.context.token}
 	<AppShell>
 		<svelte:fragment slot="sidebarLeft">
-			<div class="hidden sm:block">
-				<RailNav allSites={data.allSites} {emailHash} />
-			</div>
+			<RailNav class="hidden sm:grid" allSites={data.allSites} {emailHash} />
 		</svelte:fragment>
 		<svelte:fragment slot="pageHeader">
 			<AppBar>
@@ -63,7 +57,7 @@
 					{#if $page.data.site}
 						{@const { handle, displayName } = $page.data.site}
 						<ol class="breadcrumb">
-							<li class="crumb"><a class="anchor" href={`/site/${handle}/`}>{displayName}</a></li>
+							<li class="crumb"><a class="anchor text-primary-500" href={`/site/${handle}/`}>{displayName}</a></li>
 							<li class="crumb-separator" aria-hidden>&rsaquo;</li>
 						</ol>
 					{/if}
@@ -84,7 +78,9 @@
 				<svelte:fragment slot="headline"><h1 class="h1">{$page.data.section}</h1></svelte:fragment>
 			</AppBar>
 		</svelte:fragment>
-		<slot />
+		<div class="p-4">
+			<slot />
+		</div>
 		<svelte:fragment slot="pageFooter">
 			<p class="text-end p-4">
 				<span class="opacity-50"
