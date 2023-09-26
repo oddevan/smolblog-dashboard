@@ -1,7 +1,9 @@
 <script lang="ts">
 	import type { FormField } from '$lib/components/FormFields';
 	import type { FormPartState } from '$lib/components/Forms';
+	import BasicForm from '$lib/components/Forms/BasicForm.svelte';
 	import FormPart from '$lib/components/Forms/FormPart.svelte';
+	import smolblog from '$lib/smolblog';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -21,16 +23,16 @@
 			required: true
 		},
 		{
-			name: 'email',
-			label: 'Email',
-			type: 'display'
+			name: 'pronouns',
+			label: 'Preferred pronouns',
+			type: 'text'
 		}
 	];
 
-	let profileState: FormPartState;
-	$: console.log({ profileState });
+	const submitFunc = smolblog(data.context, fetch).user.setProfile;
 </script>
 
 <h2 class="h2">Edit profile</h2>
 
-<FormPart definition={profileForm} initialData={data.userProfile} bind:partState={profileState} />
+<BasicForm definition={profileForm} initialData={data.userProfile} onSubmit={submitFunc} />
+

@@ -15,6 +15,7 @@ export type SmolblogServerApiClient = {
 export type SmolblogUserApiClient = {
 	me: () => Promise<User>;
 	sites: () => Promise<Site[]>;
+	setProfile: (payload: UserSetProfilePayload) => Promise<Record<string, never>>;
 };
 
 export type Server = {
@@ -27,6 +28,12 @@ export type User = {
 	handle: string;
 	displayName: string;
 	email: string;
+};
+
+export interface UserSetProfilePayload {
+	handle?: string,
+	displayName?: string,
+	pronouns?: string
 };
 
 export type Site = {

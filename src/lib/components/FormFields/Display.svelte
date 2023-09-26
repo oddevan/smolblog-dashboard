@@ -28,7 +28,7 @@
 	<input
 		{name}
 		class="input"
-		class:input-error={validationState === 'invalid'}
+		readonly
 		type="text"
 		bind:value={$controller.value}
 		id="input-{name}"

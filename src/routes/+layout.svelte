@@ -78,9 +78,7 @@
 				<svelte:fragment slot="headline"><h1 class="h1">{$page.data.section}</h1></svelte:fragment>
 			</AppBar>
 		</svelte:fragment>
-		<div class="p-4">
-			<slot />
-		</div>
+		<slot/>
 		<svelte:fragment slot="pageFooter">
 			<p class="text-end p-4">
 				<span class="opacity-50"

@@ -1,6 +1,7 @@
 import { field, type Validator } from 'svelte-forms';
 import type { Field } from 'svelte-forms/types';
 import {
+	email as makeEmailValidator,
 	required as makeRequiredValidator,
 	url as makeUrlValidator
 } from 'svelte-forms/validators';
@@ -15,7 +16,7 @@ export interface FieldValidator {
 export interface FormField {
 	name: string;
 	label: string;
-	type: 'text' | 'password' | 'url' | 'display' | 'switch' | 'hidden' | 'markdown';
+	type: 'text' | 'password' | 'url' | 'email' | 'display' | 'switch' | 'hidden' | 'markdown';
 	description?: string;
 	required?: boolean;
 	validators?: FieldValidator[];
@@ -31,8 +32,13 @@ export function makeValidators(def: FormField): Validator[] {
 	if (required) {
 		retVal.push(makeRequiredValidator());
 	}
-	if (type === 'url') {
-		retVal.push(makeUrlValidator());
+	switch (type) {
+		case 'url':
+			retVal.push(makeUrlValidator());
+			break;
+		case 'email':
+			retVal.push(makeEmailValidator());
+			break;
 	}
 
 	return retVal;
@@ -74,5 +80,7 @@ export function getValidationState(fieldState: Field<unknown>) {
 	}
 }
 
-export { default as Basic } from './Text.svelte';
+export { default as Text } from './Text.svelte';
+export { default as Display } from './Display.svelte';
+export { default as Email } from './Email.svelte';
 // export { default as Markdown } from './Markdown.svelte';

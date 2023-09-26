@@ -8,4 +8,6 @@
 	<TabAnchor href="/account/settings">Settings</TabAnchor>
 </TabGroup>
 
-<slot />
+<div class="p-4">
+	<slot />
+</div>
