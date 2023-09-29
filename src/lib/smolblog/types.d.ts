@@ -1,22 +1,26 @@
-export type SmolblogContext = {
+export interface SmolblogContext {
 	token: string | null;
 };
 
-export type SmolblogApiClient = {
+export interface SmolblogApiClient {
 	server: SmolblogServerApiClient;
 	user: SmolblogUserApiClient;
 	site: (id: string) => SmolblogSiteApiClient;
 };
 
-export type SmolblogServerApiClient = {
+export interface SmolblogServerApiClient {
 	info: () => Promise<Server>;
 };
 
-export type SmolblogUserApiClient = {
+export interface SmolblogUserApiClient {
 	me: () => Promise<User>;
 	sites: () => Promise<Site[]>;
 	setProfile: (payload: UserSetProfilePayload) => Promise<Record<string, never>>;
+	connections: () => Promise<UserConnection[]>;
+	initConnection: (provider: string, returnTo: string) => Promise<string>;
 };
+
+export interface SmolblogSiteApiClient {};
 
 export type Server = {
 	serverVersion: string;
@@ -30,11 +34,28 @@ export type User = {
 	email: string;
 };
 
-export interface UserSetProfilePayload {
+export type UserSetProfilePayload = {
 	handle?: string,
 	displayName?: string,
 	pronouns?: string
 };
+
+export type ConnectorConnection = {
+	id: string;
+	userId: string;
+	provider: string;
+	providerKey: string;
+	displayName: string;
+	channels: ConnectorChannel[];
+}
+
+export type ConnectorChannel = {
+	id: string;
+	channelKey: string;
+	displayName: string;
+	connectionProvider?: string;
+	connectionName?: string;
+}
 
 export type Site = {
 	id: string;
