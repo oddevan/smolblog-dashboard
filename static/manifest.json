@@ -1,0 +1,41 @@
+{
+  "name": "Smolblog Dashboard",
+  "short_name": "Smolblog",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#191b20",
+	"theme_color": "#9cd398",
+  "description": "Admin interface for Smolblog",
+  "icons": [
+    {
+      "src": "favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "pwa-icons/smolblog.avatar-0.5x.png",
+      "sizes": "1000x1000",
+      "type": "image/png"
+    },
+    {
+      "src": "pwa-icons/smolblog.avatar.png",
+      "sizes": "2000x2000",
+      "type": "image/png"
+    },
+    {
+      "src": "pwa-icons/smolblog.avatar-2x.png",
+      "sizes": "4000x4000",
+      "type": "image/png"
+    },
+    {
+      "src": "pwa-icons/smolblog.avatar-3x.png",
+      "sizes": "6000x6000",
+      "type": "image/png"
+    }
+  ]
+}

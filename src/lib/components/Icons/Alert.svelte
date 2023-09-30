@@ -1,15 +1,15 @@
 <script lang="ts">
-	export let alt: string | undefined = undefined;
-	export let size = 6;
-	const nodeClass = $$props.class ?? `w-${size} h-${size}`;
+	import BaseIcon, { type IconProps } from "./BaseIcon.svelte";
+
+	interface $$Props extends IconProps {};
 </script>
 
+<BaseIcon {...$$props}>
 <svg
 	xmlns="http://www.w3.org/2000/svg"
 	viewBox="0 0 24 24"
 	fill="currentColor"
 	aria-hidden="true"
-	class={nodeClass}
 >
 	<path
 		fill-rule="evenodd"
@@ -17,4 +17,5 @@
 		clip-rule="evenodd"
 	/>
 </svg>
-{#if alt}<span class="sr-only">{alt}</span>{/if}
+<!-- Icon from Heroicons (c) 2020 Refactoring UI Inc. used under license. https://github.com/tailwindlabs/heroicons/ -->
+</BaseIcon>

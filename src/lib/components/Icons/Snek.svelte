@@ -1,9 +1,11 @@
 <script lang="ts">
-	export let alt: string | undefined = undefined;
+	import BaseIcon, { type IconProps } from "./BaseIcon.svelte";
+
+	interface $$Props extends IconProps {};
 	export let size = 10;
-	const nodeClass = $$props.class ?? `w-${size} h-${size}`;
 </script>
 
+<BaseIcon {size} {...$$restProps}>
 <svg
 	version="1.1"
 	id="Layer_1"
@@ -13,7 +15,6 @@
 	y="0px"
 	viewBox="0 0 2000 1500"
 	style="enable-background:new 0 0 2000 1500;"
-	class={nodeClass}
 	xml:space="preserve"
 >
 	<style type="text/css">
@@ -36,4 +37,4 @@
 		/>
 	</g>
 </svg>
-{#if alt}<span class="sr-only">{alt}</span>{/if}
+</BaseIcon>
