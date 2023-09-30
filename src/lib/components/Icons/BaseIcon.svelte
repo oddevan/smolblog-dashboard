@@ -9,8 +9,14 @@
 <script lang="ts">
 	export let alt: string | undefined = undefined;
 	export let size = 6;
-	const nodeClass = $$props.class ?? `w-${size} h-${size}`;
+	const nodeClass = `w-${size} h-${size} block ${$$props.class}`;
 </script>
+
+<style lang="postcss">
+	span :global(svg) {
+		@apply w-full h-full;
+	}
+</style>
 
 <span class={nodeClass} aria-hidden="true">
 	<slot />
