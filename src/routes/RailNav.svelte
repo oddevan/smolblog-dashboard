@@ -12,7 +12,7 @@
 	<svelte:fragment slot="lead">
 		<AppRailAnchor href="/">
 			<svelte:fragment slot="lead">
-				<Snek />
+				<Snek size="xlarge" />
 			</svelte:fragment>
 		</AppRailAnchor>
 	</svelte:fragment>

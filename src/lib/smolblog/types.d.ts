@@ -16,7 +16,7 @@ export interface SmolblogUserApiClient {
 	me: () => Promise<User>;
 	sites: () => Promise<Site[]>;
 	setProfile: (payload: UserSetProfilePayload) => Promise<Record<string, never>>;
-	connections: () => Promise<UserConnection[]>;
+	connections: () => Promise<ConnectorConnection[]>;
 	initConnection: (provider: string, returnTo: string) => Promise<string>;
 };
 

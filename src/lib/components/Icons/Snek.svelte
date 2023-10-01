@@ -2,10 +2,9 @@
 	import BaseIcon, { type IconProps } from "./BaseIcon.svelte";
 
 	interface $$Props extends IconProps {};
-	export let size = 10;
 </script>
 
-<BaseIcon {size} {...$$restProps}>
+<BaseIcon {...$$restProps}>
 <svg
 	version="1.1"
 	id="Layer_1"

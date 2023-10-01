@@ -66,11 +66,11 @@
 					{#if $page.data.site}
 						{@const { baseUrl } = $page.data.site}
 						<a href={baseUrl} class="btn btn-sm variant-filled-primary">
-							<span><ArrowOut size={5} /></span>
+							<span><ArrowOut size='small' /></span>
 							<span>Visit site</span>
 						</a>
 						<a href={`${baseUrl}/wp-admin`} class="btn btn-sm variant-filled-tertiary">
-							<span><ArrowOut size={5} /></span>
+							<span><ArrowOut size='small' /></span>
 							<span>WP Admin</span>
 						</a>
 					{/if}

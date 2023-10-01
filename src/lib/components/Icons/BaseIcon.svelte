@@ -1,15 +1,28 @@
 <script lang="ts" context="module">
 	export interface IconProps {
 		alt?: string,
-		size?: number,
+		size?: 'small'|'medium'|'large'|'xlarge',
 		class?: string,
 	};
 </script>
 
 <script lang="ts">
 	export let alt: string | undefined = undefined;
-	export let size = 6;
-	const nodeClass = `w-${size} h-${size} block ${$$props.class}`;
+	export let size: 'small'|'medium'|'large'|'xlarge' = 'medium';
+
+	const sizeClasses = ((sizeDef) => {
+		switch (sizeDef) {
+			case 'small':
+				return 'w-4 h-4';
+			case 'medium':
+				return 'w-6 h-6';
+			case 'large':
+				return 'w-8 h-8';
+			case 'xlarge':
+				return 'w-10 h-10';
+		}
+	})(size);
+	const nodeClass = `${sizeClasses} block ${$$props.class ?? ''}`;
 </script>
 
 <style lang="postcss">
