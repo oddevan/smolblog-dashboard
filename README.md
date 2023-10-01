@@ -8,6 +8,8 @@ A single-page Progressive Web App to provide the admin interface for Smolblog.
 
 Indicated icons are from [Heroicons](https://heroicons.com) via its MIT license.
 
+Indicated icons are from [Font Awesome](https://fontawesome.com/) via its CC-BY 4.0 license.
+
 The Markdown icon was created by Dustin Curtis and dedicated to the public domain.
 
 Remaining code copyright (C) Evan Hildreth d/b/a Smolblog

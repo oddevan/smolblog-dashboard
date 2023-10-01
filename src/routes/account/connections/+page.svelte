@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PUBLIC_DASHBOARD_URL } from "$env/static/public";
-	import { Refresh, Site, Trash } from "$lib/components/Icons";
+	import { Refresh, Site, Trash, Tumblr } from "$lib/components/Icons";
 	import type { PageData } from "./$types";
 
 	export let data: PageData;
@@ -52,7 +52,7 @@
 		<span>Micro.blog</span>
 	</a>
 	<a class="logo-item" href="/">
-		<span><Site size='medium' /></span>
+		<span><Tumblr size='medium' /></span>
 		<span>Tumblr</span>
 	</a>
 </div>

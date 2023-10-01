@@ -1,7 +1,10 @@
 <script lang="ts">
 	import BaseIcon, { type IconProps } from "./BaseIcon.svelte";
 
-	interface $$Props extends IconProps {};
+	interface $$Props extends IconProps {
+		mono?: boolean;
+	};
+	export let mono = false;
 </script>
 
 <BaseIcon {...$$restProps}>
@@ -15,12 +18,8 @@
 	viewBox="0 0 2000 1500"
 	style="enable-background:new 0 0 2000 1500;"
 	xml:space="preserve"
+	fill={mono ? 'currentColor' : '#88d491'}
 >
-	<style type="text/css">
-		.st0 {
-			fill: #88d491;
-		}
-	</style>
 	<g>
 		<path
 			class="st0"
