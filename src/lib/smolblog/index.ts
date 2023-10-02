@@ -42,7 +42,7 @@ export async function smolFetch(
 	});
 
 	if (!response.ok) {
-		throw new Error(`Error from Smolblog: ${responseData.error ?? response.status}`, responseData);
+		throw new Error(`Error from Smolblog: ${responseData.error ?? response.status}`, { cause: responseData });
 	}
 
 	return responseData;

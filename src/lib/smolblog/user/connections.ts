@@ -17,6 +17,14 @@ export async function getMyConnections(context: SmolblogContext, fetcher: FetchF
 	}>).then(res => res.connections);
 }
 
+export async function refreshConnectionChannels(connectionId: string, context: SmolblogContext, fetcher: FetchFunction,) {
+	return smolFetch({ endpoint: `/connect/connection/${connectionId}/refresh`, token: context.token ?? undefined, verb: 'POST' }, fetcher) as Promise<ConnectorConnection>;
+}
+
+export async function deleteConnection(connectionId: string, context: SmolblogContext, fetcher: FetchFunction,) {
+	return smolFetch({ endpoint: `/connect/connection/${connectionId}/delete`, token: context.token ?? undefined, verb: 'DELETE' }, fetcher) as Promise<Record<string, never>>;
+}
+
 /*
 export async function linkChannelAndSite(
 	smolFetch: SmolblogFetch,

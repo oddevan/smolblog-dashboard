@@ -1,17 +1,18 @@
 <script lang="ts" context="module">
+	export type IconSize = 'small'|'medium'|'large'|'xlarge';
 	export interface IconProps {
 		alt?: string,
-		size?: 'small'|'medium'|'large'|'xlarge',
+		size?: IconSize,
 		class?: string,
 	};
 </script>
 
 <script lang="ts">
 	export let alt: string | undefined = undefined;
-	export let size: 'small'|'medium'|'large'|'xlarge' = 'medium';
+	export let size: IconSize = 'medium';
 
-	const sizeClasses = ((sizeDef) => {
-		switch (sizeDef) {
+	const sizeClasses = (() => {
+		switch (size) {
 			case 'small':
 				return 'w-4 h-4';
 			case 'medium':
@@ -21,7 +22,7 @@
 			case 'xlarge':
 				return 'w-10 h-10';
 		}
-	})(size);
+	})();
 	const nodeClass = `${sizeClasses} block ${$$props.class ?? ''}`;
 </script>
 

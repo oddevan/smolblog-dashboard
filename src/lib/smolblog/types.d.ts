@@ -18,6 +18,10 @@ export interface SmolblogUserApiClient {
 	setProfile: (payload: UserSetProfilePayload) => Promise<Record<string, never>>;
 	connections: () => Promise<ConnectorConnection[]>;
 	initConnection: (provider: string, returnTo: string) => Promise<string>;
+	connection: (id: string) => {
+		refresh: () => Promise<ConnectorConnection>,
+		delete: () => Promise<Record<string, never>>,
+	};
 };
 
 export interface SmolblogSiteApiClient {};

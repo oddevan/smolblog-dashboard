@@ -1,6 +1,6 @@
 import type { FetchFunction } from '..';
 import type { SmolblogContext, SmolblogUserApiClient, UserSetProfilePayload } from '../types';
-import { getMyConnections, startConnectionSession } from './connections';
+import { deleteConnection, getMyConnections, refreshConnectionChannels, startConnectionSession } from './connections';
 import { getMyProfile, getMySites, setMyProfile } from './profile';
 
 export default function smolblogUser(context: SmolblogContext, fetcher: FetchFunction): SmolblogUserApiClient {
@@ -10,5 +10,9 @@ export default function smolblogUser(context: SmolblogContext, fetcher: FetchFun
 		setProfile: (payload: UserSetProfilePayload) => setMyProfile(context, fetcher, payload),
 		connections: () => getMyConnections(context, fetcher),
 		initConnection: (provider: string, returnTo: string) => startConnectionSession(context, fetcher, provider, returnTo),
+		connection: (id: string) => ({
+			refresh: () => refreshConnectionChannels(id, context, fetcher),
+			delete: () => deleteConnection(id, context, fetcher),
+		}),
 	};
 }
