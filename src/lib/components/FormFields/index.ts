@@ -16,7 +16,7 @@ export interface FieldValidator {
 export interface FormField {
 	name: string;
 	label: string;
-	type: 'text' | 'password' | 'url' | 'email' | 'display' | 'switch' | 'hidden' | 'markdown';
+	type: 'text' | 'password' | 'url' | 'email' | 'display' | 'switch' | 'hidden' | 'markdown' | 'file';
 	description?: string;
 	required?: boolean;
 	validators?: FieldValidator[];
