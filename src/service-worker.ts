@@ -1,5 +1,7 @@
-import { build, files, timestamp } from '$service-worker';
-const worker = (self);
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { build, files } from '$service-worker';
+const timestamp = Date.now();
+const worker = (self as unknown) as any;
 const FILES = `cache${timestamp}`;
 const to_cache = build.concat(files);
 const staticAssets = new Set(to_cache);
@@ -27,7 +29,7 @@ worker.addEventListener('activate', (event) => {
     );
 });
 // attempt to process HTTP requests and rely on the cache if offline
-async function fetchAndCache(request) {
+async function fetchAndCache(request: Request) {
     const cache = await caches.open(`offline${timestamp}`);
     try {
         const response = await fetch(request);
