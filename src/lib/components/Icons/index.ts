@@ -6,6 +6,7 @@ export { default as Inbox } from './Inbox.svelte';
 export { default as Markdown } from './Markdown.svelte';
 export { default as Menu } from './Menu.svelte';
 export { default as Microblog } from './Microblog.svelte';
+export { default as Picture } from './Picture.svelte';
 export { default as Reader } from './Reader.svelte';
 export { default as Reblog } from './Reblog.svelte';
 export { default as Refresh } from './Refresh.svelte';
