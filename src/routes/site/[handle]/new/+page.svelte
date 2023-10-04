@@ -35,6 +35,11 @@
 				label: 'Upload a picture',
 				type: 'file',
 				required: true,
+				description: 'You can upload multiple pictures in most formats.',
+				attributes: {
+					multiple: true,
+					accept: 'image/*',
+				}
 			},
 			{
 				name: 'caption',

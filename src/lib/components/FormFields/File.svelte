@@ -3,6 +3,7 @@
 	import { makeDefaultController, type FormField, type FieldController, type FormFieldProps } from '.';
 	import BaseField from './BaseField.svelte';
 	import { Upload } from '../Icons';
+	import { onMount } from 'svelte';
 
 	interface $$Props extends FormFieldProps {};
 
@@ -12,6 +13,8 @@
 
 	const { name, required } = definition;
 	const fileController = controller as FieldController<FileList>
+
+	$: console.log($fileController.value);
 </script>
 
 <BaseField {definition} bind:value {controller} let:helpText hideHelp>
@@ -21,9 +24,13 @@
 		id="input-{name}"
 		aria-describedby={helpText ? `description-${name}` : undefined}
 		required={required ? true : false}
+		accept={definition.attributes?.accept ?? undefined}
+		multiple={definition.attributes?.multiple ?? undefined}
 	>
-		<svelte:fragment slot="lead"><Upload size="large"/></svelte:fragment>
-		<svelte:fragment slot="message"><strong>Upload a file</strong> or drag-and-drop</svelte:fragment>
-		<svelte:fragment slot="meta">{helpText}</svelte:fragment>
+		<svelte:fragment slot="lead"><Upload size="large" class="mx-auto"/></svelte:fragment>
+		<svelte:fragment slot="meta">{helpText ?? ''}</svelte:fragment>
 	</FileDropzone>
+	{#each $fileController.value ?? [] as fileNote}
+		<span class="chip variant-filled me-1">{fileNote.name}</span>
+	{/each}
 </BaseField>

@@ -20,6 +20,7 @@ export interface FormField {
 	description?: string;
 	required?: boolean;
 	validators?: FieldValidator[];
+	attributes?: Record<string, string|number|boolean>;
 }
 
 export type FieldController<T> = Writable<Field<T>> & { validate: () => void };
