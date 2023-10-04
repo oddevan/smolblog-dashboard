@@ -1,30 +1,17 @@
 <script lang="ts">
-	import type { Writable } from 'svelte/store';
-	import type { Field } from 'svelte-forms/types';
-	import BaseLabel from './BaseLabel.svelte';
-	import { makeDefaultController, type FormField, getErrorMessage, getValidationState } from '.';
-	import { onMount } from 'svelte';
+	import { makeDefaultController, type FormField, getErrorMessage, getValidationState, type FormFieldProps, type FieldController } from '.';
+	import BaseField from './BaseField.svelte';
+
+	interface $$Props extends FormFieldProps {};
 
 	export let definition: FormField;
 	export let value: unknown = undefined;
-	export let controller: Writable<Field<unknown>> & { validate: () => void } =
-		makeDefaultController(definition, value);
+	export let controller: FieldController<unknown> = makeDefaultController(definition, value);
 
-	const { name, label, required, description } = definition;
-
-	let helpText: string | undefined;
-	let validationState: 'invalid' | 'valid' | undefined;
-	onMount(() =>
-		controller.subscribe((fieldState) => {
-			value = fieldState.value;
-			helpText = getErrorMessage(fieldState.errors, definition) ?? description;
-			validationState = getValidationState(fieldState);
-		})
-	);
+	const { name, required } = definition;
 </script>
 
-<label class="label max-w-md my-6">
-	<BaseLabel {required} for={`input-${name}`}>{label}</BaseLabel>
+<BaseField {definition} bind:value {controller} let:helpText>
 	<input
 		{name}
 		class="input"
@@ -35,5 +22,4 @@
 		aria-describedby={helpText ? `description-${name}` : undefined}
 		required={required ? true : false}
 	/>
-	{#if helpText}<p id={`description-${name}`} class="opacity-50">{helpText}</p>{/if}
-</label>
+</BaseField>

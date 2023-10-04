@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { form as makeForm } from 'svelte-forms';
-	import { makeDefaultController, type FormField } from '../FormFields';
+	import { makeDefaultController, type FormField, Markdown } from '../FormFields';
 	import { onMount } from 'svelte';
-	import { Text, Email, Display } from '../FormFields';
+	import { Text, Email, Display, Url, File } from '../FormFields';
 	import type { Writable } from 'svelte/store';
 	import type { Field } from 'svelte-forms/types';
 	import type { FormPartState } from '.';
@@ -37,13 +37,17 @@
 		{@const { name, type } = fieldDef}
 		<div class={fieldClass}>
 			{#if type === 'markdown'}
-				<!-- <Markdown definition={fieldDef} controller={getFieldController(name)} /> -->
+				<Markdown definition={fieldDef} controller={getFieldController(name)} />
 			{:else if type === 'email'}
 				<Email definition={fieldDef} controller={getFieldController(name)} />
 			{:else if type === 'display'}
 				<Display definition={fieldDef} controller={getFieldController(name)} />
 			{:else if type === 'text'}
 				<Text definition={fieldDef} controller={getFieldController(name)} />
+			{:else if type === 'url'}
+				<Url definition={fieldDef} controller={getFieldController(name)} />
+			{:else if type === 'file'}
+				<File definition={fieldDef} controller={getFieldController(name)} />
 			{/if}
 		</div>
 	{/each}

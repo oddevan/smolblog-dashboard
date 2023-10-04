@@ -22,6 +22,14 @@ export interface FormField {
 	validators?: FieldValidator[];
 }
 
+export type FieldController<T> = Writable<Field<T>> & { validate: () => void };
+
+export interface FormFieldProps {
+	definition: FormField,
+	value?: unknown,
+	controller?: FieldController<unknown>,
+}
+
 export function makeValidators(def: FormField): Validator[] {
 	const { type, required = false, validators = [] } = def;
 
@@ -44,10 +52,10 @@ export function makeValidators(def: FormField): Validator[] {
 	return retVal;
 }
 
-export function makeDefaultController(
+export function makeDefaultController<T>(
 	def: FormField,
-	value: unknown
-): Writable<Field<unknown>> & { validate: () => void } {
+	value: T
+): FieldController<T> {
 	const { name } = def;
 	const validators = makeValidators(def);
 
@@ -80,7 +88,9 @@ export function getValidationState(fieldState: Field<unknown>) {
 	}
 }
 
-export { default as Text } from './Text.svelte';
 export { default as Display } from './Display.svelte';
 export { default as Email } from './Email.svelte';
-// export { default as Markdown } from './Markdown.svelte';
+export { default as File } from './File.svelte';
+export { default as Markdown } from './Markdown.svelte';
+export { default as Text } from './Text.svelte';
+export { default as Url } from './Url.svelte';

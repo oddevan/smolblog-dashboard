@@ -8,18 +8,18 @@
 	export let value: unknown = undefined;
 	export let controller: FieldController<unknown> = makeDefaultController(definition, value);
 
-	const { name, required } = definition;
+	const { name, required, label } = definition;
 </script>
 
 <BaseField {definition} bind:value {controller} let:validationState let:helpText>
-	<input
-		{name}
-		class="input"
-		class:input-error={validationState === 'invalid'}
-		type="text"
-		bind:value={$controller.value}
-		id="input-{name}"
-		aria-describedby={helpText ? `description-${name}` : undefined}
-		required={required ? true : false}
-	/>
+	<div>
+		<textarea
+			{name}
+			class="textarea"
+			id="input-{name}"
+			aria-label={label}
+			rows={3}
+			bind:value={$controller.value}
+		/>
+	</div>
 </BaseField>

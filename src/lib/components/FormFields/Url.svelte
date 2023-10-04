@@ -16,7 +16,7 @@
 		{name}
 		class="input"
 		class:input-error={validationState === 'invalid'}
-		type="text"
+		type="url"
 		bind:value={$controller.value}
 		id="input-{name}"
 		aria-describedby={helpText ? `description-${name}` : undefined}

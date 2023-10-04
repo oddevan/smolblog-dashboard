@@ -16,4 +16,5 @@ export { default as Snek } from './Snek.svelte';
 export { default as Status } from './Status.svelte';
 export { default as Trash } from './Trash.svelte';
 export { default as Tumblr } from './Tumblr.svelte';
+export { default as Upload } from './Upload.svelte';
 export { default as User } from './User.svelte';

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { FormField } from "$lib/components/FormFields";
 	import FormPart from "$lib/components/Forms/FormPart.svelte";
-import { Picture, Reblog, Status } from "$lib/components/Icons";
+	import { Picture, Reblog, Status } from "$lib/components/Icons";
 	import { Tab, TabGroup } from "@skeletonlabs/skeleton";
 
 	let currentTab: string = 'note';
@@ -46,7 +46,7 @@ import { Picture, Reblog, Status } from "$lib/components/Icons";
 	}
 </script>
 
-<div class="max-w-md -mx-2 sm:mx-0">
+<div class="max-w-md -mx-4 sm:mx-0">
 <TabGroup>
 	<Tab bind:group={currentTab} name="tab1" value={'note'}>
 		<span class="flex items-center">
