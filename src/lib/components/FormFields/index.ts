@@ -1,3 +1,4 @@
+import type { SvelteComponent } from 'svelte';
 import { field, type Validator } from 'svelte-forms';
 import type { Field } from 'svelte-forms/types';
 import {
@@ -16,11 +17,12 @@ export interface FieldValidator {
 export interface FormField {
 	name: string;
 	label: string;
-	type: 'text' | 'password' | 'url' | 'email' | 'display' | 'switch' | 'hidden' | 'markdown' | 'file';
+	type: 'text' | 'password' | 'url' | 'email' | 'display' | 'switch' | 'hidden' | 'markdown' | 'file' | 'checkboxes' | 'multitext';
 	description?: string;
 	required?: boolean;
 	validators?: FieldValidator[];
 	attributes?: Record<string, string|number|boolean>;
+	component?: SvelteComponent;
 }
 
 export type FieldController<T> = Writable<Field<T>> & { validate: () => void };
@@ -93,5 +95,6 @@ export { default as Display } from './Display.svelte';
 export { default as Email } from './Email.svelte';
 export { default as File } from './File.svelte';
 export { default as Markdown } from './Markdown.svelte';
+export { default as Multitext } from './Multitext.svelte';
 export { default as Text } from './Text.svelte';
 export { default as Url } from './Url.svelte';

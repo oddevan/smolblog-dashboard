@@ -6,6 +6,7 @@
 	import type { Writable } from 'svelte/store';
 	import type { Field } from 'svelte-forms/types';
 	import type { FormPartState } from '.';
+	import Multitext from '../FormFields/Multitext.svelte';
 
 	export let fieldClass = '';
 	export let definition: FormField[];
@@ -34,9 +35,11 @@
 
 <div class={$$props.class}>
 	{#each definition as fieldDef (fieldDef.name)}
-		{@const { name, type } = fieldDef}
+		{@const { name, type, component } = fieldDef}
 		<div class={fieldClass}>
-			{#if type === 'markdown'}
+			{#if component}
+				<svelte:component this={component} definition={fieldDef} controller={getFieldController(name)} />
+			{:else if type === 'markdown'}
 				<Markdown definition={fieldDef} controller={getFieldController(name)} />
 			{:else if type === 'email'}
 				<Email definition={fieldDef} controller={getFieldController(name)} />
@@ -48,6 +51,8 @@
 				<Url definition={fieldDef} controller={getFieldController(name)} />
 			{:else if type === 'file'}
 				<File definition={fieldDef} controller={getFieldController(name)} />
+			{:else if type === 'multitext'}
+				<Multitext definition={fieldDef} controller={getFieldController(name)} />
 			{/if}
 		</div>
 	{/each}

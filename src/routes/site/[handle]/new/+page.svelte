@@ -48,7 +48,52 @@
 				required: false,
 			}
 		]
-	}
+	};
+
+	const extensionDefinitions: Record<string, FormField[]> = {
+		syndication: [
+			{
+				name: 'channels',
+				label: 'Syndicate to',
+				type: 'checkboxes',
+				attributes: {
+					'7836169f-dad8-4cf1-bb75-574d582efe4f': '@twitterthing',
+					'642487a9-5c63-4c56-be04-70eb9762ed04': '@otherthing',
+					'fb5abc4d-ca02-4af8-ab51-0d15c23eecde': 'tumblr:paperairplanemob',
+					'079afd0a-71cb-4319-9ae5-5a1180ba1297': '@someone@something.com',
+				}
+			},
+			{
+				name: 'links',
+				label: 'Links',
+				type: 'multitext',
+				attributes: {
+					lowercase: true,
+				},
+				validators: [
+					{
+						key: 'allUrls',
+						message: 'All links must be valid URLs.',
+						func: async (val: unknown) => {
+							const links = val as string[];
+							return links.every(link => URL.canParse(link));
+						},
+					}
+				]
+			}
+		],
+		tags: [
+			{
+				name: 'tags',
+				label: 'Tags',
+				type: 'multitext',
+				description: 'Press ENTER to save each tag',
+				attributes: {
+					duplicates: true,
+				}
+			}
+		],
+	};
 </script>
 
 <div class="max-w-md -mx-4 sm:mx-0">
@@ -76,4 +121,9 @@
 		<FormPart definition={typeDefinitions[currentTab]} />
 	</svelte:fragment>
 </TabGroup>
+{#each Object.keys(extensionDefinitions) as extDef }
+	<hr>
+	<h4 class="h4">{extDef}</h4>
+	<FormPart definition={extensionDefinitions[extDef]} />
+{/each}
 </div>
