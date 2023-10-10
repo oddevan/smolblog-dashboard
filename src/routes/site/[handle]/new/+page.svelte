@@ -1,8 +1,10 @@
 <script lang="ts">
+	import ChannelSelectionField from "$lib/components/ChannelSelectionField.svelte";
 	import type { FormField } from "$lib/components/FormFields";
+	import type { FormPartState } from "$lib/components/Forms";
 	import FormPart from "$lib/components/Forms/FormPart.svelte";
 	import { Picture, Reblog, Status } from "$lib/components/Icons";
-	import { Tab, TabGroup } from "@skeletonlabs/skeleton";
+	import { ListBox, ListBoxItem, Tab, TabGroup } from "@skeletonlabs/skeleton";
 
 	let currentTab: string = 'note';
 
@@ -56,12 +58,7 @@
 				name: 'channels',
 				label: 'Syndicate to',
 				type: 'checkboxes',
-				attributes: {
-					'7836169f-dad8-4cf1-bb75-574d582efe4f': '@twitterthing',
-					'642487a9-5c63-4c56-be04-70eb9762ed04': '@otherthing',
-					'fb5abc4d-ca02-4af8-ab51-0d15c23eecde': 'tumblr:paperairplanemob',
-					'079afd0a-71cb-4319-9ae5-5a1180ba1297': '@someone@something.com',
-				}
+				component: ChannelSelectionField,
 			},
 			{
 				name: 'links',
@@ -94,6 +91,10 @@
 			}
 		],
 	};
+
+	let formState: {type: FormPartState | undefined, extensions: Record<string, FormPartState>} = { type: undefined, extensions: {} };
+
+	$: console.log(formState);
 </script>
 
 <div class="max-w-md -mx-4 sm:mx-0">
@@ -118,12 +119,12 @@
 	</Tab>
 	<!-- Tab Panels --->
 	<svelte:fragment slot="panel">
-		<FormPart definition={typeDefinitions[currentTab]} />
+		<FormPart definition={typeDefinitions[currentTab]} bind:partState={formState.type} />
 	</svelte:fragment>
 </TabGroup>
 {#each Object.keys(extensionDefinitions) as extDef }
 	<hr>
 	<h4 class="h4">{extDef}</h4>
-	<FormPart definition={extensionDefinitions[extDef]} />
+	<FormPart definition={extensionDefinitions[extDef]} bind:partState={formState.extensions[extDef]} />
 {/each}
 </div>

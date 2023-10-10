@@ -1,4 +1,4 @@
-import type { SvelteComponent } from 'svelte';
+import type { ComponentType, SvelteComponent } from 'svelte';
 import { field, type Validator } from 'svelte-forms';
 import type { Field } from 'svelte-forms/types';
 import {
@@ -22,7 +22,7 @@ export interface FormField {
 	required?: boolean;
 	validators?: FieldValidator[];
 	attributes?: Record<string, string|number|boolean>;
-	component?: SvelteComponent;
+	component?: ComponentType<SvelteComponent<FormFieldProps>>;
 }
 
 export type FieldController<T> = Writable<Field<T>> & { validate: () => void };
