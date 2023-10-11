@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
 	import { makeDefaultController, type FormField, type FieldController, type FormFieldProps } from './FormFields';
-	import BaseField from './FormFields/BaseField.svelte';
-	import { onMount } from 'svelte';
-	import { Tumblr, Microblog } from './Icons';
+	import ToggleSwitch from './ToggleSwitch.svelte';
+	import ConnectionType from './ConnectionType.svelte';
 
 	interface $$Props extends FormFieldProps {};
 
@@ -12,24 +10,22 @@
 	export let controller: FieldController<unknown> = makeDefaultController(definition, value);
 
 	const { name } = definition;
-	let groupVal: string[] = value as string[];
-
+	let groupVal: string[] = value as string[] ?? [];
 	$: $controller.value = groupVal;
+
+	const channels = [
+		{id: '703330fa-06aa-454c-9fec-d82697d51e11', provider: 'tumblr', name: 'paperairplanemob'},
+		{id: '70e6b3cf-256c-4498-a226-5c04d9c9354f', provider: 'tumblr', name: 'plotholefragments'},
+		{id: 'f3fb7f14-5a56-4a08-8b65-1da81a8ca752', provider: 'microblog', name: 'oddevan.com'},
+	];
 </script>
 
-<BaseField {definition} bind:value {controller}>
-	<ListBox multiple>
-		<ListBoxItem bind:group={groupVal} name={name} value="2c2ffba0-c7e6-4f56-927b-aac08ca5f525">
-			<svelte:fragment slot="lead"><Tumblr size="small"/></svelte:fragment>
-			paperairplanemob
-		</ListBoxItem>
-		<ListBoxItem bind:group={groupVal} name={name} value="3f7e0901-7909-4ac0-9904-2b6b394c9831">
-			<svelte:fragment slot="lead"><Tumblr size="small"/></svelte:fragment>
-			plotholefragments
-		</ListBoxItem>
-		<ListBoxItem bind:group={groupVal} name={name} value="79661c86-68fb-4bd7-bc38-1116729094ac">
-			<svelte:fragment slot="lead"><Microblog size="small"/></svelte:fragment>
-			oddevan.com
-		</ListBoxItem>
-	</ListBox>
-</BaseField>
+<h5 class="my-3">Syndicate to:</h5>
+{#each channels as channel (channel.id)}
+	<ToggleSwitch {name} bind:group={groupVal} value={channel.id}>
+		<span class="flex items-center">
+			<ConnectionType provider={channel.provider} iconSize="small"/>
+			{channel.name}
+		</span>
+	</ToggleSwitch>
+{/each}
