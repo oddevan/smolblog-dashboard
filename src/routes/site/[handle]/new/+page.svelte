@@ -1,19 +1,13 @@
 <script lang="ts">
-	import ChannelSelectionField from "$lib/components/ChannelSelectionField.svelte";
-	import type { FormField } from "$lib/components/FormFields";
 	import type { FormPartState } from "$lib/components/Forms";
 	import FormPart from "$lib/components/Forms/FormPart.svelte";
-	import * as Icons from "$lib/components/Icons";
-	import type { SiteConfigContent } from "$lib/smolblog/types";
-	import { ListBox, ListBoxItem, ProgressBar, Tab, TabGroup } from "@skeletonlabs/skeleton";
-	import { onMount, type ComponentType, SvelteComponent } from "svelte";
+	import { Cross } from "$lib/components/Icons";
+	import { ProgressBar } from "@skeletonlabs/skeleton";
 	import type { PageData } from "./$types";
 	import Smolblog from "$lib/smolblog";
 	import ContentIcon from "$lib/components/ContentIcon.svelte";
 
 	export let data: PageData;
-
-	let config: SiteConfigContent|undefined = undefined;
 
 	let selectedType: string|null = null;
 	let typeStates: Record<string, FormPartState> = {};
@@ -30,10 +24,6 @@
 		return retVal;
 	}
 
-	onMount(async () => {
-		config = await Smolblog(data.context).site(data.site?.id ?? '').config.content();
-	});
-
 	$: payload = selectedType ? {
 		type: { type: selectedType, ...typeStates[selectedType]?.payload},
 		meta: {},
@@ -44,9 +34,10 @@
 <div class="grid grid-cols-1 lg:!grid-cols-2">
 
 <div class="max-w-md -mx-4 sm:mx-0">
-{#if !config}
+{#await Smolblog(data.context).site(data.site?.id ?? '').config.content()}
 	<ProgressBar meter="bg-primary-900-50-token" track="bg-primary-200-700-token" />
-{:else if !selectedType}
+{:then config} 
+	{#if !selectedType}
 	<div class="logo-cloud grid-cols-3 gap-1">
 		{#each Object.keys(config.types) as typeKey}
 		<button class="logo-item" on:click={() => selectedType = typeKey}>
@@ -57,11 +48,11 @@
 		</button>
 		{/each}
 	</div>
-{:else}
+	{:else}
 	<div class="flex items-center justify-between">
 		<h2 class="h2">New {config.types[selectedType].name}</h2>
 		<button on:click={() => selectedType = null} class="btn-icon btn-sm variant-filled-error">
-			<Icons.Cross size="medium" alt="Cancel"/>
+			<Cross size="medium" alt="Cancel"/>
 		</button>
 	</div>
 	<FormPart definition={config.types[selectedType].formDefinition} bind:partState={typeStates[selectedType]} />
@@ -70,7 +61,8 @@
 		<h4 class="h4">{config.extensions[extDef].name}</h4>
 		<FormPart definition={config.extensions[extDef].formDefinition} bind:partState={extensionStates[extDef]} />
 	{/each}
-{/if}
+	{/if}
+{/await}
 </div>
 
 <div>
