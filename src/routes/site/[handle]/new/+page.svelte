@@ -3,128 +3,80 @@
 	import type { FormField } from "$lib/components/FormFields";
 	import type { FormPartState } from "$lib/components/Forms";
 	import FormPart from "$lib/components/Forms/FormPart.svelte";
-	import { Picture, Reblog, Status } from "$lib/components/Icons";
-	import { ListBox, ListBoxItem, Tab, TabGroup } from "@skeletonlabs/skeleton";
+	import * as Icons from "$lib/components/Icons";
+	import type { SiteConfigContent } from "$lib/smolblog/types";
+	import { ListBox, ListBoxItem, ProgressBar, Tab, TabGroup } from "@skeletonlabs/skeleton";
+	import { onMount, type ComponentType, SvelteComponent } from "svelte";
+	import type { PageData } from "./$types";
+	import Smolblog from "$lib/smolblog";
+	import ContentIcon from "$lib/components/ContentIcon.svelte";
 
-	let currentTab: string = 'note';
+	export let data: PageData;
 
-	const typeDefinitions: Record<string, FormField[]> = {
-		note: [
-			{
-				name: 'text',
-				label: 'What\'s going on?',
-				type: 'markdown',
-				required: true,
-			}
-		],
-		reblog: [
-			{
-				name: 'url',
-				label: 'Reblog this address',
-				type: 'url',
-				required: true,
-			},
-			{
-				name: 'comment',
-				label: 'Add to the conversation',
-				type: 'markdown',
-				required: false,
-			}
-		],
-		picture: [
-			{
-				name: 'media',
-				label: 'Upload a picture',
-				type: 'file',
-				required: true,
-				description: 'You can upload multiple pictures in most formats.',
-				attributes: {
-					multiple: true,
-					accept: 'image/*',
-				}
-			},
-			{
-				name: 'caption',
-				label: 'Caption',
-				type: 'markdown',
-				required: false,
-			}
-		]
-	};
+	let config: SiteConfigContent|undefined = undefined;
 
-	const extensionDefinitions: Record<string, FormField[]> = {
-		syndication: [
-			{
-				name: 'channels',
-				label: 'Syndicate to',
-				type: 'checkboxes',
-				component: ChannelSelectionField,
-			},
-			{
-				name: 'links',
-				label: 'Links',
-				type: 'multitext',
-				attributes: {
-					lowercase: true,
-				},
-				validators: [
-					{
-						key: 'allUrls',
-						message: 'All links must be valid URLs.',
-						func: async (val: unknown) => {
-							const links = val as string[];
-							return links.every(link => URL.canParse(link));
-						},
-					}
-				]
-			}
-		],
-		tags: [
-			{
-				name: 'tags',
-				label: 'Tags',
-				type: 'multitext',
-				description: 'Press ENTER to save each tag',
-				attributes: {
-					duplicates: true,
-				}
-			}
-		],
-	};
+	let selectedType: string|null = null;
+	let typeStates: Record<string, FormPartState> = {};
+	let extensionStates: Record<string, FormPartState> = {};
+	let payload: Record<string, any>;
 
-	let formState: {type: FormPartState | undefined, extensions: Record<string, FormPartState>} = { type: undefined, extensions: {} };
+	function extractExtensionPayloads(extensions: Record<string, FormPartState>) {
+		const retVal: Record<string, any> = {};
 
-	$: console.log(formState);
+		Object.keys(extensions).forEach((extKey) => {
+			retVal[extKey] = extensions[extKey].payload;
+		});
+
+		return retVal;
+	}
+
+	onMount(async () => {
+		config = await Smolblog(data.context).site(data.site?.id ?? '').config.content();
+	});
+
+	$: payload = selectedType ? {
+		type: { type: selectedType, ...typeStates[selectedType]?.payload},
+		meta: {},
+		extensions: extractExtensionPayloads(extensionStates)
+	} : {};
 </script>
 
+<div class="grid grid-cols-2">
+
 <div class="max-w-md -mx-4 sm:mx-0">
-<TabGroup>
-	<Tab bind:group={currentTab} name="tab1" value={'note'}>
-		<span class="flex items-center">
-			<Status class="me-2" size="small"/>
-			<span>Note</span>
-		</span>
-	</Tab>
-	<Tab bind:group={currentTab} name="tab2" value={'reblog'}>
-		<span class="flex items-center">
-			<Reblog class="me-2" size="small"/>
-			<span>Reblog</span>
-		</span>
-	</Tab>
-	<Tab bind:group={currentTab} name="tab3" value={'picture'}>
-		<span class="flex items-center">
-			<Picture class="me-2" size="small"/>
-			<span>Picture</span>
-		</span>
-	</Tab>
-	<!-- Tab Panels --->
-	<svelte:fragment slot="panel">
-		<FormPart definition={typeDefinitions[currentTab]} bind:partState={formState.type} />
-	</svelte:fragment>
-</TabGroup>
-{#each Object.keys(extensionDefinitions) as extDef }
-	<hr>
-	<h4 class="h4">{extDef}</h4>
-	<FormPart definition={extensionDefinitions[extDef]} bind:partState={formState.extensions[extDef]} />
-{/each}
+{#if !config}
+	<ProgressBar meter="bg-primary-900-50-token" track="bg-primary-200-700-token" />
+{:else if !selectedType}
+	<div class="logo-cloud grid-cols-3 gap-1">
+		{#each Object.keys(config.types) as typeKey}
+		<button class="logo-item" on:click={() => selectedType = typeKey}>
+			<span>
+				<ContentIcon type={typeKey} size="small"/>
+			</span>
+			<span>{config.types[typeKey].name}</span>
+		</button>
+		{/each}
+	</div>
+{:else}
+	<div class="flex items-center justify-between">
+		<h2 class="h2">New {config.types[selectedType].name}</h2>
+		<button on:click={() => selectedType = null} class="btn-icon btn-sm variant-filled-error">
+			<Icons.Cross size="medium" alt="Cancel"/>
+		</button>
+	</div>
+	<FormPart definition={config.types[selectedType].formDefinition} bind:partState={typeStates[selectedType]} />
+	{#each Object.keys(config.extensions) as extDef }
+		<hr>
+		<h4 class="h4">{config.extensions[extDef].name}</h4>
+		<FormPart definition={config.extensions[extDef].formDefinition} bind:partState={extensionStates[extDef]} />
+	{/each}
+{/if}
+</div>
+
+<div>
+	<h2 class="h2">Payload</h2>
+	<pre class="pre">
+{JSON.stringify(payload, null, "  ")}
+	</pre>
+</div>
 </div>

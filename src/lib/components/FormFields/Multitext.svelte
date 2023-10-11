@@ -13,16 +13,23 @@
 	const typedController = controller as FieldController<string[]>;
 </script>
 
-<BaseField {definition} bind:value {controller} let:validationState let:helpText>
+<BaseField {definition} bind:value {controller} hideHelp let:validationState let:helpText>
 	<InputChip
 		bind:value={$typedController.value}
 		name={name}
 		placeholder="Enter any value..."
 		class={`${validationState === 'invalid' ? 'input-error' : ''}`}
 		id="input-{name}"
-		aria-describedby={helpText ? `description-${name}` : undefined}
+		aria-describedby={`description-${name}`}
 		required={required ? true : false}
 		allowDuplicates={attributes?.duplicates ? true : false}
 		allowUpperCase={attributes?.lowercase ? false : true}
 	/>
+	<p id={`description-${name}`} class="opacity-50">
+		{#if helpText}
+		{helpText}
+		{:else}
+		Press <kbd class="kbd">ENTER</kbd> to save each item
+		{/if}
+	</p>
 </BaseField>

@@ -1,5 +1,6 @@
 import { PUBLIC_SERVER_URL } from '$env/static/public';
 import smolblogServer from './server';
+import smolblogSite from './site';
 import type { SmolblogApiClient, SmolblogContext } from './types';
 import smolblogUser from './user';
 
@@ -9,7 +10,7 @@ export default function smolblog(context: SmolblogContext, fetcher: FetchFunctio
 	return {
 		server: smolblogServer(fetcher),
 		user: smolblogUser(context, fetcher),
-		site: (id: string) => id
+		site: (id: string) => smolblogSite(id, context, fetcher),
 	};
 }
 

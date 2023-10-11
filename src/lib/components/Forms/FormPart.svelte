@@ -1,10 +1,8 @@
 <script lang="ts">
 	import { form as makeForm } from 'svelte-forms';
-	import { makeDefaultController, type FormField, Markdown } from '../FormFields';
+	import type { FormField, FieldController } from '../FormFields';
 	import { onMount } from 'svelte';
-	import { Text, Email, Display, Url, File } from '../FormFields';
-	import type { Writable } from 'svelte/store';
-	import type { Field } from 'svelte-forms/types';
+	import { makeDefaultController, Markdown, Text, Email, Display, Url, File } from '../FormFields';
 	import type { FormPartState } from '.';
 	import Multitext from '../FormFields/Multitext.svelte';
 
@@ -20,16 +18,18 @@
 	const fields = definition.map((def) => makeDefaultController(def, initialData[def.name]));
 	const formController = makeForm(...fields);
 	const getFieldController = (fieldName: string) =>
-		formController.getField(fieldName) as Writable<Field<string>> & { validate: () => void };
+		formController.getField(fieldName) as FieldController<unknown>;
 
-	onMount(() =>
-		formController.subscribe((formVal) => {
+	onMount(() => {
+		console.log('FormPart get!');
+		return formController.subscribe((formVal) => {
 			partState = {
 				payload: formVal.summary,
 				valid: formVal.valid,
 				dirty: formVal.dirty
 			};
-		})
+		});
+	}
 	);
 </script>
 

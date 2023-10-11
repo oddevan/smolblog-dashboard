@@ -1,3 +1,5 @@
+import type { FormField } from "$lib/components/FormFields";
+
 export interface SmolblogContext {
 	token: string | null;
 };
@@ -24,7 +26,9 @@ export interface SmolblogUserApiClient {
 	};
 };
 
-export interface SmolblogSiteApiClient {};
+export interface SmolblogSiteApiClient {
+	config: { content: () => Promise<SiteConfigContent> }
+};
 
 export type Server = {
 	serverVersion: string;
@@ -69,3 +73,14 @@ export type Site = {
 	description: string;
 	publicKey: string;
 };
+
+export type SiteConfigContent = {
+	types: Record<string, SiteConfigContentType>,
+	extensions: Record<string, SiteConfigContentType>,
+}
+
+export type SiteConfigContentType = {
+	key: string,
+	name: string,
+	formDefinition: FormField[],
+}
