@@ -41,7 +41,7 @@
 	} : {};
 </script>
 
-<div class="grid grid-cols-2">
+<div class="grid grid-cols-1 lg:!grid-cols-2">
 
 <div class="max-w-md -mx-4 sm:mx-0">
 {#if !config}
