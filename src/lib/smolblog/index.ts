@@ -10,7 +10,7 @@ export default function smolblog(context: SmolblogContext, fetcher: FetchFunctio
 	return {
 		server: smolblogServer(fetcher),
 		user: smolblogUser(context, fetcher),
-		site: (id: string) => smolblogSite(id, context, fetcher),
+		site: (id?: string) => id ? smolblogSite(id, context, fetcher) : null,
 	};
 }
 
@@ -39,7 +39,7 @@ export async function smolFetch(
 	const response = await fetcher(`${apiBase}${endpoint}`, options);
 	// Some valid responses are not valid JSON (a "No Content" response, for example).
 	const responseData = await response.json().catch(() => {
-		return {};
+		return;
 	});
 
 	if (!response.ok) {

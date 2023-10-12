@@ -17,5 +17,5 @@ export function setMyProfile(context: SmolblogContext, fetcher: FetchFunction, p
 	return smolFetch(
 		{ endpoint: '/my/profile/update', token: context.token ?? undefined, verb: 'PUT', payload },
 		fetcher
-	) as Promise<Record<string, never>>;
+	) as Promise<void>;
 }

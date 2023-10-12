@@ -22,32 +22,5 @@ export async function refreshConnectionChannels(connectionId: string, context: S
 }
 
 export async function deleteConnection(connectionId: string, context: SmolblogContext, fetcher: FetchFunction,) {
-	return smolFetch({ endpoint: `/connect/connection/${connectionId}/delete`, token: context.token ?? undefined, verb: 'DELETE' }, fetcher) as Promise<Record<string, never>>;
+	return smolFetch({ endpoint: `/connect/connection/${connectionId}/delete`, token: context.token ?? undefined, verb: 'DELETE' }, fetcher) as Promise<void>;
 }
-
-/*
-export async function linkChannelAndSite(
-	smolFetch: SmolblogFetch,
-	siteId: string,
-	payload: { channelId: string; push: boolean; pull: boolean }
-): Promise<boolean> {
-	const { channelId, pull, push } = payload;
-	await smolFetch({
-		endpoint: `/connect/link`,
-		verb: 'PUT',
-		payload: { siteId, channelId, push, pull }
-	});
-
-	return true;
-}
-
-export async function getSiteChannelsForAdmin(
-	smolFetch: SmolblogFetch,
-	siteId: string
-): Promise<ConnectorChannelPlusLink[]> {
-	const res = (await smolFetch({ endpoint: `/site/${siteId}/channels` })) as {
-		channels: ConnectorChannelPlusLink[];
-	};
-	return res.channels;
-}
-*/

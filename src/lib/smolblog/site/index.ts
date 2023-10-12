@@ -2,9 +2,12 @@
 import ChannelSelectionField from "$lib/components/ChannelSelectionField.svelte";
 import type { FetchFunction } from "..";
 import type { SiteConfigContent, SmolblogContext, SmolblogSiteApiClient } from "../types";
+import { getSiteChannelsForAdmin, getSiteChannelsForForm, linkChannelAndSite } from "./channels";
 
 export default function smolblogSite(id: string, context: SmolblogContext, fetcher: FetchFunction): SmolblogSiteApiClient {
 	return {
+		setChannel: (channelId: string, push: boolean, pull: boolean) => linkChannelAndSite(channelId, push, pull, id, context, fetcher),
+		channels: (admin: boolean = false) => admin ? getSiteChannelsForAdmin(id, context, fetcher) : getSiteChannelsForForm(id, context, fetch),
 		config: {
 			content: async () => defaultContentConfig
 		}

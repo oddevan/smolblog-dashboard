@@ -7,7 +7,7 @@ export interface SmolblogContext {
 export interface SmolblogApiClient {
 	server: SmolblogServerApiClient;
 	user: SmolblogUserApiClient;
-	site: (id: string) => SmolblogSiteApiClient;
+	site: (id?: string) => SmolblogSiteApiClient|null;
 };
 
 export interface SmolblogServerApiClient {
@@ -17,16 +17,18 @@ export interface SmolblogServerApiClient {
 export interface SmolblogUserApiClient {
 	me: () => Promise<User>;
 	sites: () => Promise<Site[]>;
-	setProfile: (payload: UserSetProfilePayload) => Promise<Record<string, never>>;
+	setProfile: (payload: UserSetProfilePayload) => Promise<void>;
 	connections: () => Promise<ConnectorConnection[]>;
 	initConnection: (provider: string, returnTo: string) => Promise<string>;
 	connection: (id: string) => {
 		refresh: () => Promise<ConnectorConnection>,
-		delete: () => Promise<Record<string, never>>,
+		delete: () => Promise<void>,
 	};
 };
 
 export interface SmolblogSiteApiClient {
+	setChannel: (channelId: string, push: boolean, pull: boolean) => Promise<void>
+	channels: (admin?: boolean) => Promise<ConnectorChannelPlusLink[]>
 	config: { content: () => Promise<SiteConfigContent> }
 };
 
@@ -64,6 +66,8 @@ export type ConnectorChannel = {
 	connectionProvider?: string;
 	connectionName?: string;
 }
+
+export type ConnectorChannelPlusLink = ConnectorChannel & { canPush: boolean, canPull: boolean }
 
 export type Site = {
 	id: string;
