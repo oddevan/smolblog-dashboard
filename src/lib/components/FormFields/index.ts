@@ -21,7 +21,8 @@ export interface FormField {
 	description?: string;
 	required?: boolean;
 	validators?: FieldValidator[];
-	attributes?: Record<string, string|number|boolean>;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	attributes?: Record<string, any>;
 	component?: ComponentType<SvelteComponent<FormFieldProps>>;
 }
 

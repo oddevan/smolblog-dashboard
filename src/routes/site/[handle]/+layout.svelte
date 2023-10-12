@@ -5,7 +5,8 @@
 
 	export let data: LayoutData;
 
-	const routeRoot = `/site/${data.site?.handle}`;
+	let routeRoot: string;
+	$: routeRoot = `/site/${data.site?.handle}`;
 </script>
 
 <TabGroup>
