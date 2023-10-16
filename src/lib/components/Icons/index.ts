@@ -3,6 +3,7 @@ export { default as ArrowOut } from './ArrowOut.svelte';
 export { default as Check } from './Check.svelte';
 export { default as Content } from './Content.svelte';
 export { default as Cross } from './Cross.svelte';
+export { default as Edit } from './Edit.svelte';
 export { default as Home } from './Home.svelte';
 export { default as Inbox } from './Inbox.svelte';
 export { default as Markdown } from './Markdown.svelte';

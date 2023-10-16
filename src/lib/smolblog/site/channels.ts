@@ -32,7 +32,6 @@ export async function linkChannelAndSite(
 	context: SmolblogContext,
 	fetcher: FetchFunction
 ): Promise<void> {
-	console.log({ siteId, channelId, push, pull });
 	await smolFetch({
 		endpoint: `/connect/link`,
 		verb: 'POST',

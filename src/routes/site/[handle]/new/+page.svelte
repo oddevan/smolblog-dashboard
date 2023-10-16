@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { FormPartState } from "$lib/components/Forms";
 	import FormPart from "$lib/components/Forms/FormPart.svelte";
-	import { Cross } from "$lib/components/Icons";
+	import { Alert, Cross } from "$lib/components/Icons";
 	import { ProgressBar } from "@skeletonlabs/skeleton";
 	import type { PageData } from "./$types";
 	import Smolblog from "$lib/smolblog";
@@ -34,17 +34,24 @@
 <div class="grid grid-cols-1 lg:!grid-cols-2">
 
 <div class="max-w-md -mx-4 sm:mx-0">
-{#await Smolblog(data.context).site(data.site?.id ?? '').config.content()}
+{#await Smolblog(data.context).site(data.site?.id)?.config.content()}
 	<ProgressBar meter="bg-primary-900-50-token" track="bg-primary-200-700-token" />
-{:then config} 
-	{#if !selectedType}
+{:then config}
+	{#if !config}
+	<aside class="alert variant-ghost">
+		<div><Alert /></div>
+		<div class="alert-message">
+			<p>No configuration found.</p>
+		</div>
+	</aside>
+	{:else if !selectedType}
 	<div class="logo-cloud grid-cols-3 gap-1">
-		{#each Object.keys(config.types) as typeKey}
+		{#each Object.keys(config.types ?? {}) as typeKey}
 		<button class="logo-item" on:click={() => selectedType = typeKey}>
 			<span>
 				<ContentIcon type={typeKey} size="small"/>
 			</span>
-			<span>{config.types[typeKey].name}</span>
+			<span>{config?.types[typeKey].name}</span>
 		</button>
 		{/each}
 	</div>
