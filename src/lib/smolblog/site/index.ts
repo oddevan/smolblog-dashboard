@@ -3,7 +3,7 @@ import ChannelSelectionField from "$lib/components/ChannelSelectionField.svelte"
 import type { FetchFunction } from "..";
 import type { SiteConfigContent, SmolblogContext, SmolblogSiteApiClient } from "../types";
 import { getSiteChannelsForAdmin, getSiteChannelsForForm, linkChannelAndSite } from "./channels";
-import { getAvailableContent } from "./content";
+import { getAvailableContent, getDrafts } from "./content";
 
 export default function smolblogSite(id: string, context: SmolblogContext, fetcher: FetchFunction): SmolblogSiteApiClient {
 	return {
@@ -14,6 +14,7 @@ export default function smolblogSite(id: string, context: SmolblogContext, fetch
 		},
 		content: {
 			list: (page = 1, pageSize = 20) => getAvailableContent(id, context, fetcher, pageSize, page),
+			drafts: () => getDrafts(id, context, fetcher),
 		}
 	}
 }

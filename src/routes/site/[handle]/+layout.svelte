@@ -10,7 +10,7 @@
 </script>
 
 <TabGroup>
-	<TabAnchor selected={$page.url.pathname.endsWith(data.site?.handle ?? '/')} href="{routeRoot}">Content</TabAnchor>
+	<TabAnchor selected={$page.url.pathname.endsWith('/content')} href="{routeRoot}/content">Content</TabAnchor>
 	<TabAnchor selected={$page.url.pathname.endsWith('/channels')} href="{routeRoot}/channels">Channels</TabAnchor>
 	<TabAnchor selected={$page.url.pathname.endsWith('/settings')} href="{routeRoot}/settings">Settings</TabAnchor>
 	<TabAnchor class="variant-filled-primary" selected={$page.url.pathname.endsWith('/new')} href="{routeRoot}/new">Add New</TabAnchor>

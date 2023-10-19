@@ -30,7 +30,10 @@ export interface SmolblogSiteApiClient {
 	setChannel: (channelId: string, push: boolean, pull: boolean) => Promise<void>
 	channels: (admin?: boolean) => Promise<ConnectorChannelPlusLink[]>
 	config: { content: () => Promise<SiteConfigContent> }
-	content: { list: (page?: number, pageSize?: number) => Promise<{count: number, content: Content[]}>}
+	content: {
+		list: (page?: number, pageSize?: number) => Promise<{count: number, content: Content[]}>,
+		drafts: () => Promise<Content[]>,
+	}
 };
 
 export type Server = {

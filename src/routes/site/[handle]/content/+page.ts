@@ -7,7 +7,7 @@ export const load = (async ({ parent, fetch }) => {
 	
 	if (!api) return {content: []};
 
-	const drafts = await api.content.drafts();
+	const contentResult = await api.content.list();
 
-	return { drafts };
+	return { content: contentResult.content, contentCount: contentResult.count };
 }) satisfies PageLoad;

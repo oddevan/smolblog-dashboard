@@ -15,18 +15,35 @@ export async function getAvailableContent(
 
 	return {
 		count: result.count,
-		content: result.content.map(content => {
-			const { publishTimestamp, contentType } = content;
-			const actualType = 'originalTypeKey' in contentType ? contentType.originalTypeKey as string : contentType.type;
-			const pubDate = publishTimestamp ? new Date(publishTimestamp) : undefined;
-			return {
-				...content,
-				publishTimestamp: pubDate,
-				contentType: {
-					...contentType,
-					type: actualType,
-				}
-			};
-		})
+		content: processContent(result.content),
 	};
+}
+
+export async function getDrafts(
+	siteId: string,
+	context: SmolblogContext,
+	fetcher: FetchFunction
+) {
+	const result = await smolFetch({
+		endpoint: `/site/${siteId}/content?visibility=draft`,
+		token: context.token ?? undefined
+	}, fetcher) as { count: number, content: Content[] };
+
+	return processContent(result.content);
+}
+
+function processContent(contentArray: Content[]) {
+	return contentArray.map(content => {
+		const { publishTimestamp, contentType } = content;
+		const actualType = 'originalTypeKey' in contentType ? contentType.originalTypeKey as string : contentType.type;
+		const pubDate = publishTimestamp ? new Date(publishTimestamp) : undefined;
+		return {
+			...content,
+			publishTimestamp: pubDate,
+			contentType: {
+				...contentType,
+				type: actualType,
+			}
+		};
+	});
 }
