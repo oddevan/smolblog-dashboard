@@ -2,14 +2,36 @@
 	import { page } from "$app/stores";
 	import ContentIcon from "$lib/components/ContentIcon.svelte";
 	import { ArrowOut, Edit, Trash } from "$lib/components/Icons";
+	import { Paginator, ProgressBar } from "@skeletonlabs/skeleton";
 	import type { PageData } from "./$types";
+	import smolblog from "$lib/smolblog";
 
 	export let data: PageData;
-	let contentList = data.content;
+
+	const total = data.contentCount ?? 0;
+	const api = smolblog(data.context);
 	
+	let paginationSettings = {
+		page: 0,
+		limit: 10,
+		size: total,
+		amounts: [5,10,20,50].filter(num => num <= total),
+	};
+
+	const getContent =
+		(page: number, limit: number) =>	api.site(data.site?.id)?.content.list(page, limit)
+		.then(res => res.content);
 </script>
 
-<div class="table-container">
+<Paginator
+	bind:settings={paginationSettings}
+	showFirstLastButtons="{true}"
+	showPreviousNextButtons="{true}"
+/>
+{#await getContent(paginationSettings.page + 1, paginationSettings.limit)}
+	<ProgressBar meter="bg-primary-900-50-token" track="bg-primary-200-700-token" />
+{:then contentList}
+<div class="table-container my-3">
 	<table class="table table-hover">
 		<thead>
 			<tr>
@@ -20,7 +42,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each contentList as content (content.id)}
+			{#each contentList ?? [] as content (content.id)}
 			<tr>
 				<td class="table-cell-fit">
 					<ContentIcon type={content.contentType.type} size="small"/>
@@ -53,3 +75,10 @@
 		</tbody>
 	</table>
 </div>
+{/await}
+
+<Paginator
+	bind:settings={paginationSettings}
+	showFirstLastButtons="{true}"
+	showPreviousNextButtons="{true}"
+/>

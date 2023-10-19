@@ -11,19 +11,22 @@ export async function getAvailableContent(
 	const result = await smolFetch({
 		endpoint: `/site/${siteId}/content?page=${pageNumber}&pageSize=${pageSize}`,
 		token: context.token ?? undefined
-	}, fetcher) as { content: Content[] };
+	}, fetcher) as { count: number, content: Content[] };
 
-	return result.content.map(content => {
-		const { publishTimestamp, contentType } = content;
-		const actualType = 'originalTypeKey' in contentType ? contentType.originalTypeKey : contentType.type;
-		const pubDate = publishTimestamp ? new Date(publishTimestamp) : null;
-		return {
-			...content,
-			publishTimestamp: pubDate,
-			contentType: {
-				...contentType,
-				type: actualType,
-			}
-		};
-	});
+	return {
+		count: result.count,
+		content: result.content.map(content => {
+			const { publishTimestamp, contentType } = content;
+			const actualType = 'originalTypeKey' in contentType ? contentType.originalTypeKey as string : contentType.type;
+			const pubDate = publishTimestamp ? new Date(publishTimestamp) : undefined;
+			return {
+				...content,
+				publishTimestamp: pubDate,
+				contentType: {
+					...contentType,
+					type: actualType,
+				}
+			};
+		})
+	};
 }
