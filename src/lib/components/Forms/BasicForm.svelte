@@ -6,7 +6,7 @@
 
 	export let definition: FormField[];
 	export let initialData: Record<string, unknown> = {};
-	export let onSubmit: (payload: Record<string, unknown>) => Promise<object> = async () => ({});
+	export let onSubmit: (payload: Record<string, unknown>) => Promise<void> = async () => {};
 
 	let partState: FormPartState;
 	let errorMessage: string | null = null;

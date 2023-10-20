@@ -33,7 +33,13 @@ export interface SmolblogSiteApiClient {
 	content: {
 		list: (page?: number, pageSize?: number) => Promise<{count: number, content: Content[]}>,
 		drafts: () => Promise<Content[]>,
-	}
+	},
+	settings: {
+		get: () => Promise<SiteSettingsPayload>,
+		set: (payload: SiteSettingsPayload) => Promise<void>,
+	},
+	users: () => Promise<UserAndPermissions[]>,
+	setPermission: (payload: SitePermissionPayload) => Promise<void>
 };
 
 export type Server = {
@@ -106,8 +112,26 @@ export type Content = {
   extensions: Record<string, unknown>,
 }
 
-export interface ContentType {
+export type ContentType = {
 	title: string,
 	body: string,
 	type: string,
+}
+
+export type SiteSettingsPayload = {
+	id?: string;
+	title?: string;
+	tagline?: string;
+}
+
+export type UserAndPermissions = {
+	user: UserProfile;
+	isAdmin: boolean;
+	isAuthor: boolean;
+}
+
+export type SitePermissionPayload = {
+	userId: string;
+	isAuthor: boolean;
+	isAdmin: boolean
 }
