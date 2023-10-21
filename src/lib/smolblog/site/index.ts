@@ -3,7 +3,7 @@ import ChannelSelectionField from "$lib/components/ChannelSelectionField.svelte"
 import type { FetchFunction } from "..";
 import type { SiteConfigContent, SitePermissionPayload, SiteSettingsPayload, SmolblogContext, SmolblogSiteApiClient } from "../types";
 import { getSiteChannelsForAdmin, getSiteChannelsForForm, linkChannelAndSite } from "./channels";
-import { getAvailableContent, getDrafts } from "./content";
+import { getAvailableContent, getContent, getDrafts } from "./content";
 import { getSiteSettings, getSiteUsers, setSitePermission, setSiteSettings } from "./settings";
 
 export default function smolblogSite(id: string, context: SmolblogContext, fetcher: FetchFunction): SmolblogSiteApiClient {
@@ -16,6 +16,7 @@ export default function smolblogSite(id: string, context: SmolblogContext, fetch
 		content: {
 			list: (page = 1, pageSize = 20) => getAvailableContent(id, context, fetcher, pageSize, page),
 			drafts: () => getDrafts(id, context, fetcher),
+			get: (contentId: string) => getContent(contentId, id, context, fetcher),
 		},
 		settings: {
 			get: () => getSiteSettings(id, context, fetcher),
@@ -29,6 +30,35 @@ export default function smolblogSite(id: string, context: SmolblogContext, fetch
 const defaultContentConfig: (id: string, context: SmolblogContext, fetcher: FetchFunction) => Promise<SiteConfigContent> = 
 	async (id: string, context: SmolblogContext, fetcher: FetchFunction) => {
 		return {
+			base: [
+				{
+					name: 'published',
+					label: 'Published',
+					type: 'switch',
+				},
+				{
+					name: 'authorId',
+					label: 'Author',
+					type: 'identifier',
+					description: 'List a different user as the author.',
+					attributes: {
+						objects: await getSiteUsers(id, context, fetcher)
+							.then(users => users.map(user => ({ value: user.user.id, display: user.user.displayName })))
+					}
+				},
+				{
+					name: 'publishTimestamp',
+					label: 'Publish time',
+					type: 'datetime',
+					description: 'Set the time and date the content was published.'
+				},
+				{
+					name: 'permalink',
+					label: 'Permalink',
+					type: 'display',
+					description: 'Path to this content; not currently editable.'
+				},
+			],
 			types: {
 				note: {
 					key: 'note',

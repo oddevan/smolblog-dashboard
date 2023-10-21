@@ -17,7 +17,9 @@ export interface FieldValidator {
 export interface FormField {
 	name: string;
 	label: string;
-	type: 'text' | 'password' | 'url' | 'email' | 'display' | 'switch' | 'hidden' | 'markdown' | 'file' | 'checkboxes' | 'multitext';
+	type:
+		'text' | 'password' | 'url' | 'email' | 'display' | 'switch' | 'hidden' | 'markdown' | 'file' | 'checkboxes' |
+		'multitext' | 'identifier' | 'datetime';
 	description?: string;
 	required?: boolean;
 	validators?: FieldValidator[];
@@ -92,10 +94,13 @@ export function getValidationState(fieldState: Field<unknown>) {
 	}
 }
 
+export { default as DateTime } from './DateTime.svelte';
 export { default as Display } from './Display.svelte';
 export { default as Email } from './Email.svelte';
 export { default as File } from './File.svelte';
+export { default as Identifier } from './Identifier.svelte';
 export { default as Markdown } from './Markdown.svelte';
 export { default as Multitext } from './Multitext.svelte';
+export { default as Switch } from './Switch.svelte';
 export { default as Text } from './Text.svelte';
 export { default as Url } from './Url.svelte';

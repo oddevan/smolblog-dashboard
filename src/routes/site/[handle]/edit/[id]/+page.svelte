@@ -6,14 +6,12 @@
 	import type { PageData } from "./$types";
 	import Smolblog from "$lib/smolblog";
 	import ContentIcon from "$lib/components/ContentIcon.svelte";
-	import { page } from "$app/stores";
 
 	export let data: PageData;
 
 	let selectedType: string|null = null;
 	let typeStates: Record<string, FormPartState> = {};
 	let extensionStates: Record<string, FormPartState> = {};
-	let metaState: FormPartState = { payload: {}, dirty: false, valid: true };
 	let payload: Record<string, any>;
 
 	function extractExtensionPayloads(extensions: Record<string, FormPartState>) {
@@ -28,7 +26,7 @@
 
 	$: payload = selectedType ? {
 		type: { type: selectedType, ...typeStates[selectedType]?.payload},
-		meta: metaState.payload,
+		meta: {},
 		extensions: extractExtensionPayloads(extensionStates)
 	} : {};
 </script>
@@ -65,10 +63,8 @@
 		</button>
 	</div>
 	<FormPart definition={config.types[selectedType].formDefinition} bind:partState={typeStates[selectedType]} />
-	<hr class="my-3">
-	<FormPart definition={config.base} bind:partState={metaState} initialData={{authorId: $page.data.user?.id}} />
 	{#each Object.keys(config.extensions) as extDef }
-		<hr class="my-3">
+		<hr>
 		<h4 class="h4">{config.extensions[extDef].name}</h4>
 		<FormPart definition={config.extensions[extDef].formDefinition} bind:partState={extensionStates[extDef]} />
 	{/each}

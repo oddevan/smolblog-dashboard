@@ -2,9 +2,10 @@
 	import { form as makeForm } from 'svelte-forms';
 	import type { FormField, FieldController } from '../FormFields';
 	import { onMount } from 'svelte';
-	import { makeDefaultController, Markdown, Text, Email, Display, Url, File } from '../FormFields';
+	import { makeDefaultController, Markdown, Text, Email, Display, Url, File, Multitext, DateTime } from '../FormFields';
 	import type { FormPartState } from '.';
-	import Multitext from '../FormFields/Multitext.svelte';
+	import Identifier from '../FormFields/Identifier.svelte';
+	import Switch from '../FormFields/Switch.svelte';
 
 	export let fieldClass = '';
 	export let definition: FormField[];
@@ -49,6 +50,12 @@
 				<File definition={fieldDef} controller={getFieldController(name)} />
 			{:else if type === 'multitext'}
 				<Multitext definition={fieldDef} controller={getFieldController(name)} />
+			{:else if type === 'datetime'}
+				<DateTime definition={fieldDef} controller={getFieldController(name)} />
+			{:else if type === 'identifier'}
+				<Identifier definition={fieldDef} controller={getFieldController(name)} />
+			{:else if type === 'switch'}
+				<Switch definition={fieldDef} controller={getFieldController(name)} />
 			{/if}
 		</div>
 	{/each}

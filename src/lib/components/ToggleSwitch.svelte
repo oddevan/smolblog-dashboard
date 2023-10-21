@@ -26,7 +26,7 @@
 	}
 </style>
 
-<div>
+<div {...$$restProps}>
 	<SlideToggle
 		class="p-2 my-1 block w-full bg-surface-100-800-token"
 		bind:checked

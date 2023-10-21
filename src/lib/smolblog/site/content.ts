@@ -32,7 +32,21 @@ export async function getDrafts(
 	return processContent(result.content);
 }
 
-function processContent(contentArray: Content[]) {
+export async function getContent(
+	contentId: string,
+	siteId: string,
+	context: SmolblogContext,
+	fetcher: FetchFunction
+) {
+	const result = await smolFetch({
+		endpoint: `/site/${siteId}/content/${contentId}`,
+		token: context.token ?? undefined
+	}, fetcher) as Content;
+
+	return processContent([ result ])[0];
+}
+
+function processContent(contentArray: Content[]): Content[] {
 	return contentArray.map(content => {
 		const { publishTimestamp, contentType } = content;
 		const actualType = 'originalTypeKey' in contentType ? contentType.originalTypeKey as string : contentType.type;
