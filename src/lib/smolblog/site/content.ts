@@ -1,5 +1,5 @@
 import { smolFetch, type FetchFunction } from "..";
-import type { Content, SmolblogContext } from "../types";
+import type { Content, Media, SmolblogContext } from "../types";
 
 export async function getAvailableContent(
 	siteId: string,
@@ -30,6 +30,19 @@ export async function getDrafts(
 	}, fetcher) as { count: number, content: Content[] };
 
 	return processContent(result.content);
+}
+
+export function getAvailableMedia(
+	siteId: string,
+	context: SmolblogContext,
+	fetcher: FetchFunction,
+	pageSize: number,
+	pageNumber: number,
+) {
+	return smolFetch({
+		endpoint: `/site/${siteId}/content/media?page=${pageNumber}&pageSize=${pageSize}`,
+		token: context.token ?? undefined
+	}, fetcher) as Promise<{ count: number, content: Media[] }>;
 }
 
 export async function getContent(

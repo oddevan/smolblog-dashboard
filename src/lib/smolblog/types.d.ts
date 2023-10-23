@@ -35,6 +35,9 @@ export interface SmolblogSiteApiClient {
 		drafts: () => Promise<Content[]>,
 		get: (id: string) => Promise<Content>,
 	},
+	media: {
+		list: (page?: number, pageSize?: number) => Promise<{count: number, content: Media[]}>,
+	}
 	settings: {
 		get: () => Promise<SiteSettingsPayload>,
 		set: (payload: SiteSettingsPayload) => Promise<void>,
@@ -118,6 +121,17 @@ export interface ContentType {
 	title: string,
 	body: string,
 	type: string,
+}
+
+export interface Media {
+	id: string,
+	userId: string,
+	siteId: string,
+	title: string,
+	accessibilityText: string,
+	type: 'image'|'video'|'audio'|'file',
+	thumbnailUrl: string,
+	defaultUrl: string,
 }
 
 export type SiteSettingsPayload = {
