@@ -37,6 +37,7 @@ export interface SmolblogSiteApiClient {
 	},
 	media: {
 		list: (page?: number, pageSize?: number) => Promise<{count: number, content: Media[]}>,
+		get: (id: string) => Promise<Media>,
 	}
 	settings: {
 		get: () => Promise<SiteSettingsPayload>,

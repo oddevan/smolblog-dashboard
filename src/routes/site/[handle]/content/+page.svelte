@@ -15,7 +15,7 @@
 		page: 0,
 		limit: 10,
 		size: total,
-		amounts: [5,10,20,50].filter(num => num <= total),
+		amounts: [5,10,20,50].filter(num => num <= total).concat(total < 100 ? total : 100),
 	};
 
 	const getContent =

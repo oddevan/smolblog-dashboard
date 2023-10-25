@@ -1,27 +1,46 @@
 <script lang="ts">
-	import { page } from "$app/stores";
-	import ContentIcon from "$lib/components/ContentIcon.svelte";
-	import { ArrowOut, Edit, Trash } from "$lib/components/Icons";
-	import { Paginator, ProgressBar } from "@skeletonlabs/skeleton";
+	import { Paginator, ProgressBar, getDrawerStore } from "@skeletonlabs/skeleton";
+	import { mediaDrawerOptions } from "$lib/components/MediaForm.svelte"
 	import type { PageData } from "./$types";
 	import smolblog from "$lib/smolblog";
+	import { Upload } from "$lib/components/Icons";
 
 	export let data: PageData;
 
 	const total = data.mediaCount ?? 0;
 	const api = smolblog(data.context);
+	const drawerStore = getDrawerStore();
 	
 	let paginationSettings = {
 		page: 0,
-		limit: 10,
+		limit: 12,
 		size: total,
-		amounts: [5,10,20,50].filter(num => num <= total),
+		amounts: [12,24,48].filter(num => num <= total).concat(total),
 	};
 
 	const getContent =
 		(page: number, limit: number) =>	api.site(data.site?.id)?.media.list(page, limit)
 		.then(res => res.content);
+	
+	const getDrawerFunc = (mediaId: string) => {
+		return () => drawerStore.open({
+			...mediaDrawerOptions,
+			meta: { mediaId, siteApi: api.site(data.site?.id) }
+		});
+	};
 </script>
+
+
+<div class="flex items-center justify-between">
+	<h2 class="h2">All Media</h2>
+	<button
+		on:click={() => drawerStore.open({...mediaDrawerOptions, meta: {siteApi: api.site(data.site?.id)}})}
+		class="btn btn-sm variant-filled-primary"
+	>
+		<Upload size="medium" />
+		<span>Upload</span>
+	</button>
+</div>
 
 <Paginator
 	bind:settings={paginationSettings}
@@ -31,11 +50,11 @@
 {#await getContent(paginationSettings.page + 1, paginationSettings.limit)}
 	<ProgressBar meter="bg-primary-900-50-token" track="bg-primary-200-700-token" />
 {:then mediaList}
-	<div class="grid grid-cols-2 sm:!grid-cols-4 md:!grid-cols-6 lg:!grid-cols-8">
+	<div class="my-3 grid grid-cols-2 gap-2 sm:!grid-cols-4 md:!grid-cols-6 lg:!grid-cols-8">
 		{#each mediaList ?? [] as media}
-			<div class="m-3">
+			<button on:click={getDrawerFunc(media.id)}>
 				<img src={media.thumbnailUrl} alt={media.title} class="w-full h-auto">
-			</div>
+			</button>
 		{/each}
 	</div>
 {/await}

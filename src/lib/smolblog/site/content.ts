@@ -59,6 +59,18 @@ export async function getContent(
 	return processContent([ result ])[0];
 }
 
+export function getMedia(
+	mediaId: string,
+	siteId: string,
+	context: SmolblogContext,
+	fetcher: FetchFunction
+) {
+	return smolFetch({
+		endpoint: `/site/${siteId}/content/media/${mediaId}`,
+		token: context.token ?? undefined
+	}, fetcher) as Promise<Media>;
+}
+
 function processContent(contentArray: Content[]): Content[] {
 	return contentArray.map(content => {
 		const { publishTimestamp, contentType } = content;

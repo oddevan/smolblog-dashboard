@@ -20,6 +20,7 @@
 	import RailNav from './RailNav.svelte';
 	import DrawerNav from './DrawerNav.svelte';
 	import { Menu } from '$lib/components/Icons';
+	import MediaForm from '$lib/components/MediaForm.svelte';
 
 	export let data: LayoutData;
 	const drawerStore = getDrawerStore();
@@ -37,6 +38,8 @@
 <Drawer>
 	{#if $drawerStore.id === 'DrawerNav'}
 	<DrawerNav allSites={data.allSites} {emailHash} />
+	{:else if $drawerStore.id === 'MediaForm'}
+	<MediaForm mediaId={$drawerStore.meta?.mediaId} siteApi={$drawerStore.meta?.siteApi} />
 	{/if}
 </Drawer>
 
@@ -50,7 +53,7 @@
 				<svelte:fragment slot="lead">
 					<button
 						class="btn-icon me-2 sm:hidden"
-						on:click={() => drawerStore.open({ id: 'DrawerNav', width: 'w-[280px] md:w-[480px]' })}
+						on:click={() => drawerStore.open({ id: 'DrawerNav', width: 'w-[280px]' })}
 					>
 						<Menu alt="Main navigation"/>
 					</button>
