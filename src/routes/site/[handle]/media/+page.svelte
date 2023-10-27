@@ -31,7 +31,7 @@
 </script>
 
 
-<div class="flex items-center justify-between">
+<div class="flex items-center justify-between mb-5">
 	<h2 class="h2">All Media</h2>
 	<button
 		on:click={() => drawerStore.open({...mediaDrawerOptions, meta: {siteApi: api.site(data.site?.id)}})}
