@@ -21,6 +21,7 @@
 	import DrawerNav from './DrawerNav.svelte';
 	import { Menu } from '$lib/components/Icons';
 	import MediaForm from '$lib/components/MediaForm.svelte';
+	import ContentForm from '$lib/components/ContentForm.svelte';
 
 	export let data: LayoutData;
 	const drawerStore = getDrawerStore();
@@ -40,6 +41,8 @@
 	<DrawerNav allSites={data.allSites} {emailHash} />
 	{:else if $drawerStore.id === 'MediaForm'}
 	<MediaForm mediaId={$drawerStore.meta?.mediaId} siteApi={$drawerStore.meta?.siteApi} />
+	{:else if $drawerStore.id === 'ContentForm'}
+	<ContentForm contentId={$drawerStore.meta?.contentId} siteApi={$drawerStore.meta?.siteApi} />
 	{/if}
 </Drawer>
 

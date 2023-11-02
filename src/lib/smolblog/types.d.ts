@@ -33,7 +33,7 @@ export interface SmolblogSiteApiClient {
 	content: {
 		list: (page?: number, pageSize?: number) => Promise<{count: number, content: Content[]}>,
 		drafts: () => Promise<Content[]>,
-		get: (id: string) => Promise<Content>,
+		get: (id: string) => Promise<ContentPayload>,
 	},
 	media: {
 		list: (page?: number, pageSize?: number) => Promise<{count: number, content: Media[]}>,
@@ -118,10 +118,24 @@ export type Content = {
   extensions: Record<string, unknown>,
 }
 
+export interface ContentPayload {
+	id: string,
+	type: ContentType,
+	meta: ContentMeta,
+	extensions: Record<string, unknown>,
+	published: boolean,
+}
+
 export interface ContentType {
 	title: string,
 	body: string,
 	type: string,
+}
+
+export interface ContentMeta {
+	authorId: string,
+	permalink?: string,
+	publishTimestamp?: Date,
 }
 
 export interface Media {

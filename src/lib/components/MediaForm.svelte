@@ -8,6 +8,18 @@
 		width: 'w-screen max-w-xs',
 	};
 
+	const fileDefinition: FormField = {
+		name: 'media',
+		label: 'Upload a picture',
+		type: 'file',
+		required: true,
+		description: 'You can upload a picture in most formats.',
+		attributes: {
+			multiple: false,
+			accept: 'image/*',
+		}
+	}
+
 	const mediaFormDefinition: FormField[] = [
 		{
 			name: 'id',
@@ -34,6 +46,7 @@
 	import { FileDropzone, ProgressRadial } from "@skeletonlabs/skeleton";
 	import BasicForm from "./Forms/BasicForm.svelte";
 	import { Upload } from "./Icons";
+	import { File } from "./FormFields";
 
 	export let mediaId: string|null = null;
 	export let siteApi: SmolblogSiteApiClient;
@@ -81,7 +94,7 @@
 		payload.append('accessibilityText', accessibilityText as string);
 		payload.append('file', uploadedFiles[0]);
 
-		console.log('new', payload);
+		console.log({uploadedFiles});
 	}
 </script>
 
@@ -94,9 +107,7 @@
 				{@html htmlForMedia(media)}
 			</div>
 		{:else}
-			<FileDropzone name="fileUpload" bind:files={uploadedFiles}>
-				<svelte:fragment slot="lead"><Upload size="large" class="mx-auto"/></svelte:fragment>
-			</FileDropzone>
+			<File definition={fileDefinition} bind:value={uploadedFiles} />
 		{/if}
 		<BasicForm
 			definition={mediaFormDefinition}

@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { page } from "$app/stores";
 	import ContentIcon from "$lib/components/ContentIcon.svelte";
+	import { contentDrawerOptions } from "$lib/components/ContentForm.svelte";
 	import { ArrowOut, Edit, Trash } from "$lib/components/Icons";
-	import { Paginator, ProgressBar } from "@skeletonlabs/skeleton";
+	import { Paginator, ProgressBar, getDrawerStore } from "@skeletonlabs/skeleton";
 	import type { PageData } from "./$types";
 	import smolblog from "$lib/smolblog";
 
@@ -10,6 +11,7 @@
 
 	const total = data.contentCount ?? 0;
 	const api = smolblog(data.context);
+	const drawerStore = getDrawerStore();
 	
 	let paginationSettings = {
 		page: 0,
@@ -21,6 +23,13 @@
 	const getContent =
 		(page: number, limit: number) =>	api.site(data.site?.id)?.content.list(page, limit)
 		.then(res => res.content);
+	
+	const getDrawerFunc = (contentId: string) => {
+		return () => drawerStore.open({
+			...contentDrawerOptions,
+			meta: { contentId, siteApi: api.site(data.site?.id) }
+		});
+	};
 </script>
 
 <Paginator
@@ -61,10 +70,10 @@
 						<span>View</span>
 					</span>
 					{/if}
-					<a href={`/site/${data.site?.handle ?? '0'}/edit/${content.id}`} class="btn btn-sm variant-filled-secondary">
+					<button on:click={getDrawerFunc(content.id)} class="btn btn-sm variant-filled-secondary">
 						<span><Edit size="small" /></span>
 						<span>Edit</span>
-					</a>
+					</button>
 					<button class="btn btn-sm variant-filled-error">
 						<span><Trash size="small" /></span>
 						<span>Delete</span>

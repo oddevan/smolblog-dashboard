@@ -1,5 +1,5 @@
 import { smolFetch, type FetchFunction } from "..";
-import type { Content, Media, SmolblogContext } from "../types";
+import type { Content, ContentPayload, Media, SmolblogContext } from "../types";
 
 export async function getAvailableContent(
 	siteId: string,
@@ -51,12 +51,10 @@ export async function getContent(
 	context: SmolblogContext,
 	fetcher: FetchFunction
 ) {
-	const result = await smolFetch({
+	return smolFetch({
 		endpoint: `/site/${siteId}/content/${contentId}`,
 		token: context.token ?? undefined
-	}, fetcher) as Content;
-
-	return processContent([ result ])[0];
+	}, fetcher) as Promise<ContentPayload>;
 }
 
 export function getMedia(
