@@ -122,7 +122,7 @@ export interface ContentPayload {
 	id: string,
 	type: ContentType,
 	meta: ContentMeta,
-	extensions: Record<string, unknown>,
+	extensions: Record<string, Record<string, unknown>>,
 	published: boolean,
 }
 
@@ -135,7 +135,7 @@ export interface ContentType {
 export interface ContentMeta {
 	authorId: string,
 	permalink?: string,
-	publishTimestamp?: Date,
+	publishTimestamp?: string,
 }
 
 export interface Media {

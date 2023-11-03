@@ -51,10 +51,27 @@ export async function getContent(
 	context: SmolblogContext,
 	fetcher: FetchFunction
 ) {
-	return smolFetch({
+	const results = await smolFetch({
 		endpoint: `/site/${siteId}/content/${contentId}`,
 		token: context.token ?? undefined
-	}, fetcher) as Promise<ContentPayload>;
+	}, fetcher) as ContentPayload;
+
+	if (
+		results.extensions.tags &&
+		typeof results.extensions.tags == 'object' &&
+		'tags' in results.extensions.tags &&
+		Array.isArray(results.extensions.tags.tags)
+	) {
+		results.extensions.tags.tags = results.extensions.tags.tags?.map((obj) => obj.text);
+	}
+	if (results.meta.publishTimestamp) {
+		// via https://stackoverflow.com/a/61082536
+		const dateVal = new Date(results.meta.publishTimestamp);
+		dateVal.setMinutes(dateVal.getMinutes() - dateVal.getTimezoneOffset());
+		results.meta.publishTimestamp = dateVal.toISOString().slice(0,16);
+	}
+
+	return results;
 }
 
 export function getMedia(

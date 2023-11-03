@@ -2,7 +2,7 @@
 	import { page } from "$app/stores";
 	import ContentIcon from "$lib/components/ContentIcon.svelte";
 	import { contentDrawerOptions } from "$lib/components/ContentForm.svelte";
-	import { ArrowOut, Edit, Trash } from "$lib/components/Icons";
+	import { ArrowOut, Create, Edit, Trash } from "$lib/components/Icons";
 	import { Paginator, ProgressBar, getDrawerStore } from "@skeletonlabs/skeleton";
 	import type { PageData } from "./$types";
 	import smolblog from "$lib/smolblog";
@@ -31,6 +31,17 @@
 		});
 	};
 </script>
+
+<div class="flex items-center justify-between mb-5">
+	<h2 class="h2">All Content</h2>
+	<button
+		on:click={() => drawerStore.open({...contentDrawerOptions, meta: {siteApi: api.site(data.site?.id)}})}
+		class="btn btn-sm variant-filled-primary"
+	>
+		<Create size="medium" />
+		<span>Add new</span>
+	</button>
+</div>
 
 <Paginator
 	bind:settings={paginationSettings}

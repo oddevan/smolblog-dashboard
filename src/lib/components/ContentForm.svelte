@@ -34,7 +34,6 @@
 			siteApi.config.content(),
 			contentId ? siteApi.content.get(contentId) : undefined,
 		])
-		console.log({contentId, content});
 		
 		return { config, content };
 	};
@@ -88,7 +87,7 @@
 			</div>
 			<FormPart definition={config.types[type].formDefinition} bind:partState={typeStates[type]} initialData={{...content?.type}} />
 			<hr class="my-3">
-			<FormPart definition={config.base} bind:partState={metaState} initialData={{authorId: $page.data.user?.id, ...content?.meta}} />
+			<FormPart definition={config.base} bind:partState={metaState} initialData={{authorId: $page.data.user?.id, published: content?.published, ...content?.meta}} />
 			{#each Object.keys(config.extensions) as extDef }
 				<hr class="my-3">
 				<h4 class="h4">{config.extensions[extDef].name}</h4>
