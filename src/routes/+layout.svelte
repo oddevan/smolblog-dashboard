@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { AppBar, Drawer, getDrawerStore, initializeStores, storePopup } from '@skeletonlabs/skeleton';
+	import { AppBar, Drawer, Modal, getDrawerStore, initializeStores, storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	initializeStores();
 
@@ -22,6 +22,7 @@
 	import { Menu } from '$lib/components/Icons';
 	import MediaForm from '$lib/components/MediaForm.svelte';
 	import ContentForm from '$lib/components/ContentForm.svelte';
+	import MediaSelection from '$lib/components/MediaSelection.svelte';
 
 	export let data: LayoutData;
 	const drawerStore = getDrawerStore();
@@ -45,6 +46,9 @@
 	<ContentForm contentId={$drawerStore.meta?.contentId} siteApi={$drawerStore.meta?.siteApi} />
 	{/if}
 </Drawer>
+
+<!-- Only one Modal per app -->
+<Modal components={{ mediaSelection: { ref: MediaSelection } }} />
 
 {#if data.context.token}
 	<AppShell>

@@ -13,8 +13,6 @@
 
 	const { name, required } = definition;
 	const fileController = controller as FieldController<FileList>
-
-	$: console.log($fileController.value);
 </script>
 
 <BaseField {definition} bind:value {controller} let:helpText hideHelp>

@@ -1,8 +1,11 @@
 <script lang="ts">
+	import { getModalStore } from '@skeletonlabs/skeleton';
 	import { makeDefaultController, type FormField, type FieldController, type FormFieldProps } from '.';
 	import BaseField from './BaseField.svelte';
 
 	interface $$Props extends FormFieldProps {};
+
+	const modalStore = getModalStore();
 
 	export let definition: FormField;
 	export let value: unknown = undefined;
