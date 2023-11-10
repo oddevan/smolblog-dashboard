@@ -34,10 +34,12 @@ export interface SmolblogSiteApiClient {
 		list: (page?: number, pageSize?: number) => Promise<{count: number, content: Content[]}>,
 		drafts: () => Promise<Content[]>,
 		get: (id: string) => Promise<ContentPayload>,
+		new: (payload: ContentPayload) => Promise<{id: string}>,
 	},
 	media: {
 		list: (page?: number, pageSize?: number) => Promise<{count: number, content: Media[]}>,
 		get: (id: string) => Promise<Media>,
+		new: (payload: FormData) => Promise<{id: string}>,
 	}
 	settings: {
 		get: () => Promise<SiteSettingsPayload>,

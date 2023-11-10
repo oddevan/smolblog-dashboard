@@ -15,7 +15,7 @@ export async function getAvailableContent(
 
 	return {
 		count: result.count,
-		content: processContent(result.content),
+		content: processContentList(result.content),
 	};
 }
 
@@ -29,7 +29,7 @@ export async function getDrafts(
 		token: context.token ?? undefined
 	}, fetcher) as { count: number, content: Content[] };
 
-	return processContent(result.content);
+	return processContentList(result.content);
 }
 
 export function getAvailableMedia(
@@ -86,7 +86,7 @@ export function getMedia(
 	}, fetcher) as Promise<Media>;
 }
 
-function processContent(contentArray: Content[]): Content[] {
+function processContentList(contentArray: Content[]): Content[] {
 	return contentArray.map(content => {
 		const { publishTimestamp, contentType } = content;
 		const actualType = 'originalTypeKey' in contentType ? contentType.originalTypeKey as string : contentType.type;
@@ -100,4 +100,39 @@ function processContent(contentArray: Content[]): Content[] {
 			}
 		};
 	});
+}
+
+export function newContent(
+	payload: ContentPayload,
+	siteId: string,
+	context: SmolblogContext,
+	fetcher: FetchFunction
+) {
+	const timestamp = payload.meta.publishTimestamp;
+	if (payload.published && !timestamp) {
+		payload.meta.publishTimestamp = new Date().toISOString();
+	} else if (timestamp) {
+		payload.meta.publishTimestamp = new Date(timestamp).toISOString();
+	}
+
+	return smolFetch({
+		endpoint: `/site/${siteId}/content/new`,
+		token: context.token ?? '',
+		verb: 'POST',
+		payload
+	}, fetcher) as Promise<{id: string}>;
+}
+
+export function newMedia(
+	payload: FormData,
+	siteId: string,
+	context: SmolblogContext,
+	fetcher: FetchFunction
+) {
+	return smolFetch({
+		endpoint: `/site/${siteId}/content/media/new`,
+		token: context.token ?? '',
+		verb: 'POST',
+		payload: payload
+	}, fetcher) as Promise<{id: string}>;
 }

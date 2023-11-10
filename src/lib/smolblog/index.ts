@@ -15,12 +15,12 @@ export default function smolblog(context: SmolblogContext, fetcher: FetchFunctio
 }
 
 export async function smolFetch(
-	props: { endpoint: string; token?: string; verb?: string; payload?: unknown },
+	props: { endpoint: string; token?: string; verb?: string; payload?: unknown, formData?: FormData },
 	fetcher: FetchFunction,
 ): Promise<unknown> {
 	const apiBase = `${PUBLIC_SERVER_URL}/wp-json/smolblog/v2`;
 
-	const { endpoint, verb, payload, token } = props;
+	const { endpoint, verb, payload, token, formData } = props;
 	const options: RequestInit = {};
 	const headers: HeadersInit = {};
 
@@ -29,7 +29,7 @@ export async function smolFetch(
 	}
 
 	if (payload) {
-		options.body = JSON.stringify(payload);
+		options.body = formData ?? JSON.stringify(payload);
 		headers['Content-type'] = 'application/json';
 	}
 

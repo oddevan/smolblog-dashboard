@@ -8,7 +8,7 @@
 		width: 'w-screen max-w-xs',
 	};
 
-	const fileDefinition: FormField = {
+	export const fileDefinition: FormField = {
 		name: 'media',
 		label: 'Upload a picture',
 		type: 'file',
@@ -20,7 +20,7 @@
 		}
 	}
 
-	const mediaFormDefinition: FormField[] = [
+	export const mediaFormDefinition: FormField[] = [
 		{
 			name: 'id',
 			label: 'ID',
@@ -94,7 +94,7 @@
 		payload.append('accessibilityText', accessibilityText as string);
 		payload.append('file', uploadedFiles[0]);
 
-		console.log({uploadedFiles});
+		siteApi.media.new(payload);
 	}
 </script>
 
