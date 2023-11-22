@@ -94,7 +94,7 @@
 		payload.append('accessibilityText', accessibilityText as string);
 		payload.append('file', uploadedFiles[0]);
 
-		siteApi.media.new(payload);
+		await siteApi.media.new(payload);
 	}
 </script>
 

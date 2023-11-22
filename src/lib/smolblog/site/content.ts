@@ -123,6 +123,27 @@ export function newContent(
 	}, fetcher) as Promise<{id: string}>;
 }
 
+export function editContent(
+	payload: ContentPayload,
+	siteId: string,
+	context: SmolblogContext,
+	fetcher: FetchFunction
+) {
+	const timestamp = payload.meta.publishTimestamp;
+	if (payload.published && !timestamp) {
+		payload.meta.publishTimestamp = new Date().toISOString();
+	} else if (timestamp) {
+		payload.meta.publishTimestamp = new Date(timestamp).toISOString();
+	}
+
+	return smolFetch({
+		endpoint: `/site/${siteId}/content/${payload.id}/edit`,
+		token: context.token ?? '',
+		verb: 'POST',
+		payload
+	}, fetcher) as Promise<void>;
+}
+
 export function newMedia(
 	payload: FormData,
 	siteId: string,
@@ -133,6 +154,47 @@ export function newMedia(
 		endpoint: `/site/${siteId}/content/media/new`,
 		token: context.token ?? '',
 		verb: 'POST',
-		payload: payload
+		formData: payload
 	}, fetcher) as Promise<{id: string}>;
+}
+
+export function editMedia(
+	id: string,
+	payload: {title?: string, accessabilityText?: string},
+	siteId: string,
+	context: SmolblogContext,
+	fetcher: FetchFunction
+) {
+	return smolFetch({
+		endpoint: `/site/${siteId}/content/media/${id}/edit`,
+		token: context.token ?? '',
+		verb: 'POST',
+		payload
+	}, fetcher) as Promise<void>;
+}
+
+export function deleteMedia(
+	id: string,
+	siteId: string,
+	context: SmolblogContext,
+	fetcher: FetchFunction
+) {
+	return smolFetch({
+		endpoint: `/site/${siteId}/content/media/${id}/delete`,
+		token: context.token ?? '',
+		verb: 'DELETE'
+	}, fetcher) as Promise<void>;
+}
+
+export function deleteContent(
+	id: string,
+	siteId: string,
+	context: SmolblogContext,
+	fetcher: FetchFunction
+) {
+	return smolFetch({
+		endpoint: `/site/${siteId}/content/${id}/delete`,
+		token: context.token ?? '',
+		verb: 'DELETE'
+	}, fetcher) as Promise<void>;
 }

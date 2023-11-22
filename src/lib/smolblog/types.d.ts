@@ -35,11 +35,15 @@ export interface SmolblogSiteApiClient {
 		drafts: () => Promise<Content[]>,
 		get: (id: string) => Promise<ContentPayload>,
 		new: (payload: ContentPayload) => Promise<{id: string}>,
+		edit: (payload: ContentPayload) => Promise<void>,
+		delete: (id: string) => Promise<void>,
 	},
 	media: {
 		list: (page?: number, pageSize?: number) => Promise<{count: number, content: Media[]}>,
 		get: (id: string) => Promise<Media>,
 		new: (payload: FormData) => Promise<{id: string}>,
+		edit: (id: string, payload: {title?: string, accessabilityText?: string}) => Promise<void>,
+		delete: (id: string) => Promise<void>,
 	}
 	settings: {
 		get: () => Promise<SiteSettingsPayload>,

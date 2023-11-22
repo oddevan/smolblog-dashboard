@@ -28,12 +28,14 @@ export async function smolFetch(
 		headers.Authorization = `Bearer ${token}`;
 	}
 
-	if (payload) {
-		options.body = formData ?? JSON.stringify(payload);
+	if (formData) {
+		options.body = formData;
+	} else if (payload) {
+		options.body = JSON.stringify(payload);
 		headers['Content-type'] = 'application/json';
 	}
 
-	options.method = verb ?? (payload ? 'POST' : 'GET');
+	options.method = verb ?? (payload || formData ? 'POST' : 'GET');
 	options.headers = headers;
 
 	const response = await fetcher(`${apiBase}${endpoint}`, options);

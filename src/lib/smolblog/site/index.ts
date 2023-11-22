@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import ChannelSelectionField from "$lib/components/ChannelSelectionField.svelte";
+import type { Content } from "$lib/components/Icons";
 import type { FetchFunction } from "..";
 import type { ContentPayload, SiteConfigContent, SitePermissionPayload, SiteSettingsPayload, SmolblogContext, SmolblogSiteApiClient } from "../types";
 import { getSiteChannelsForAdmin, getSiteChannelsForForm, linkChannelAndSite } from "./channels";
-import { getAvailableContent, getAvailableMedia, getContent, getDrafts, getMedia, newContent, newMedia } from "./content";
+import { deleteContent, deleteMedia, editContent, editMedia, getAvailableContent, getAvailableMedia, getContent, getDrafts, getMedia, newContent, newMedia } from "./content";
 import { getSiteSettings, getSiteUsers, setSitePermission, setSiteSettings } from "./settings";
 
 export default function smolblogSite(id: string, context: SmolblogContext, fetcher: FetchFunction): SmolblogSiteApiClient {
@@ -18,11 +19,15 @@ export default function smolblogSite(id: string, context: SmolblogContext, fetch
 			drafts: () => getDrafts(id, context, fetcher),
 			get: (contentId: string) => getContent(contentId, id, context, fetcher),
 			new: (payload: ContentPayload) => newContent(payload, id, context, fetcher),
+			edit: (payload: ContentPayload) => editContent(payload, id, context, fetcher),
+			delete: (contentId: string) => deleteContent(contentId, id, context, fetcher),
 		},
 		media: {
 			list: (page = 1, pageSize = 20) => getAvailableMedia(id, context, fetcher, pageSize, page),
 			get: (mediaId: string) => getMedia(mediaId, id, context, fetcher),
 			new: (payload: FormData) => newMedia(payload, id, context, fetcher),
+			edit: (mediaId, payload) => editMedia(mediaId, payload, id, context, fetcher),
+			delete: (mediaId: string) => deleteMedia(mediaId, id, context, fetcher),
 		},
 		settings: {
 			get: () => getSiteSettings(id, context, fetcher),
