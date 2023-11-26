@@ -42,7 +42,7 @@ export interface SmolblogSiteApiClient {
 		list: (page?: number, pageSize?: number) => Promise<{count: number, content: Media[]}>,
 		get: (id: string) => Promise<Media>,
 		new: (payload: FormData) => Promise<{id: string}>,
-		edit: (id: string, payload: {title?: string, accessabilityText?: string}) => Promise<void>,
+		edit: (id: string, payload: {title?: string, accessibilityText?: string}) => Promise<void>,
 		delete: (id: string) => Promise<void>,
 	}
 	settings: {
@@ -56,6 +56,12 @@ export interface SmolblogSiteApiClient {
 export type Server = {
 	serverVersion: string;
 	specHref: string;
+	license: {
+		notice?: string;
+		key: string;
+		href: string;
+		source?: Record<string, string>;
+	}
 };
 
 export type User = {

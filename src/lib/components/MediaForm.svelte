@@ -74,14 +74,14 @@
 	}
 
 	async function save(formPayload: Record<string, unknown>) {
-		if (!formPayload.title || !formPayload.accessibilityText) {
+		if (!(typeof formPayload.title == 'string' && typeof formPayload.accessibilityText == 'string')) {
 			throw new Error('Title and Alt Text are required.');
 		}
 
 		const { title, accessibilityText } = formPayload;
 
-		if (formPayload.id) {
-			console.log('edit', formPayload);
+		if (typeof formPayload.id === 'string') {
+			siteApi.media.edit(formPayload.id, {title, accessibilityText})
 			return;
 		}
 
@@ -111,7 +111,7 @@
 		{/if}
 		<BasicForm
 			definition={mediaFormDefinition}
-			initialData={media ? {id: media.id, title: media.title, accessabilityText: media.accessibilityText} : undefined}
+			initialData={media ? {id: media.id, title: media.title, accessibilityText: media.accessibilityText} : undefined}
 			onSubmit={save}
 		/>
 	{/await}

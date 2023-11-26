@@ -160,7 +160,7 @@ export function newMedia(
 
 export function editMedia(
 	id: string,
-	payload: {title?: string, accessabilityText?: string},
+	payload: {title?: string, accessibilityText?: string},
 	siteId: string,
 	context: SmolblogContext,
 	fetcher: FetchFunction
