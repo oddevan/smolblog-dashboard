@@ -139,6 +139,7 @@ export interface ContentPayload {
 }
 
 export interface ContentType {
+	[x: string]: unknown;
 	title: string,
 	body: string,
 	type: string,

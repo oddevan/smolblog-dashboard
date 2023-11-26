@@ -6,6 +6,7 @@
 	import type { FormPartState } from '.';
 	import Identifier from '../FormFields/Identifier.svelte';
 	import Switch from '../FormFields/Switch.svelte';
+	import MediaField from '../FormFields/MediaField.svelte';
 
 	export let fieldClass = '';
 	export let definition: FormField[];
@@ -56,6 +57,8 @@
 				<Identifier definition={fieldDef} controller={getFieldController(name)} />
 			{:else if type === 'switch'}
 				<Switch definition={fieldDef} controller={getFieldController(name)} />
+			{:else if type === 'media'}
+				<MediaField definition={fieldDef} controller={getFieldController(name)} />
 			{/if}
 		</div>
 	{/each}

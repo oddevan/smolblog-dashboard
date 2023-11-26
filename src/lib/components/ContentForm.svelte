@@ -11,11 +11,11 @@
 <script lang="ts">
 	import type { FormPartState } from "$lib/components/Forms";
 	import FormPart from "$lib/components/Forms/FormPart.svelte";
-	import { Alert, Cross } from "$lib/components/Icons";
+	import { Cross } from "$lib/components/Icons";
 	import { ProgressBar } from "@skeletonlabs/skeleton";
 	import ContentIcon from "$lib/components/ContentIcon.svelte";
 	import { page } from "$app/stores";
-	import type { Content, ContentPayload, SiteConfigContent, SmolblogSiteApiClient } from "$lib/smolblog/types";
+	import type { ContentPayload, SiteConfigContent, SmolblogSiteApiClient } from "$lib/smolblog/types";
 
 	export let contentId: string|null = null;
 	export let siteApi: SmolblogSiteApiClient;
@@ -34,6 +34,13 @@
 			siteApi.config.content(),
 			contentId ? siteApi.content.get(contentId) : undefined,
 		])
+
+		config.types.picture.formDefinition[0].attributes ??= {};
+		config.types.picture.formDefinition[0].attributes.siteApi = siteApi;
+
+		if (content?.type.type == 'picture' && content.type.hasOwnProperty('media') && Array.isArray(content.type.media)) {
+			content.type.media = content.type.media.map(mediaObj => mediaObj.id);
+		}
 		
 		return { config, content };
 	};
@@ -48,12 +55,14 @@
 		return retVal;
 	}
 
-	$: payload = selectedType ? {
-		id: contentId,
-		type: { type: selectedType, ...typeStates[selectedType]?.payload},
-		meta: metaState.payload,
-		extensions: extractExtensionPayloads(extensionStates)
-	} : {};
+	const saveForm = async (type: string) => {
+		console.log({
+			id: contentId,
+			type: { type, ...typeStates[type]?.payload},
+			meta: metaState.payload,
+			extensions: extractExtensionPayloads(extensionStates)
+		})
+	};
 </script>
 
 <div class="p-3">
@@ -93,6 +102,10 @@
 				<h4 class="h4">{config.extensions[extDef].name}</h4>
 				<FormPart definition={config.extensions[extDef].formDefinition} bind:partState={extensionStates[extDef]} initialData={content?.extensions[extDef]} />
 			{/each}
+
+			<button class="btn variant-filled-primary" on:click={() => saveForm(type)}>
+				Save
+			</button>
 		{/if}
 	{/await}
 </div>

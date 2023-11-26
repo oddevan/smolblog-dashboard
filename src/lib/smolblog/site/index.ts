@@ -107,10 +107,10 @@ const defaultContentConfig: (id: string, context: SmolblogContext, fetcher: Fetc
 					formDefinition: [
 						{
 							name: 'media',
-							label: 'Upload a picture',
-							type: 'file',
+							label: 'Pictures',
+							type: 'media',
 							required: true,
-							description: 'You can upload multiple pictures in most formats.',
+							description: 'You can select more than one picture.',
 							attributes: {
 								multiple: true,
 								accept: 'image/*',

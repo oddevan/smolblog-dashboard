@@ -19,7 +19,7 @@ export interface FormField {
 	label: string;
 	type:
 		'text' | 'password' | 'url' | 'email' | 'display' | 'switch' | 'hidden' | 'markdown' | 'file' | 'checkboxes' |
-		'multitext' | 'identifier' | 'datetime';
+		'multitext' | 'identifier' | 'datetime' | 'media';
 	description?: string;
 	required?: boolean;
 	validators?: FieldValidator[];
@@ -104,3 +104,4 @@ export { default as Multitext } from './Multitext.svelte';
 export { default as Switch } from './Switch.svelte';
 export { default as Text } from './Text.svelte';
 export { default as Url } from './Url.svelte';
+export { default as MediaField } from './MediaField.svelte';
