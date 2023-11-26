@@ -90,8 +90,8 @@
 		}
 
 		const payload = new FormData();
-		payload.append('title', title as string);
-		payload.append('accessibilityText', accessibilityText as string);
+		payload.append('title', title);
+		payload.append('accessibilityText', accessibilityText);
 		payload.append('file', uploadedFiles[0]);
 
 		await siteApi.media.new(payload);

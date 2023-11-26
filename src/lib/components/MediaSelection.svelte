@@ -3,13 +3,10 @@
 	import { Cross, Picture, Upload } from "./Icons";
 	import { fileDefinition, mediaFormDefinition } from "./MediaForm.svelte";
 	import { onMount, type SvelteComponent } from 'svelte';
-
-	// Stores
 	import { Paginator, ProgressBar, Tab, TabGroup, getModalStore } from '@skeletonlabs/skeleton';
 	import FormPart from "./Forms/FormPart.svelte";
 	import type { FormPartState } from "./Forms";
 
-	// Props
 	/** Exposes parent props to this component. */
 	export let parent: SvelteComponent;
 
@@ -22,12 +19,6 @@
 	];
 	let formState: FormPartState;
 
-	// We've created a custom submit function to pass the response and close the modal.
-	function onFormSubmit(): void {
-		if ($modalStore[0].response) $modalStore[0].response(formState.payload);
-		modalStore.close();
-	}
-
 	let siteApi: SmolblogSiteApiClient = $modalStore[0].meta.siteApi;
 	let currentTab: 'select'|'upload' = 'select';
 	let selectedMediaId: string|undefined = undefined;
@@ -37,6 +28,24 @@
 		size: 0,
 		amounts: [12],
 	};
+
+	// We've created a custom submit function to pass the response and close the modal.
+	const onFormSubmit = async () => {
+		if ($modalStore[0].response) {
+			if (currentTab == 'select' && selectedMediaId) {
+				$modalStore[0].response(selectedMediaId);
+			} else {
+				const payload = new FormData();
+				payload.append('title', formState.payload.title as string);
+				payload.append('accessibilityText', formState.payload.accessibilityText as string);
+				payload.append('file', (formState.payload.media as FileList)[0]);
+
+				const res = await siteApi.media.new(payload);
+				$modalStore[0].response(res.id);
+			}
+		};
+		modalStore.close();
+	}
 
 	const getContent = (page: number, limit: number) => siteApi.media.list(page, limit).then(res => res.content);
 

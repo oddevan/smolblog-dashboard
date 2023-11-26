@@ -29,13 +29,22 @@
 			meta: { mediaId, siteApi: api.site(data.site?.id) }
 		});
 	};
+
+	const showMediaModal = () => {
+		modalStore.trigger({
+			type: 'component',
+			component: 'mediaSelection',
+			meta: { siteApi: api.site(data.site?.id) },
+			response: (r: any) => { console.log(r) }
+		})
+	};
 </script>
 
 
 <div class="flex items-center justify-between mb-5">
 	<h2 class="h2">All Media</h2>
 	<button
-		on:click={() => modalStore.trigger({ type: 'component', component: 'mediaSelection', meta: { siteApi: api.site(data.site?.id) } })}
+		on:click={showMediaModal}
 		class="btn btn-sm variant-filled-secondary"
 	>
 		Select Media Modal
