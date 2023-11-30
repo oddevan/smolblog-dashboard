@@ -56,7 +56,7 @@
 	}
 
 	const saveForm = async (type: string) => {
-		console.log({
+		console.log('Content form save', {
 			id: contentId,
 			type: { type, ...typeStates[type]?.payload},
 			meta: metaState.payload,

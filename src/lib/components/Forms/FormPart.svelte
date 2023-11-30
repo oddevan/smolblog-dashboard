@@ -23,12 +23,12 @@
 		formController.getField(fieldName) as FieldController<unknown>;
 
 	onMount(() => formController.subscribe((formVal) => {
-			partState = {
-				payload: formVal.summary,
-				valid: formVal.valid,
-				dirty: formVal.dirty
-			};
-		}));
+		partState = {
+			payload: formVal.summary,
+			valid: formVal.valid,
+			dirty: formVal.dirty
+		};
+	}));
 </script>
 
 <div class={$$props.class}>

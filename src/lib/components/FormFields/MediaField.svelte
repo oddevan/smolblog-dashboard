@@ -46,28 +46,28 @@
 </script>
 
 <BaseField {definition} bind:value controller={typedController} let:helpText>
-	<div class="btn-group-vertical variant-filled-primary">
 		{#each $typedController.value as mediaId, index}
-			<button on:click={() => showMediaModal(index)}>
+			<button class="btn variant-filled-primary w-full overflow-x-hidden text-ellipsis" on:click={() => showMediaModal(index)}>
 				{#await getMedia(mediaId)}
 					<ProgressBar meter="bg-primary-900-50-token" track="bg-primary-200-700-token" />
 				{:then mediaObj} 
 					<span>
-						<img class="h-12 w-auto" src={mediaObj?.thumbnailUrl} alt={mediaObj?.accessibilityText}>
+						<img class="w-12" src={mediaObj?.thumbnailUrl} alt={mediaObj?.accessibilityText}>
 					</span>
-					<span>
+					<span class="overflow-x-hidden text-ellipsis">
 						{mediaObj?.title}
 					</span>
+				{:catch err}
+					{err.message ?? err}
 				{/await}
 			</button>
 		{/each}
 		{#if $typedController.value.length == 0 || definition.attributes?.multiple}
-		<button on:click={() => showMediaModal($typedController.value.length)}>
+		<button class="btn variant-filled-primary w-full" on:click={() => showMediaModal($typedController.value.length)}>
 			<span>
 				<AddMedia/>
 			</span>
 			<span>Add media</span>
 		</button>
 		{/if}
-	</div>
 </BaseField>

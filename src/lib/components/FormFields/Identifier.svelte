@@ -9,7 +9,6 @@
 	export let controller: FieldController<unknown> = makeDefaultController(definition, value);
 
 	const { name, required, attributes } = definition;
-	console.log(definition);
 </script>
 
 <BaseField {definition} bind:value {controller} let:validationState let:helpText>
