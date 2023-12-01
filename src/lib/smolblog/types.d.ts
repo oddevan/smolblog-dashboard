@@ -131,7 +131,7 @@ export type Content = {
 }
 
 export interface ContentPayload {
-	id: string,
+	id?: string,
 	type: ContentType,
 	meta: ContentMeta,
 	extensions: Record<string, Record<string, unknown>>,
@@ -140,8 +140,6 @@ export interface ContentPayload {
 
 export interface ContentType {
 	[x: string]: unknown;
-	title: string,
-	body: string,
 	type: string,
 }
 

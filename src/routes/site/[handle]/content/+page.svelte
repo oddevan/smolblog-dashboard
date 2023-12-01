@@ -27,7 +27,7 @@
 	const getDrawerFunc = (contentId: string) => {
 		return () => drawerStore.open({
 			...contentDrawerOptions,
-			meta: { contentId, siteApi: api.site(data.site?.id) }
+			meta: { contentId, siteApi: api.site(data.site?.id), closeFunction: drawerStore.close }
 		});
 	};
 </script>

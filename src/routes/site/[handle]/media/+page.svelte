@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Paginator, ProgressBar, getDrawerStore, getModalStore } from "@skeletonlabs/skeleton";
+	import { Paginator, ProgressBar, getDrawerStore } from "@skeletonlabs/skeleton";
 	import { mediaDrawerOptions } from "$lib/components/MediaForm.svelte"
 	import type { PageData } from "./$types";
 	import smolblog from "$lib/smolblog";
@@ -10,7 +10,6 @@
 	const total = data.mediaCount ?? 0;
 	const api = smolblog(data.context);
 	const drawerStore = getDrawerStore();
-	const modalStore = getModalStore();
 	
 	let paginationSettings = {
 		page: 0,
@@ -29,26 +28,11 @@
 			meta: { mediaId, siteApi: api.site(data.site?.id) }
 		});
 	};
-
-	const showMediaModal = () => {
-		modalStore.trigger({
-			type: 'component',
-			component: 'mediaSelection',
-			meta: { siteApi: api.site(data.site?.id) },
-			response: (r: any) => { console.log(r) }
-		})
-	};
 </script>
 
 
 <div class="flex items-center justify-between mb-5">
 	<h2 class="h2">All Media</h2>
-	<button
-		on:click={showMediaModal}
-		class="btn btn-sm variant-filled-secondary"
-	>
-		Select Media Modal
-	</button>
 	<button
 		on:click={() => drawerStore.open({...mediaDrawerOptions, meta: {siteApi: api.site(data.site?.id)}})}
 		class="btn btn-sm variant-filled-primary"

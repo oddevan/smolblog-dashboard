@@ -15,16 +15,18 @@
 	import { ProgressBar } from "@skeletonlabs/skeleton";
 	import ContentIcon from "$lib/components/ContentIcon.svelte";
 	import { page } from "$app/stores";
-	import type { ContentPayload, SiteConfigContent, SmolblogSiteApiClient } from "$lib/smolblog/types";
+	import type { ContentMeta, ContentPayload, SiteConfigContent, SmolblogSiteApiClient } from "$lib/smolblog/types";
 
 	export let contentId: string|null = null;
 	export let siteApi: SmolblogSiteApiClient;
+	export let closeFunction = () => {};
 
 	let selectedType: string|null = null;
 	let typeStates: Record<string, FormPartState> = {};
 	let extensionStates: Record<string, FormPartState> = {};
 	let metaState: FormPartState = { payload: {}, dirty: false, valid: true };
-	let payload: Record<string, any>;
+	let saving = false;
+	let error: string|undefined;
 
 	async function loadInitialData(contentId: string|null): Promise<{
 		config: SiteConfigContent,
@@ -55,13 +57,28 @@
 		return retVal;
 	}
 
-	const saveForm = async (type: string) => {
+	const saveForm = (type: string) => {
 		console.log('Content form save', {
 			id: contentId,
 			type: { type, ...typeStates[type]?.payload},
 			meta: metaState.payload,
 			extensions: extractExtensionPayloads(extensionStates)
 		})
+		const {published, ...metaPayload} = metaState.payload
+		const payload = {
+			type: { type, ...typeStates[type]?.payload},
+			meta: metaPayload as unknown as ContentMeta,
+			extensions: extractExtensionPayloads(extensionStates),
+			published: !!published,
+		};
+
+		error = undefined;
+		saving = true;
+		const result = contentId ? siteApi.content.edit({ ...payload, id: contentId }) : siteApi.content.new(payload);
+		result.then(() => closeFunction()).catch((err) => {
+			saving = false;
+			error = err.message ?? err
+		});
 	};
 </script>
 
@@ -103,7 +120,15 @@
 				<FormPart definition={config.extensions[extDef].formDefinition} bind:partState={extensionStates[extDef]} initialData={content?.extensions[extDef]} />
 			{/each}
 
-			<button class="btn variant-filled-primary" on:click={() => saveForm(type)}>
+			{#if error}
+			<aside class="alert variant-filled-error">
+        <div class="alert-message">
+            <p>{error}</p>
+        </div>
+			</aside>
+			{/if}
+
+			<button class="btn variant-filled-primary" disabled={saving} on:click={() => saveForm(type)}>
 				Save
 			</button>
 		{/if}
