@@ -10,15 +10,20 @@
 	export let value: unknown = [];
 	export let controller: FieldController<unknown> = makeDefaultController(definition, value);
 
-	const { name, attributes } = definition;
-	const channels = attributes?.channels ?? [] as ConnectorChannel[];
-	let groupVal: string[] = value as string[] ?? [];
-	$: $controller.value = groupVal;
+	let { name, attributes } = definition;
+	let channels: ConnectorChannel[] = attributes?.channels ?? [] as ConnectorChannel[];
+
+	let checkedMap: Record<string, boolean> = {};
+	channels.forEach((channel) => {
+		checkedMap[channel.id] = ($controller.value as string[])?.includes(channel.id) ?? false;
+	});
+
+	$: $controller.value = Object.keys(checkedMap).filter((id) => checkedMap[id]);
 </script>
 
 <h5 class="my-3">Syndicate to:</h5>
 {#each channels as channel (channel.id)}
-	<ToggleSwitch {name} bind:group={groupVal} value={channel.id}>
+	<ToggleSwitch {name} bind:checked={checkedMap[channel.id]}>
 		<span class="flex items-center">
 			<ConnectionType provider={channel.connectionProvider ?? ''} iconSize="small"/>
 			{channel.displayName}

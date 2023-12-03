@@ -58,19 +58,14 @@
 	}
 
 	const saveForm = (type: string) => {
-		console.log('Content form save', {
-			id: contentId,
-			type: { type, ...typeStates[type]?.payload},
-			meta: metaState.payload,
-			extensions: extractExtensionPayloads(extensionStates)
-		})
 		const {published, ...metaPayload} = metaState.payload
-		const payload = {
+		const payload: ContentPayload = {
 			type: { type, ...typeStates[type]?.payload},
 			meta: metaPayload as unknown as ContentMeta,
 			extensions: extractExtensionPayloads(extensionStates),
 			published: !!published,
 		};
+		if (contentId) { payload.id = contentId };
 
 		error = undefined;
 		saving = true;

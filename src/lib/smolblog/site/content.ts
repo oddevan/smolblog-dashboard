@@ -64,6 +64,14 @@ export async function getContent(
 	) {
 		results.extensions.tags.tags = results.extensions.tags.tags?.map((obj) => obj.text);
 	}
+	if (
+		results.extensions.syndication &&
+		typeof results.extensions.syndication == 'object' &&
+		'links' in results.extensions.syndication &&
+		Array.isArray(results.extensions.syndication.links)
+	) {
+		results.extensions.syndication.links = results.extensions.syndication.links?.map((obj) => obj.url);
+	}
 	if (results.meta.publishTimestamp) {
 		// via https://stackoverflow.com/a/61082536
 		const dateVal = new Date(results.meta.publishTimestamp);

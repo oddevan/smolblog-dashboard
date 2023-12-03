@@ -50,6 +50,7 @@
 
 	export let mediaId: string|null = null;
 	export let siteApi: SmolblogSiteApiClient;
+	export let closeFunction = () => {};
 
 	let uploadedFiles: FileList;
 
@@ -81,7 +82,8 @@
 		const { title, accessibilityText } = formPayload;
 
 		if (typeof formPayload.id === 'string') {
-			siteApi.media.edit(formPayload.id, {title, accessibilityText})
+			await siteApi.media.edit(formPayload.id, {title, accessibilityText});
+			closeFunction();
 			return;
 		}
 
@@ -95,6 +97,7 @@
 		payload.append('file', uploadedFiles[0]);
 
 		await siteApi.media.new(payload);
+		closeFunction();
 	}
 </script>
 

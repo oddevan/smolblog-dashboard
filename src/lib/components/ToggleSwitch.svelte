@@ -2,13 +2,7 @@
 	import { SlideToggle } from "@skeletonlabs/skeleton";
 
 	export let name: string;
-	export let value: string|undefined = undefined;
 	export let checked: boolean = false;
-	export let group: string[]|undefined = undefined;
-
-	$: if (value) {
-		group = group?.filter(val => val != value).concat(checked ? [value] : []);
-	}
 </script>
 
 <style lang="postcss">

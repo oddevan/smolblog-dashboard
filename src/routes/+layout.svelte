@@ -70,9 +70,9 @@
 	{#if $drawerStore.id === 'DrawerNav'}
 	<DrawerNav allSites={data.allSites} {emailHash} />
 	{:else if $drawerStore.id === 'MediaForm'}
-	<MediaForm mediaId={$drawerStore.meta?.mediaId} siteApi={$drawerStore.meta?.siteApi} />
+	<MediaForm mediaId={$drawerStore.meta?.mediaId} siteApi={$drawerStore.meta?.siteApi} closeFunction={$drawerStore.meta?.closeFunction} />
 	{:else if $drawerStore.id === 'ContentForm'}
-	<ContentForm contentId={$drawerStore.meta?.contentId} siteApi={$drawerStore.meta?.siteApi} />
+	<ContentForm contentId={$drawerStore.meta?.contentId} siteApi={$drawerStore.meta?.siteApi} closeFunction={$drawerStore.meta?.closeFunction} />
 	{/if}
 </Drawer>
 
