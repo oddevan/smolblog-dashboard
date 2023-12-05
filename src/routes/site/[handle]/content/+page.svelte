@@ -24,10 +24,19 @@
 		(page: number, limit: number) =>	api.site(data.site?.id)?.content.list(page, limit)
 		.then(res => res.content);
 	
+	const formatDate = (pub?: Date) => pub ? `${pub.toLocaleDateString()} ${pub.toLocaleTimeString()}` : '';
+	
 	const getDrawerFunc = (contentId: string) => {
 		return () => drawerStore.open({
 			...contentDrawerOptions,
-			meta: { contentId, siteApi: api.site(data.site?.id), closeFunction: drawerStore.close }
+			meta: {
+				contentId,
+				siteApi: api.site(data.site?.id),
+				closeFunction: () => {
+					drawerStore.close();
+					paginationSettings = { ...paginationSettings, page: 0 };
+				}
+			}
 		});
 	};
 </script>
@@ -67,8 +76,12 @@
 				<td class="table-cell-fit">
 					<ContentIcon type={content.contentType.type} size="small"/>
 				</td>
-				<td><a href={`${$page.url.pathname}/edit/${content.id}`}>{content.title}</a></td>
-				<td>{content.visibility == 'draft' ? 'Draft' : content.publishTimestamp}</td>
+				<td>
+					<button type="button" on:click={getDrawerFunc(content.id)} class="!bg-transparent whitespace-normal">
+						<span>{content.title}</span>
+					</button>
+				</td>
+				<td>{content.visibility == 'draft' ? 'Draft' : formatDate(content.publishTimestamp)}</td>
 				<td>
 					{#if content.permalink}
 					<a href={`${data.site?.baseUrl}${content.permalink}`} class="btn btn-sm variant-filled-tertiary">

@@ -25,7 +25,14 @@
 	const getDrawerFunc = (mediaId: string) => {
 		return () => drawerStore.open({
 			...mediaDrawerOptions,
-			meta: { mediaId, siteApi: api.site(data.site?.id) }
+			meta: {
+				mediaId,
+				siteApi: api.site(data.site?.id),
+				closeFunction: () => {
+					drawerStore.close();
+					paginationSettings = { ...paginationSettings, page: 0 };
+				}
+			}
 		});
 	};
 </script>
