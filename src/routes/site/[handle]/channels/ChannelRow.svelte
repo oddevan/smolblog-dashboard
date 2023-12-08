@@ -20,11 +20,16 @@
 	const pushController = controller.getField('push');
 
 	let loading = false;
+	let saved = false;
 
 	const goSave = () => {
 		loading = true;
 
 		Smolblog(context).site(siteId)?.setChannel(channel.id, $pushController.value, $pullController.value)
+			.then(() => {
+				saved = true;
+				setTimeout(() => { saved = false; }, 1000);
+			})
 			.finally(() => loading = false);
 	}
 </script>
@@ -34,5 +39,7 @@
 	<td>{channel.displayName}</td>
 	<td><ToggleSwitch name="pull" size="md" bind:checked={$pullController.value}><span class="hidden sm:inline">Enable </span>Pull</ToggleSwitch></td>
 	<td><ToggleSwitch name="push" size="md" bind:checked={$pushController.value}><span class="hidden sm:inline">Enable </span>Push</ToggleSwitch></td>
-	<td><button on:click={goSave} class="btn variant-filled-primary" disabled={!$controller.dirty && !loading}>Save</button></td>
+	<td><button on:click={goSave} class="btn variant-filled-primary" disabled={!$controller.dirty && !loading}>
+		{saved ? `Saved!` : `Save`}
+	</button></td>
 </tr>
