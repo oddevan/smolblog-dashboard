@@ -25,6 +25,10 @@
 		.then(res => res.content);
 	
 	const formatDate = (pub?: Date) => pub ? `${pub.toLocaleDateString()} ${pub.toLocaleTimeString()}` : '';
+	const closeFunction = () => {
+		drawerStore.close();
+		paginationSettings = { ...paginationSettings, page: 0 };
+	};
 	
 	const getDrawerFunc = (contentId: string) => {
 		return () => drawerStore.open({
@@ -32,10 +36,7 @@
 			meta: {
 				contentId,
 				siteApi: api.site(data.site?.id),
-				closeFunction: () => {
-					drawerStore.close();
-					paginationSettings = { ...paginationSettings, page: 0 };
-				}
+				closeFunction
 			}
 		});
 	};
@@ -44,7 +45,10 @@
 <div class="flex items-center justify-between mb-5">
 	<h2 class="h2">All Content</h2>
 	<button
-		on:click={() => drawerStore.open({...contentDrawerOptions, meta: {siteApi: api.site(data.site?.id)}})}
+		on:click={() => drawerStore.open({
+			...contentDrawerOptions,
+			meta: {siteApi: api.site(data.site?.id), closeFunction}
+		})}
 		class="btn btn-sm variant-filled-primary"
 	>
 		<Create size="medium" />

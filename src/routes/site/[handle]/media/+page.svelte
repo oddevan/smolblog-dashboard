@@ -22,16 +22,18 @@
 		(page: number, limit: number) =>	api.site(data.site?.id)?.media.list(page, limit)
 		.then(res => res.content);
 	
+	const closeFunction = () => {
+		drawerStore.close();
+		paginationSettings = { ...paginationSettings, page: 0 };
+	};
+	
 	const getDrawerFunc = (mediaId: string) => {
 		return () => drawerStore.open({
 			...mediaDrawerOptions,
 			meta: {
 				mediaId,
 				siteApi: api.site(data.site?.id),
-				closeFunction: () => {
-					drawerStore.close();
-					paginationSettings = { ...paginationSettings, page: 0 };
-				}
+				closeFunction
 			}
 		});
 	};
@@ -41,7 +43,7 @@
 <div class="flex items-center justify-between mb-5">
 	<h2 class="h2">All Media</h2>
 	<button
-		on:click={() => drawerStore.open({...mediaDrawerOptions, meta: {siteApi: api.site(data.site?.id)}})}
+		on:click={() => drawerStore.open({...mediaDrawerOptions, meta: {siteApi: api.site(data.site?.id), closeFunction}})}
 		class="btn btn-sm variant-filled-primary"
 	>
 		<Upload size="medium" />
