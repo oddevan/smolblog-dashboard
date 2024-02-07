@@ -69,6 +69,7 @@ export type User = {
 	handle: string;
 	displayName: string;
 	email: string;
+	features: string[];
 };
 
 export type UserSetProfilePayload = {
