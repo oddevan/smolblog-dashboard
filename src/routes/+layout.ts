@@ -25,7 +25,7 @@ export const load: LayoutLoad = async ({ fetch }) => {
 	if (context.token) {
 		const api = Smolblog(context, fetch);
 		try {
-				allSites = await api.user.sites();
+				allSites = await api.user.sites.list();
 				user = await api.user.me();
 				server = await api.server.info();
 		} catch (error: unknown) {
