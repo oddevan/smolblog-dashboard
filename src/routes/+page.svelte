@@ -31,9 +31,9 @@
 				</a>
 			{/each}
 			{#if data.user?.features.includes('create-site') }
-			<button class="card variant-filled-surface flex items-center justify-center">
+			<a href="/site/create" class="card variant-filled-surface flex items-center justify-center">
 				<Plus size="large" class="me-2"/> Create New Site
-			</button>
+			</a>
 			{/if}
 		</div>
 	</div>
