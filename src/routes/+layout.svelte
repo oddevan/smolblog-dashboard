@@ -65,6 +65,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Smolblog Dashboard</title>
+</svelte:head>
+
 <!-- Only one Drawer per app -->
 <Drawer>
 	{#if $drawerStore.id === 'DrawerNav'}
