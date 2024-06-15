@@ -2,6 +2,7 @@
 	import { getAuthUrl } from '$lib/auth/auth';
 	import { getLocalStateStore } from '$lib/auth/store';
 	import Snek from '$lib/components/Icons/Snek.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
 
 	function startLogin() {
 		getAuthUrl(getLocalStateStore())
@@ -11,8 +12,8 @@
 </script>
 
 <h1 class="h1">Welcome to Smolblog</h1>
-<button on:click={startLogin} class="btn btn-lg variant-filled">
-	<span><Snek size='large' /></span>
-	<span>Sign in with Smolblog</span>
-</button>
+<Button on:click={startLogin} variant="default">
+	<Snek class="mr-2" />
+	Sign in with Smolblog
+</Button>
 <p><a href="https://smolblog.com/">What is Smolblog?</a></p>

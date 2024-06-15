@@ -73,14 +73,14 @@ const config: Config = {
 		forms,
 		typography,
 		skeleton({
-			themes: {
-				preset: [
-					{
-						name: 'hamlindigo',
-						enhancements: true
-					}
-				]
-			}
+			// themes: {
+			// 	preset: [
+			// 		{
+			// 			name: 'hamlindigo',
+			// 			enhancements: true
+			// 		}
+			// 	]
+			// }
 		})
 	]
 };
