@@ -8,7 +8,6 @@
 	import '../app.postcss';
 	import {
 		AppShell,
-		autoModeWatcher,
 	} from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
@@ -23,6 +22,7 @@
 	import MediaForm from '$lib/components/MediaForm.svelte';
 	import ContentForm from '$lib/components/ContentForm.svelte';
 	import MediaSelection from '$lib/components/MediaSelection.svelte';
+	import { ModeWatcher } from 'mode-watcher';
 
 	export let data: LayoutData;
 	const drawerStore = getDrawerStore();
@@ -68,6 +68,7 @@
 <svelte:head>
 	<title>Smolblog Dashboard</title>
 </svelte:head>
+<ModeWatcher />
 
 <!-- Only one Drawer per app -->
 <Drawer>
